@@ -1,0 +1,59 @@
+clusterName: homeprod
+talosVersion: v1.1.2
+kubernetesVersion: 1.24.3
+endpoint: https://192.168.29.157:6443  # TODO
+cniConfig:
+  name: none
+#  urls: 
+#    - http://192.168.3.103:8071/install.yaml
+nodes:
+  - hostname: homeprod-c01
+    controlPlane: true
+    installDisk: /dev/sda
+    ipAddress: 192.168.29.157
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        vip:
+          ip: 192.168.29.10
+  - hostname: homeprod-w01
+    controlPlane: false
+    installDisk: /dev/sda
+    ipAddress: 192.168.29.254
+controlPlane:
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      aggregatorCA:
+        crt: ${k8sAggregatorCert}
+        key: ${k8sAggregatorCertKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      etcd:
+        ca:
+          crt: ${etcdCert}
+          key: ${etcdCertKey}
+      secret: ${clusterSecret}
+      serviceAccount:
+        key: ${k8sServiceAccountKey}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}
+worker:
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      secret: ${clusterSecret}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}
