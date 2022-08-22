@@ -19,7 +19,7 @@ nodes:
   - hostname: homeprod-w01
     controlPlane: false
     installDisk: /dev/sda
-    ipAddress: 192.168.29.254
+    ipAddress: 192.168.29.158
 controlPlane:
   inlinePatch:
     cluster:
@@ -34,6 +34,8 @@ controlPlane:
         ca:
           crt: ${etcdCert}
           key: ${etcdCertKey}
+      proxy:
+        disabled: true
       secret: ${clusterSecret}
       serviceAccount:
         key: ${k8sServiceAccountKey}

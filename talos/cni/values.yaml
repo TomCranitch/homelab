@@ -7,8 +7,8 @@ securityContext:
   privileged: true
 
 kubeProxyReplacement: "strict"
-kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-k8sServiceHost: 192.168.29.10  # TODO
+# kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+k8sServiceHost: 192.168.29.157  # TODO
 k8sServicePort: 6443
 
 # ipv4NativeRoutingCIDR: 10.10.0.0/116

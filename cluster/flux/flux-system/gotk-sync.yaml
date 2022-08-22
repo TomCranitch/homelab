@@ -20,8 +20,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m0s
-  path: ./cluster
+  path: ./cluster/flux  # TODO change to ./cluster/base (or something similar e.g. flux)
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
+# TODO add SOPS (e.g. https://github.com/budimanjojo/home-cluster/blob/main/cluster/base/flux-system/gotk-sync.yaml)
