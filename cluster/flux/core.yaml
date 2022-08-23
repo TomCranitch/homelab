@@ -10,7 +10,7 @@ spec:
   prune: false
   sourceRef:
     kind: GitRepository
-    name: flux-cluster
+    name: flux-system
   dependsOn:
     - name: crds
 # TODO secrets/config map (e.g. https://github.com/toboshii/home-ops/blob/main/cluster/flux/core.yaml)
