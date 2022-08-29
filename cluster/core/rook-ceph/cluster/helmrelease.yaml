@@ -62,20 +62,20 @@ spec:
           limits:
             memory: "1Gi"
           requests:
-            cpu: "500m"
+            cpu: "200m"
             memory: "512Mi"
         mon:
           limits:
             memory: "1Gi"
           requests:
             cpu: "1000m"
-            memory: "1Gi"
+            memory: "512Mi"
         osd:
           limits:
-            memory: "4Gi"
+            memory: "2Gi"
           requests:
             cpu: "1000m"
-            memory: "2Gi"
+            memory: "1Gi"
         prepareosd:
           limits:
             memory: "400Mi"
