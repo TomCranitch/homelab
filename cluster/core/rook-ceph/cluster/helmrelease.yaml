@@ -33,8 +33,6 @@ spec:
 # TODO: https://github.com/szinn/k8s-homelab/blob/main/cluster/core/rook-ceph/cluster/helm-release.yaml#L127
 #   ingress:
 #     dashboard:
-    mon:
-      count: 3
     configOverride: |
       [global]
       bdev_enable_discard = true
@@ -48,6 +46,8 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
+      mon:
+        count: 3
       storage:
         useAllNodes: false
         useAllDevices: false
