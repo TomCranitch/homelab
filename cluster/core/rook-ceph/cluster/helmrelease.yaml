@@ -27,8 +27,8 @@ spec:
   values:
     toolbox:
       enabled: false
-    monitoring:
-      enabled: false
+#    monitoring:
+#      enabled: false
       # createPrometheusRules: true
 # TODO: https://github.com/szinn/k8s-homelab/blob/main/cluster/core/rook-ceph/cluster/helm-release.yaml#L127
 #   ingress:
@@ -42,10 +42,10 @@ spec:
         provider: host
       crashCollector:
         disable: false
-      dashboard:
-        enabled: true
-        urlPrefix: /
-        ssl: false
+#     dashboard:
+#       enabled: true
+#       urlPrefix: /
+#       ssl: false
       mon:
         count: 1
       storage:
