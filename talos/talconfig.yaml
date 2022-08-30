@@ -19,7 +19,7 @@ nodes:
   - hostname: homeprod-w01
     controlPlane: false
     installDisk: /dev/sda
-    ipAddress: 192.168.29.158
+    ipAddress: 192.168.29.159
 controlPlane:
   inlinePatch:
     cluster:
