@@ -108,3 +108,5 @@ spec:
             memory: "100Mi"
     cephBlockPoolVolumeSnapshotClass:
       enabled: false
+    cephFileSystems: []
+    cephObjectStores: []
