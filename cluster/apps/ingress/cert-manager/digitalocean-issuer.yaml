@@ -1,0 +1,9 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: digitalocean-issuer
+spec:
+  acme:
+    solvers:
+      - dns01:
+          digitalocean: "${S_DIGITAL_OCEAN_ACCESS_TOKEN}"

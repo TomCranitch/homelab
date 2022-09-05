@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homeprod-domain
+  namespace: ingress
+spec:
+  secretName: homeprod-domain-tls
+  issuerRef:
+    name: digitalocean-issuer
+  dnsNames:
+    - "${S_HOMEPROD_DOMAIN}"
+    - "*.${S_HOMEPROD_DOMAIN}"
