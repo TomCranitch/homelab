@@ -7,6 +7,8 @@ spec:
   acme:
     email: ${S_EMAIL}
     server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: homeprod-domain-cert
     solvers:
       - dns01:
           digitalocean: 
