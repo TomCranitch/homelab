@@ -7,4 +7,7 @@ spec:
   acme:
     solvers:
       - dns01:
-          digitalocean: "${S_DIGITAL_OCEAN_ACCESS_TOKEN}"
+          digitalocean: 
+            tokenSecretRef:
+              name: digitalocean-dns
+              key: digitalocean-access-token
