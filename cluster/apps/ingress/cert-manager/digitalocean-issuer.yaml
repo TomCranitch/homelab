@@ -5,6 +5,8 @@ metadata:
   namespace: ingress
 spec:
   acme:
+    email: ${S_EMAIL}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
     solvers:
       - dns01:
           digitalocean: 
