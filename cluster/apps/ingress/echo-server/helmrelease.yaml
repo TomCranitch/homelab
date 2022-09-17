@@ -29,19 +29,28 @@ spec:
       main:
         ports:
           http:
-            port: &port 8080
+            port: 8080
     probes:
-      liveness: &probes
+      liveness:
         enabled: true
         custom: true
         spec:
           httpGet:
             path: /health
-            port: *port
+            port: 8080
           periodSeconds: 10
           timeoutSeconds: 1
           failureThreshold: 3
-      readiness: *probes
+      readiness:
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /health
+            port: 8080
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
       startup:
         enabled: false
     ingress:
@@ -49,13 +58,13 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "echo.${S_HOMEPROD_DOMAIN}"
+          - host: "echo.${S_HOMEPROD_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
-              - *host
+              -  "echo.${S_HOMEPROD_DOMAIN}"
     resources:
       requests:
         cpu: 5m
