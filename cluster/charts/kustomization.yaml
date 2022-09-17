@@ -5,3 +5,4 @@ resources:
   - rook-ceph-charts.yaml
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
+  - bjw-s-charts.yaml
