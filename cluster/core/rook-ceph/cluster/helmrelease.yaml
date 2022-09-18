@@ -31,14 +31,14 @@ spec:
 #      enabled: false
       # createPrometheusRules: true
 # TODO: https://github.com/szinn/k8s-homelab/blob/main/cluster/core/rook-ceph/cluster/helm-release.yaml#L127
-   ingress:
-     dashboard:
-       ingressClassName: "nginx"
-       host: 
-        name: "rook.${S_HOMEPROD_DOMAIN}"
-        path: "/"
-       tls:
-        - hosts:
+    ingress:
+      dashboard:
+        ingressClassName: "nginx"
+        host: 
+          name: "rook.${S_HOMEPROD_DOMAIN}"
+          path: "/"
+        tls:
+         - hosts:
             - "rook.${S_HOMEPROD_DOMAIN}"
     configOverride: |
       [global]
