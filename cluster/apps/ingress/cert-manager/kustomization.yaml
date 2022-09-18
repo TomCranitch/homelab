@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - digitalocean-issuer.yaml
+  - secret.sops.yaml
