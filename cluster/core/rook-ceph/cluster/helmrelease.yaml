@@ -49,10 +49,10 @@ spec:
         provider: host
       crashCollector:
         disable: false
-     dashboard:
-       enabled: true
-       urlPrefix: /
-       ssl: false
+      dashboard:
+        enabled: true
+        urlPrefix: /
+        ssl: false
       mon:
         count: 1
       storage:
