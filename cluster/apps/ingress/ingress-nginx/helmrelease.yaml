@@ -29,6 +29,8 @@ spec:
     controller:
       ingressClassResource:
         default: true
+      extraArgs:
+        default-ssl-certificate: "networking/homepro-domain-tls"
 #     metrics:
 #       enabled: true
 #       serviceMonitor:
