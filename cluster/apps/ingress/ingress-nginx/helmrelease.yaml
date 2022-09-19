@@ -30,7 +30,7 @@ spec:
       ingressClassResource:
         default: true
       extraArgs:
-        default-ssl-certificate: "ingress/homepro-domain-tls"
+        default-ssl-certificate: "ingress/homeprod-domain-tls"
 #     metrics:
 #       enabled: true
 #       serviceMonitor:
