@@ -54,6 +54,8 @@ spec:
       datasources:
         enabled: true
         searchNamespace: ALL
+    serviceMonitor:
+      enabled: true
     ingress:
       enabled: true
       ingressClassName: "nginx"
