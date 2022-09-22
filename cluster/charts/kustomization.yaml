@@ -7,3 +7,4 @@ resources:
   - jetstack-charts.yaml
   - bjw-s-charts.yaml
   - prometheus-community-charts.yaml
+  - grafana-charts.yaml
