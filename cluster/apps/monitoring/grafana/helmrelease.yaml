@@ -32,7 +32,7 @@ spec:
       analytics:
         check_for_updates: false
     admin:
-      existingSecret: grafana-user
+      existingSecret: grafana-secrets
       userKey: ADMIN_USER
       passwordKey: ADMIN_PASSWORD
     dashboardProviders:
