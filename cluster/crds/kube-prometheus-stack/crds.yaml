@@ -24,6 +24,7 @@ metadata:
 spec:
   interval: 30m
   wait: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: kube-prometheus-stack-source
