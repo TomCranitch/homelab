@@ -47,15 +47,15 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
-    datasources:
-      datasources.yaml:
-        apiVersion: 1
-        datasources:
-          - name: Prometheus
-            type: prometheus
-            url: http://thanos-query:9090
-            access: proxy
-            isDefault: true
+#    datasources:
+#      datasources.yaml:
+#        apiVersion: 1
+#        datasources:
+#          - name: Prometheus
+#            type: prometheus
+#            url: http://thanos-query:9090
+#            access: proxy
+#            isDefault: true
     sidecar:
       dashboards:
         enabled: true
