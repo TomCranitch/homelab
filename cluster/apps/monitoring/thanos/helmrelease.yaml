@@ -26,7 +26,7 @@ spec:
     - name: kube-prometheus-stack
       namespace: monitoring
   values:
-        objstoreConfig:
+    objstoreConfig:
       type: s3
       config:
         insecure: true
