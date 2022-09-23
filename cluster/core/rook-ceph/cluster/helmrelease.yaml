@@ -27,10 +27,9 @@ spec:
   values:
     toolbox:
       enabled: false
-#    monitoring:
-#      enabled: false
-      # createPrometheusRules: true
-# TODO: https://github.com/szinn/k8s-homelab/blob/main/cluster/core/rook-ceph/cluster/helm-release.yaml#L127
+    monitoring:
+      enabled: false
+      createPrometheusRules: true
     ingress:
       dashboard:
         ingressClassName: "nginx"
