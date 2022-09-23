@@ -32,6 +32,7 @@ spec:
         insecure: true
     query:
       enabled: true
+      dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
         sidecarsNamespace: monitoring
       ingress:
