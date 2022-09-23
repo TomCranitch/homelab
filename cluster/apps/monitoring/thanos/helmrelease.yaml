@@ -44,6 +44,8 @@ spec:
               - "thanos.${S_HOMEPROD_DOMAIN}"
     queryFrontend:
       enabled: true
+    bucketweb:
+      enabled: true
     compactor:
       enabled: true
       retentionResolutionRaw: 7d
@@ -59,6 +61,8 @@ spec:
         enabled: true
         storageClass: "ceph-block"
         size: 512Mi
+    ruler:
+      enabled: true
     metrics:
       enabled: true
       serviceMonitor:
