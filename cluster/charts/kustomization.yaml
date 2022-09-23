@@ -8,3 +8,4 @@ resources:
   - bjw-s-charts.yaml
   - prometheus-community-charts.yaml
   - grafana-charts.yaml
+  - bitnami-charts.yaml

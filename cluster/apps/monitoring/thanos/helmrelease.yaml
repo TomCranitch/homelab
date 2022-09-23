@@ -1,0 +1,86 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: thanos
+      version: 11.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: kube-prometheus-stack
+      namespace: monitoring
+  values:
+        objstoreConfig:
+      type: s3
+      config:
+        insecure: true
+    query:
+      enabled: true
+        sidecarsService: kube-prometheus-stack-thanos-discovery
+        sidecarsNamespace: monitoring
+      ingress:
+        enabled: true
+        hostname: "thanos.${S_HOMEPROD_DOMAIN}"
+        ingressClassName: "nginx"
+        tls: true
+        extraTls:
+          - hosts:
+              - "thanos.${S_HOMEPROD_DOMAIN}"
+    queryFrontend:
+      enabled: true
+    compactor:
+      enabled: true
+      retentionResolutionRaw: 7d
+      retentionResolution5m: 14d
+      retentionResolution1h: 28d
+      persistence:
+        enabled: true
+        storageClass: "ceph-block"
+        size: 10Gi
+    storegateway:
+      enabled: true
+      persistence:
+        enabled: true
+        storageClass: "ceph-block"
+        size: 512Mi
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+   valuesFrom:
+    - targetPath: objstoreConfig.config.bucket
+      kind: ConfigMap
+      name: thanos-ceph-bucket-v1
+      valuesKey: BUCKET_NAME
+    - targetPath: objstoreConfig.config.endpoint
+      kind: ConfigMap
+      name: thanos-ceph-bucket-v1
+      valuesKey: BUCKET_HOST
+    - targetPath: objstoreConfig.config.region
+      kind: ConfigMap
+      name: thanos-ceph-bucket-v1
+      valuesKey: BUCKET_REGION
+    - targetPath: objstoreConfig.config.access_key
+      kind: Secret
+      name: thanos-ceph-bucket-v1
+      valuesKey: AWS_ACCESS_KEY_ID
+    - targetPath: objstoreConfig.config.secret_key
+      kind: Secret
+      name: thanos-ceph-bucket-v1
+      valuesKey: AWS_SECRET_ACCESS_KEY     name: thanos-ceph-bucket
