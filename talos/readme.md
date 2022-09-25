@@ -1,3 +1,4 @@
+ATM have to comment out BGP (i think???)
 helm template cilium cilium/cilium -f cni/values.yaml -n kube-system > cni/install.yaml
 
 
