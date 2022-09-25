@@ -41,3 +41,7 @@ spec:
         tls:
           - hosts:
             - "vmagent.${S_HOMEPROD_DOMAIN}"
+    vmsingle:
+      spec:
+        storage:
+          storageClassName: "ceph-block"
