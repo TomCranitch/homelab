@@ -38,4 +38,5 @@ spec:
         hosts:
           - "vmagent.${S_HOMEPROD_DOMAIN}"
         tls:
-          - "vmagent.${S_HOMEPROD_DOMAIN}"
+          hosts:
+            - "vmagent.${S_HOMEPROD_DOMAIN}"
