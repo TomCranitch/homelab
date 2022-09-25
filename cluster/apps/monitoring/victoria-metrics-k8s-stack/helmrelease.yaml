@@ -44,4 +44,4 @@ spec:
     vmsingle:
       spec:
         storage:
-          storageClassName: "ceph-block"
+          storageClass: "ceph-block"
