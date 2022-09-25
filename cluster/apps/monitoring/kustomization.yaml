@@ -6,4 +6,4 @@ resources:
 #  - kube-prometheus-stack
 #  - grafana
 #  - thanos
-   - victoria-metrics-k8s-stack
+  - victoria-metrics-k8s-stack
