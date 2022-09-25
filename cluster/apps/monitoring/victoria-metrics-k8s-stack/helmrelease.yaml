@@ -31,11 +31,11 @@ spec:
           - "grafana.${S_HOMEPROD_DOMAIN}"
         tls:
           - "grafana.${S_HOMEPROD_DOMAIN}"
-    vmcluster:
+    vmagent:
       ingress:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - "vmcluster.${S_HOMEPROD_DOMAIN}"
+          - "vmagent.${S_HOMEPROD_DOMAIN}"
         tls:
-          - "vmcluster.${S_HOMEPROD_DOMAIN}"
+          - "vmagent.${S_HOMEPROD_DOMAIN}"
