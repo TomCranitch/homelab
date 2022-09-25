@@ -30,7 +30,8 @@ spec:
         hosts:
           - "grafana.${S_HOMEPROD_DOMAIN}"
         tls:
-          - "grafana.${S_HOMEPROD_DOMAIN}"
+          - hosts:
+            - "grafana.${S_HOMEPROD_DOMAIN}"
     vmagent:
       ingress:
         enabled: true
@@ -38,5 +39,5 @@ spec:
         hosts:
           - "vmagent.${S_HOMEPROD_DOMAIN}"
         tls:
-          hosts:
+          - hosts:
             - "vmagent.${S_HOMEPROD_DOMAIN}"
