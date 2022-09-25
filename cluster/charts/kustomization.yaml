@@ -9,3 +9,4 @@ resources:
   - prometheus-community-charts.yaml
   - grafana-charts.yaml
   - bitnami-charts.yaml
+  - victoriametrics-charts.yaml
