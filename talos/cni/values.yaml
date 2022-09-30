@@ -26,6 +26,6 @@ ipv6:
   enabled: false
 
 bgp:
- enabled: true
- announce:
-   loadbalancerIP: true
+  enabled: true
+  announce:
+    loadbalancerIP: true

@@ -18,7 +18,7 @@ nodes:
           ip: 192.168.29.10
   - hostname: homeprod-w01
     controlPlane: false
-    installDisk: /dev/sda
+    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
     ipAddress: 192.168.29.159
 controlPlane:
   inlinePatch:
