@@ -27,7 +27,7 @@ nodes:
           ip: 192.168.29.10
   - hostname: homeprod-cw03
     controlPlane: true
-    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
+    installDisk: /dev/sda
     ipAddress: 192.168.29.160
     networkInterfaces:
       - interface: ens18
