@@ -63,12 +63,12 @@ spec:
           - name: "homeprod-cw01"
             devices:
               - name: "/dev/sdb"
-          - name: "homeprod-cw02"
-            devices:
-              - name: "/dev/sda"
-          - name: "homeprod-cw03"
-            devices:
-              - name: "/dev/sdb"
+#         - name: "homeprod-cw02"
+#           devices:
+#             - name: "/dev/sda"
+#         - name: "homeprod-cw03"
+#           devices:
+#             - name: "/dev/sdb"
       resources:
         mgr:
           limits:
