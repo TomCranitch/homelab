@@ -7,7 +7,7 @@ cniConfig:
 #  urls: 
 #    - http://192.168.3.103:8071/install.yaml
 nodes:
-  - hostname: homeprod-c01
+  - hostname: homeprod-cw01
     controlPlane: true
     installDisk: /dev/sda
     ipAddress: 192.168.29.157
@@ -16,13 +16,29 @@ nodes:
         dhcp: true
         vip:
           ip: 192.168.29.10
-  - hostname: homeprod-w01
-    controlPlane: false
-    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
+  - hostname: homeprod-cw02
+    controlPlane: true
+    installDisk: /dev/sdb
     ipAddress: 192.168.29.159
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        vip:
+          ip: 192.168.29.10
+  - hostname: homeprod-cw03
+    controlPlane: true
+    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
+    ipAddress: 192.168.29.160
+    networkInterfaces:
+      - interface: ens18
+        dhcp: true
+        vip:
+          ip: 192.168.29.10
 controlPlane:
   inlinePatch:
     cluster:
+      # allowSchedulingOnControlPlanes: true
+      allowSchedulingOnMasters: true
       aescbcEncryptionSecret: ${aescbcEncryptionKey}
       aggregatorCA:
         crt: ${k8sAggregatorCert}
@@ -45,17 +61,17 @@ controlPlane:
         crt: ${machineCert}
         key: ${machineCertKey}
       token: ${machineToken}
-worker:
-  inlinePatch:
-    cluster:
-      aescbcEncryptionSecret: ${aescbcEncryptionKey}
-      ca:
-        crt: ${clusterCert}
-        key: ${clusterCertKey}
-      secret: ${clusterSecret}
-      token: ${clusterToken}
-    machine:
-      ca:
-        crt: ${machineCert}
-        key: ${machineCertKey}
-      token: ${machineToken}
+#worker:
+# inlinePatch:
+#   cluster:
+#     aescbcEncryptionSecret: ${aescbcEncryptionKey}
+#     ca:
+#       crt: ${clusterCert}
+#       key: ${clusterCertKey}
+#     secret: ${clusterSecret}
+#     token: ${clusterToken}
+#   machine:
+#     ca:
+#       crt: ${machineCert}
+#       key: ${machineCertKey}
+#     token: ${machineToken}
