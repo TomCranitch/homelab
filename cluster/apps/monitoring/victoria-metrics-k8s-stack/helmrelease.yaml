@@ -24,14 +24,34 @@ spec:
       retries: 3
   values:
     grafana:
-      ingress:
-        enabled: true
-        ingressClassName: "nginx"
-        hosts:
-          - "grafana.${S_HOMEPROD_DOMAIN}"
-        tls:
-          - hosts:
+      grafana.ini:
+        analytics:
+          check_for_updates: false
+        auth:
+          oauth_auto_login: true
+        auth.basic:
+          disable_login_form: true
+        auth.generic_oauth:
+          enabled: true
+          name: cranitchsso
+          client_id: "${SECRET_GRAFANA_OAUTH_CLIENT_ID}"
+          client_secret: "${SECRET_GRAFANA_OAUTH_CLIENT_SECRET}"
+          scopes: "openid profile email"
+          empty_scopes: false
+          auth_url: https://${SSO_DOMAIN_PREFIX}.${S_HOMEPROD_DOMAIN}/application/o/authorize/
+          token_url: https://${SSO_DOMAIN_PREFIX}.${S_HOMEPROD_DOMAIN}/application/o/token/
+          api_url: https://${SSO_DOMAIN_PREFIX}.${S_HOMEPROD_DOMAIN}/application/o/userinfo/
+          login_attribute_path: preferred_username
+          groups_attribute_path: groups
+          name_attribute_path: name
+        ingress:
+          enabled: true
+          ingressClassName: "nginx"
+          hosts:
             - "grafana.${S_HOMEPROD_DOMAIN}"
+          tls:
+            - hosts:
+              - "grafana.${S_HOMEPROD_DOMAIN}"
     vmagent:
       ingress:
         enabled: true
