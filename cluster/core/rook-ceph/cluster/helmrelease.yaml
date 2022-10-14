@@ -30,15 +30,15 @@ spec:
     monitoring:
       enabled: false
       createPrometheusRules: true
-    ingress:
-      dashboard:
-        ingressClassName: "nginx"
-        host: 
-          name: "rook.${S_HOMEPROD_DOMAIN}"
-          path: "/"
-        tls:
-         - hosts:
-            - "rook.${S_HOMEPROD_DOMAIN}"
+#   ingress:
+#     dashboard:
+#       ingressClassName: "nginx"
+#       host: 
+#         name: "rook.${S_HOMEPROD_DOMAIN}"
+#         path: "/"
+#       tls:
+#        - hosts:
+#           - "rook.${S_HOMEPROD_DOMAIN}"
     configOverride: |
       [global]
       bdev_enable_discard = true
@@ -63,12 +63,12 @@ spec:
           - name: "homeprod-cw01"
             devices:
               - name: "/dev/sdb"
-#         - name: "homeprod-cw02"
-#           devices:
-#             - name: "/dev/sda"
-#         - name: "homeprod-cw03"
-#           devices:
-#             - name: "/dev/sdb"
+          - name: "homeprod-cw02"
+            devices:
+              - name: "/dev/sda"
+          - name: "homeprod-cw03"
+            devices:
+              - name: "/dev/sdb"
       resources:
         mgr:
           limits:
