@@ -6,7 +6,5 @@ resources:
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
   - bjw-s-charts.yaml
-  - prometheus-community-charts.yaml
-  - grafana-charts.yaml
   - bitnami-charts.yaml
   - victoriametrics-charts.yaml
