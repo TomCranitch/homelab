@@ -45,14 +45,14 @@ spec:
           login_attribute_path: preferred_username
           groups_attribute_path: groups
           name_attribute_path: name
-        ingress:
-          enabled: true
-          ingressClassName: "nginx"
-          hosts:
+      ingress:
+        enabled: true
+        ingressClassName: "nginx"
+        hosts:
+          - "grafana.${S_HOMEPROD_DOMAIN}"
+        tls:
+          - hosts:
             - "grafana.${S_HOMEPROD_DOMAIN}"
-          tls:
-            - hosts:
-              - "grafana.${S_HOMEPROD_DOMAIN}"
     vmagent:
       ingress:
         enabled: true
