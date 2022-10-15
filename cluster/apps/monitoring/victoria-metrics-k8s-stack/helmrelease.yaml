@@ -25,6 +25,8 @@ spec:
   values:
     grafana:
       grafana.ini:
+        server:
+          root_url: "https://grafana.${S_BASE_DOMAIN}"
         analytics:
           check_for_updates: false
         # TODO
