@@ -27,10 +27,11 @@ spec:
       grafana.ini:
         analytics:
           check_for_updates: false
+        # TODO
         auth:
-          oauth_auto_login: true
+          oauth_auto_login: false
         auth.basic:
-          disable_login_form: true
+          disable_login_form: false
         auth.generic_oauth:
           enabled: true
           name: cranitchsso
