@@ -19,7 +19,7 @@ nodes:
   - hostname: homeprod-cw02
     controlPlane: true
     installDisk: /dev/sdb
-    ipAddress: 192.168.29.159
+    ipAddress: 192.168.29.161
     networkInterfaces:
       - interface: ens18
         dhcp: true
