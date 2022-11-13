@@ -62,13 +62,13 @@ spec:
         nodes:
           - name: "homeprod-cw01"
             devices:
-              - name: "/dev/sda"
+              - name: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1"
           - name: "homeprod-cw02"
             devices:
-              - name: "/dev/sda"
+              - name: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1"
           - name: "homeprod-cw03"
             devices:
-              - name: "/dev/sdb"
+              - name: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1"
       resources:
         mgr:
           limits:
