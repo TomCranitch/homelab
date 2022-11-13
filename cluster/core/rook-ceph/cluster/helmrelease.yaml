@@ -62,7 +62,7 @@ spec:
         nodes:
           - name: "homeprod-cw01"
             devices:
-              - name: "/dev/sdb"
+              - name: "/dev/sda"
           - name: "homeprod-cw02"
             devices:
               - name: "/dev/sda"
