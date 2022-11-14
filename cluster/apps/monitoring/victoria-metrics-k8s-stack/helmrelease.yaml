@@ -39,7 +39,7 @@ spec:
           name: cranitchsso
           client_id: "${S_GRAFANA_OAUTH_CLIENT_ID}"
           client_secret: "${S_GRAFANA_OAUTH_CLIENT_SECRET}"
-          scopes: "openid profile email grafana_role"
+          scopes: "openid profile email"
           empty_scopes: false
           auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
           token_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/
@@ -48,7 +48,7 @@ spec:
           groups_attribute_path: groups
           name_attribute_path: name
           allow_assign_grafana_admin: true
-          role_attribute_path: grafana_role
+          role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
       ingress:
         enabled: true
         ingressClassName: "nginx"
