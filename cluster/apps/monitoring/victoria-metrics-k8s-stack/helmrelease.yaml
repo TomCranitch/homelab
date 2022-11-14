@@ -57,6 +57,12 @@ spec:
         tls:
           - hosts:
             - "grafana.${S_HOMEPROD_DOMAIN}"
+      dashboards:
+        default:
+          proxmox:
+            gneId: 13307
+            revision: 6
+            datasource: VictoriaMetrics
     vmagent:
       ingress:
         enabled: true
