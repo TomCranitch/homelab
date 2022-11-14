@@ -39,7 +39,7 @@ spec:
           name: cranitchsso
           client_id: "${S_GRAFANA_OAUTH_CLIENT_ID}"
           client_secret: "${S_GRAFANA_OAUTH_CLIENT_SECRET}"
-          scopes: "openid profile email"
+          scopes: "openid profile email grafana_role"
           empty_scopes: false
           auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
           token_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/
