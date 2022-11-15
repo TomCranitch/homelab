@@ -48,7 +48,8 @@ spec:
           groups_attribute_path: groups
           name_attribute_path: name
           allow_assign_grafana_admin: true
-          role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
+          # role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
+          role_attribute_path: 'GrafanaAdmin'
       ingress:
         enabled: true
         ingressClassName: "nginx"
