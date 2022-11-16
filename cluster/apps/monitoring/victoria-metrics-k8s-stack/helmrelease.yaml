@@ -49,6 +49,7 @@ spec:
           name_attribute_path: name
           allow_assign_grafana_admin: true
           # role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
+          # TODO; fix grafana roles
           role_attribute_path: "'GrafanaAdmin'"
       ingress:
         enabled: true
