@@ -50,7 +50,8 @@ spec:
           allow_assign_grafana_admin: true
           # role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
           # TODO; fix grafana roles
-          role_attribute_path: "'GrafanaAdmin'"
+          role_attribute_path: >-
+            "GrafanaAdmin"
       ingress:
         enabled: true
         ingressClassName: "nginx"
@@ -61,9 +62,13 @@ spec:
             - "grafana.${S_HOMEPROD_DOMAIN}"
       dashboards:
         default:
-          proxmox:
+          proxmoxVM:
             gneId: 13307
             revision: 6
+            datasource: VictoriaMetrics
+          proxmox:
+            gneId: 10048
+            revision: 4
             datasource: VictoriaMetrics
     vmagent:
       ingress:
