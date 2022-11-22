@@ -10,6 +10,7 @@ spec:
   prune: true
   dependsOn:
     - name: core
+    - name: cluster-config
   sourceRef:
     kind: GitRepository
     name: flux-system
