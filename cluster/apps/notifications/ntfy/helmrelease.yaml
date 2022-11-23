@@ -36,6 +36,7 @@ spec:
         enabled: true
         type: pvc
         size: 1Gi
+        accessMode: ReadWriteOnce
         mountPath: /var/cache/ntfy
     service:
       main:
