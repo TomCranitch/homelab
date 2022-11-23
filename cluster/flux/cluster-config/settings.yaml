@@ -6,3 +6,4 @@ metadata:
   namespace: flux-system
 data:
   SSO_DOMAIN_PREFIX: sso2
+  TZ: Australia/Sydney
