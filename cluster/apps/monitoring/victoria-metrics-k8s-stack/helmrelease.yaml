@@ -50,8 +50,7 @@ spec:
           allow_assign_grafana_admin: true
           # role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
           # TODO; fix grafana roles
-          role_attribute_path: >-
-            "Admin"
+          role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
       ingress:
         enabled: true
         ingressClassName: "nginx"
