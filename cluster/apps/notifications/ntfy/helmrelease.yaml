@@ -54,7 +54,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-          - host: &host "ntfy.${S_HOMEPROD_DOMAIN}"
+          - host: &host "notifications.${S_HOMEPROD_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
