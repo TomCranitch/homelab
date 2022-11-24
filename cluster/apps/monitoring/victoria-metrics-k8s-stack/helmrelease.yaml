@@ -63,7 +63,7 @@ spec:
           providers:
             - name: "default"
               orgId: 1
-              folder: ""
+              folder: "default"
               type: file
               disableDeletion: false
               editable: false
@@ -71,6 +71,7 @@ spec:
                 path: /var/lib/grafana/dashboards/default
       dashboards:
         default:
+          # TODO flux dashboard
           proxmoxVM:
             gneId: 13307
             revision: 6
