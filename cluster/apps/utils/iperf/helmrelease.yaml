@@ -30,7 +30,7 @@ spec:
       main:
         ports:
           http:
-            port: 5001
+            port: 5201
     ingress:
       main:
         enabled: true
