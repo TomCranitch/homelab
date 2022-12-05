@@ -14,10 +14,8 @@ spec:
     name: postgres-superuser
   postgresql:
     parameters:
-      timezone: ${TZ}
-  postgresql:
-    parameters:
       max_connections: "100"
       shared_buffers: "256MB"
+      timezone: ${TZ}
   monitoring:
     enablePodMonitor: true
