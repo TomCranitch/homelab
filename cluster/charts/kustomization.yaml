@@ -8,3 +8,4 @@ resources:
   - bjw-s-charts.yaml
   - bitnami-charts.yaml
   - victoriametrics-charts.yaml
+  - dysnix-charts.yaml
