@@ -20,11 +20,6 @@ spec:
     resources:
       - apiVersion: postgresql.cnpg.io/v1
         kind: Cluster
-        metadata:
-          name: postgres
-          namespace: *namespace
-          annotations:
-            kyverno.io/ignore: "true"
         spec:
           instances: 3
           primaryUpdateStrategy: unsupervised
