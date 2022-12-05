@@ -16,7 +16,7 @@ spec:
   dependsOn:
     - name: cnpg
       namespace: database
-    values:
+  values:
     resources:
       - apiVersion: postgresql.cnpg.io/v1
         kind: Cluster
