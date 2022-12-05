@@ -95,4 +95,4 @@ spec:
           storageClassName: "ceph-block"
           resources:
             requests:
-              storage: 4Gi
+              storage: 30Gi
