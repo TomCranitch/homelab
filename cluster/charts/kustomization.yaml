@@ -9,3 +9,4 @@ resources:
   - bitnami-charts.yaml
   - victoriametrics-charts.yaml
   - dysnix-charts.yaml
+  - cloudnative-pg-charts.yaml
