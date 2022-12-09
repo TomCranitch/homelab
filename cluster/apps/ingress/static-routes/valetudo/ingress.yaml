@@ -5,7 +5,7 @@ metadata:
   namespace: ingress
   annotations:
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header Authorization ${S_VALETUDO_AUTH_HEADER};
+      proxy_set_header Authorization "Basic ${S_VALETUDO_AUTH_HEADER}";
 spec:
   rules:
   - host: vacuum.${S_HOMEPROD_DOMAIN}
