@@ -16,6 +16,5 @@ spec:
         path: /
         pathType: Prefix
   tls:
-    -hosts:
+    - hosts:
       - vacuum.${S_HOMEPROD_DOMAIN}
-      
