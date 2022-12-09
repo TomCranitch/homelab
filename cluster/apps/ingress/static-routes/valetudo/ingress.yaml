@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: valetudo
+  namespace: ingress
+spec:
+  rules:
+  - host: vacuum.${S_HOMEPROD_DOMAIN}
+    http:
+      paths:
+      - backend:
+          service:
+            name: valetudo
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+    -hosts:
+      - vacuum.${S_HOMEPROD_DOMAIN}
+      
