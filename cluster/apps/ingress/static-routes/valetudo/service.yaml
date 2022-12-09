@@ -4,5 +4,23 @@ metadata:
   name: valetudo
   namespace: ingress
 spec:
-  type: ExternalName
-  externalName: 192.168.13.50
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: valetudo
+  namespace: ingress
+subsets:
+- addresses:
+  - ip: 192.168.13.50
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
