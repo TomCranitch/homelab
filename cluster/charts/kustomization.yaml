@@ -10,3 +10,4 @@ resources:
   - victoriametrics-charts.yaml
   - dysnix-charts.yaml
   - cloudnative-pg-charts.yaml
+  - kyverno-charts.yaml
