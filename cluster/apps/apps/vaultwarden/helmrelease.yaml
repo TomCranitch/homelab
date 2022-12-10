@@ -1,0 +1,71 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ntfy
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/vaultwarden
+      tag: 
+    env:
+      TZ: ${TIMEZONE}
+      DOMAIN: https://passwords.{S_HOMEPROD_DOMAIN}
+      WEBSOCKET_ENABLED: true
+      ADMIN_TOKEN: ${S_VAULTWARDEN_ADMIN_TOKEN}
+      DATABASE_URL: ${POSTGRES_RW_URL}
+    args: [serve]
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        size: 1Gi
+        accessMode: ReadWriteOnce
+    service:
+      main:
+        ports:
+          http:
+            port: &http-port 80
+          websocket:
+            enable: true
+            port: &websocket-port 3012
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "passwords.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: *http-port
+              - path: /notifications/hub/negotiate
+                pathType: Prefix
+                service:
+                  port: *http-port
+              - path: /notifications/hub
+                pathType: Prefix
+                service:
+                  port: *websocket-port
+        tls:
+          - hosts:
+              - *host
