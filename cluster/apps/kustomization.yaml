@@ -8,3 +8,4 @@ resources:
   - notifications
   - utils
   - databases
+  - apps
