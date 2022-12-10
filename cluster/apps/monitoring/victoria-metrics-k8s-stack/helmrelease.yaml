@@ -26,7 +26,7 @@ spec:
     grafana:
       grafana.ini:
         server:
-          root_url: "https://grafana.${S_HOMEPROD_DOMAIN}"
+          root_url: "https://monitoring.${S_HOMEPROD_DOMAIN}"
         analytics:
           check_for_updates: false
         auth:
@@ -53,10 +53,10 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - "grafana.${S_HOMEPROD_DOMAIN}"
+          - &host "monitoring.${S_HOMEPROD_DOMAIN}"
         tls:
           - hosts:
-            - "grafana.${S_HOMEPROD_DOMAIN}"
+            - *host
       dashboardProviders:
         dashboardproviders.yaml:
           apiVersion: 1
