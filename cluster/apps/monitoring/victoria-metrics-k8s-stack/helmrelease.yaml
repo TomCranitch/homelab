@@ -63,10 +63,10 @@ spec:
           providers:
             - name: "default"
               orgId: 1
-              folder: "default"
+              folder: ""
               type: file
               disableDeletion: false
-              editable: false
+              editable: true
               options:
                 path: /var/lib/grafana/dashboards/default
       dashboards:
