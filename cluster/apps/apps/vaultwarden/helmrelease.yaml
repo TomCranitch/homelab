@@ -32,7 +32,6 @@ spec:
       WEBSOCKET_ENABLED: true
       ADMIN_TOKEN: ${S_VAULTWARDEN_ADMIN_TOKEN}
       DATABASE_URL: ${POSTGRES_RW_URL}
-    args: [serve]
     persistence:
       data:
         enabled: true
