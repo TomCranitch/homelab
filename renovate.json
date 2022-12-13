@@ -15,7 +15,7 @@
   },
   "semanticCommits": "disabled",
   "commitMessageTopic": "{{depName}}: renovate",
-  "commitMessageExtra": "from {{curentVersion}} to {{newVersion}}",
+  "commitMessageExtra": "from {{currentVersion}} to {{newVersion}}",
   "commitMessageSuffix": "",
   "packageRules": [
     {
