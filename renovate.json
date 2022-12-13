@@ -4,6 +4,7 @@
     "config:base",
 	":dependencyDashboard"
   ],
+  "prHourlyLimit": 0,
   "flux": {
     "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
