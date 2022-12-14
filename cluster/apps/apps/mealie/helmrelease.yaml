@@ -1,0 +1,103 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mealie-frontend
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: docker.io/hkotel/mealie
+      tag: frontend-v1.0.0beta-5
+    env:
+      TZ: ${TIMEZONE}
+      API_URL: "http://mealie-api.default.svc.cluster.local:9000"
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        mountPath: /app/data
+    service:
+      main:
+        ports:
+          http:
+            port: &port 3000
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "recipes.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: *port
+        tls:
+          - hosts:
+              - *host
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mealie-api
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: docker.io/hkotel/mealie
+      tag: frontend-v1.0.0beta-5
+    env:
+      TZ: ${TIMEZONE}
+      POSTGRES_SERVER: ${POSTGRES_RW_URL}
+      POSTGRES_PORT: 5432
+      POSTGRES_DB: mealie
+      BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
+    persistence:
+      data:
+        enabled: true
+        type: pvc
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        mountPath: /app/data
+    service:
+      main:
+        ports:
+          http:
+            port: &port 9000
