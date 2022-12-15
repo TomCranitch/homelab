@@ -40,7 +40,7 @@ spec:
       main:
         ports:
           http:
-            port: &frontend-port 3001
+            port: &frontend-port 3000
     ingress:
       main:
         enabled: true
