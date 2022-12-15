@@ -87,7 +87,8 @@ spec:
       TZ: ${TIMEZONE}
       POSTGRES_SERVER: ${POSTGRES_RW_URL}
       POSTGRES_PORT: 5432
-      POSTGRES_DB: mealie BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
+      POSTGRES_DB: mealie 
+      BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
     persistence:
       data:
         enabled: true
