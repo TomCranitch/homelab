@@ -12,4 +12,4 @@ resources:
   - cloudnative-pg-charts.yaml
   - kyverno-charts.yaml
   - csi-driver-nfs-charts.yaml
-  - nfs-subdir-external-provisioner.yaml
+  - nfs-subdir-external-provisioner-charts.yaml
