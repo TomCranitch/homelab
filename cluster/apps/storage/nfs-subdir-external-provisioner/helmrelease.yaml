@@ -26,10 +26,10 @@ spec:
     nfs:
       server: ${S_NFS_SERVER}
       path: "/mnt/data/k8s"
-      mountOptions:
-        - nfsvers=4.2
-        - nconnect=8
-        - noatime
+#     mountOptions:
+#       - nfsvers=4.2
+#       - nconnect=8
+#       - noatime
     storageClass:
       defaultClass: false
       
