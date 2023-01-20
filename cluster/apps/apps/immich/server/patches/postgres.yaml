@@ -13,9 +13,10 @@ spec:
           - name: POSTGRES_HOST
             value: ${POSTGRES_RW_URL}
           - name: POSTGRES_DB
-            configMapKeyRef:
-              name: immich
-              key: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: immich
+                key: DB_NAME
           - name: POSTGRES_SUPER_PASS
             valueFrom:
               secretKeyRef:
