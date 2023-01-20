@@ -40,4 +40,4 @@ spec:
         mountPath: /usr/src/app/upload
     service:
       main:
-        enabled: true
+        enabled: false
