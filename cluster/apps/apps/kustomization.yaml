@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - vaultwarden
   - mealie
+  - immich
