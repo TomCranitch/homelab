@@ -16,7 +16,7 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: immich
-                key: DB_NAME
+                key: DB_DATABASE_NAME
           - name: POSTGRES_SUPER_PASS
             valueFrom:
               secretKeyRef:
