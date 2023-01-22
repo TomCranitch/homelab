@@ -27,9 +27,6 @@ spec:
     image:
       repository: ghcr.io/immich-app/immich-proxy
       tag: v1.42.0_65-dev
-    command: /bin/sh
-    args:
-      - ./entrypoint.sh
     envFrom:
       - secretRef:
           name: immich
