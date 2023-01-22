@@ -13,10 +13,11 @@ spec:
           - name: POSTGRES_HOST
             value: ${POSTGRES_RW_URL}
           - name: POSTGRES_DB
-            valueFrom:
-              configMapKeyRef:
-                name: immich
-                key: DB_DATABASE_NAME
+            value: immich
+#           valueFrom:
+#             configMapKeyRef:
+#               name: immich
+#               key: DB_DATABASE_NAME
           - name: POSTGRES_SUPER_PASS
             valueFrom:
               secretKeyRef:
