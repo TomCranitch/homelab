@@ -22,7 +22,7 @@ spec:
     remediation:
       retries: 3
   dependsOn:
-    - name: immich-proxy
+    - name: immich-server
   values:
     image:
       repository: ghcr.io/immich-app/immich-web
