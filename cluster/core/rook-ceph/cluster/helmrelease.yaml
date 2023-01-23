@@ -30,15 +30,15 @@ spec:
     monitoring:
       enabled: false
       createPrometheusRules: false
-#   ingress:
-#     dashboard:
-#       ingressClassName: "nginx"
-#       host: 
-#         name: "rook.${S_HOMEPROD_DOMAIN}"
-#         path: "/"
-#       tls:
-#        - hosts:
-#           - "rook.${S_HOMEPROD_DOMAIN}"
+   ingress:
+     dashboard:
+       ingressClassName: "nginx"
+       host: 
+         name: "rook.${S_HOMEPROD_DOMAIN}"
+         path: "/"
+       tls:
+        - hosts:
+           - "rook.${S_HOMEPROD_DOMAIN}"
     configOverride: |
       [global]
       bdev_enable_discard = true
