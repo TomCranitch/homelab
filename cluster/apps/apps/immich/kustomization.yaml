@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - machine-learning
   - microservices
-  - proxy 
   - redis 
   - server 
   - web
