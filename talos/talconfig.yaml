@@ -9,7 +9,8 @@ cniConfig:
 nodes:
   - hostname: homeprod-cw01
     controlPlane: true
-    installDisk: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0"
+    installDiskSelector:
+      size: '<= 36GB'
     ipAddress: 192.168.29.157 # 66:EB:FE:61:A9:A1
     networkInterfaces:
       - interface: ens18
@@ -18,7 +19,8 @@ nodes:
           ip: 192.168.29.10
   - hostname: homeprod-cw02
     controlPlane: true
-    installDisk: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0"
+    installDiskSelector:
+      size: '<= 36GB'
     ipAddress: 192.168.29.160 # 5e:c5:56:2b:03:ad
     networkInterfaces:
       - interface: ens18
@@ -27,7 +29,8 @@ nodes:
           ip: 192.168.29.10
   - hostname: homeprod-cw03
     controlPlane: true
-    installDisk: "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0"
+    installDiskSelector:
+      size: '<= 36GB'
     ipAddress: 192.168.29.161 # c6:60:28:03:2e:1e
     networkInterfaces:
       - interface: ens18

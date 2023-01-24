@@ -8,7 +8,7 @@ helm template cilium cilium/cilium -f cni/values.yaml -n kube-system > cni/insta
  4. apply cni yaml
  5. apply-config for other nodes
  6. uncomment bgp and genreate cni config
- 7. apply sops secret
+ 7. apply sops secret: cat ~/.config/sops/age/keys.txt | kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=/dev/stdin
  8. bootsrap flux
     
 	requires a github PAT with read/write for administration and content on the homelab repo
