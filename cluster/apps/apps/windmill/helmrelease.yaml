@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: windmill
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: windmill
+      version: 1.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: windmill-labs-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    postgres:
+      enabled: false
+    windmill:
+      baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
+      databaseUrl: ${POSTGRES_RW_URL}
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "windmill.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  port: 8000
+        tls:
+          - hosts:
+              - *host
