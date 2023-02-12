@@ -34,8 +34,7 @@
       "matchDatasources": ["docker"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
+      }
     },
 	{
       "description": "Rook-Ceph image and chart",
@@ -44,8 +43,7 @@
       "matchDatasources": ["docker", "helm"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    }
+      }
+	}
   ]
 }
