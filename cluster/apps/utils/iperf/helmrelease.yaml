@@ -25,7 +25,7 @@ spec:
   values:
     image:
       repository: docker.io/mlabbe/iperf3
-      tag: 3.11-r0
+      tag: 3.12-r0
     service:
       main:
         ports:
