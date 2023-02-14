@@ -27,7 +27,7 @@ spec:
       enabled: false
     windmill:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
-      databaseUrl: "https://${POSTGRES_RW_URL}"
+      databaseUrl: ${S_WINDMILL_POSTGRES_URL}
     ingress:
       main:
         enabled: true
