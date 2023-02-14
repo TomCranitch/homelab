@@ -23,7 +23,9 @@ spec:
     remediation:
       retries: 3
   values:
-    image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:633a7416ba34224caf4d7aac70b6e447c875c9a44d81822c961fcb35d383d23e
+    image: 
+      repository: ghcr.io/onedr0p/postgres-initdb
+      tag: "14.7"
     env:
       - name: POSTGRES_HOST
         value: ${POSTGRES_RW_URL}
