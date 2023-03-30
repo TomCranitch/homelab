@@ -1,7 +1,7 @@
 clusterName: homeprod
-talosVersion: v1.1.2
-kubernetesVersion: 1.24.3
-endpoint: https://192.168.29.157:6443  # TODO
+talosVersion: v1.3.6
+kubernetesVersion: 1.26.2
+endpoint: https://192.168.29.168:6443  # TODO
 cniConfig:
   name: none
 #  urls: 
@@ -10,8 +10,8 @@ nodes:
   - hostname: homeprod-cw01
     controlPlane: true
     installDiskSelector:
-      size: '<= 36GB'
-    ipAddress: 192.168.29.157 # 66:EB:FE:61:A9:A1
+      size: '<= 20GB'
+    ipAddress: 192.168.29.168 # A6:4E:F3:1E:9E:4F
     networkInterfaces:
       - interface: ens18
         dhcp: true
@@ -21,7 +21,7 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 36GB'
-    ipAddress: 192.168.29.160 # 5e:c5:56:2b:03:ad
+    ipAddress: 192.168.29.169
     networkInterfaces:
       - interface: ens18
         dhcp: true
@@ -31,7 +31,7 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 36GB'
-    ipAddress: 192.168.29.161 # c6:60:28:03:2e:1e
+    ipAddress: 192.168.29.170
     networkInterfaces:
       - interface: ens18
         dhcp: true
