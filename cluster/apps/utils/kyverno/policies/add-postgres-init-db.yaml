@@ -17,7 +17,7 @@ spec:
         resources:
           kinds: 
             - Deployments
-          subjects:
+          names:
             - windmill
       mutate:
         patchStrategicMerge:
