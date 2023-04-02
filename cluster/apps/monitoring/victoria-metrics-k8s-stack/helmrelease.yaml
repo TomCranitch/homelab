@@ -24,6 +24,7 @@ spec:
       retries: 3
   values:
     grafana:
+      enabled: false
       grafana.ini:
         server:
           root_url: "https://monitoring.${S_HOMEPROD_DOMAIN}"
@@ -81,7 +82,7 @@ spec:
             gneId: 10048
             revision: 4
             datasource: VictoriaMetrics
-    defaultDashboardsEnabled: true
+      defaultDashboardsEnabled: true
     vmagent:
       ingress:
         enabled: true

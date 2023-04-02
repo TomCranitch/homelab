@@ -58,6 +58,25 @@ controlPlane:
       serviceAccount:
         key: ${k8sServiceAccountKey}
       token: ${clusterToken}
+      apiServer:
+        auditPolicy:
+          apiVersion: audit.k8s.io/v1
+          kind: Policy
+          rules:
+            # Log the request body of configmap changes in kube-system.
+            - level: Request
+              resources:
+              - group: "" # core API group
+                resources: ["configmaps"]
+              namespaces: ["kube-system"]
+            # Log the request body of secret changes in flux-system.
+            - level: Request
+              resources:
+              - group: "" # core API group
+                resources: ["secrets"]
+              namespaces: ["flux-system"]
+            # A catch-all rule to log all other requests at the Metadata level.
+            - level: Metadata
     machine:
       ca:
         crt: ${machineCert}
