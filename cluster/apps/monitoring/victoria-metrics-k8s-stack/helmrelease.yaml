@@ -88,10 +88,10 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - "vmagent.${S_HOMEPROD_DOMAIN}"
+          - &vmagent-host "vmagent.${HOMEPROD_DOMAIN}"
         tls:
           - hosts:
-            - "vmagent.${S_HOMEPROD_DOMAIN}"
+            - *vmagent-host
     vmsingle:
       spec:
         storage:
