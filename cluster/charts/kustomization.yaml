@@ -14,3 +14,4 @@ resources:
   - csi-driver-nfs-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
   - windmill-labs-charts.yaml
+  - grafana.yaml
