@@ -12,7 +12,7 @@ spec:
       version: 6.52.5
       sourceRef:
         kind: HelmRepository
-        name: grafana
+        name: grafana-charts
         namespace: flux-system
       interval: 15m
   install:
