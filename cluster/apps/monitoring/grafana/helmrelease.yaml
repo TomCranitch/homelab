@@ -77,10 +77,10 @@ spec:
         groups_attribute_path: groups
         name_attribute_path: name
         allow_assign_grafana_admin: true
-       auth.generic_oauth.group_mapping:
+        auth.generic_oauth.group_mapping:
            # TODO more from Admin to GrafanaAdmin
-         role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
-         org_id: 1
+          role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
+          org_id: 1
     ingress:
       enabled: true
       ingressClassName: "nginx"
