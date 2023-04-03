@@ -55,7 +55,7 @@ spec:
             name: VictoriaMetrics
             type: prometheus
             url: http://vmagent.${HOMEPROD_DOMAIN}:8428
-    envFromSecret: grafana
+    # envFromSecret: grafana
     grafana.ini:
       server:
         root_url: https://monitoring.${HOMEPROD_DOMAIN}
