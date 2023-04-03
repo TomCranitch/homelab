@@ -55,7 +55,7 @@ spec:
             name: VictoriaMetrics
             type: prometheus
             url: http://vmagent.${HOMEPROD_DOMAIN}:8428
-    # envFromSecret: grafana
+    envFromSecret: grafana
     grafana.ini:
       server:
         root_url: https://monitoring.${HOMEPROD_DOMAIN}
@@ -77,10 +77,10 @@ spec:
         groups_attribute_path: groups
         name_attribute_path: name
         allow_assign_grafana_admin: true
-    #   auth.generic_oauth.group_mapping:
-    #       # TODO more from Admin to GrafanaAdmin
-    #     role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
-    #     org_id: 1
+       auth.generic_oauth.group_mapping:
+           # TODO more from Admin to GrafanaAdmin
+         role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
+         org_id: 1
     ingress:
       enabled: true
       ingressClassName: "nginx"
