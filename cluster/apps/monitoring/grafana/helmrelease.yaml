@@ -24,63 +24,63 @@ spec:
       retries: 3
   values:
     replicas: 1
-    dashboardProviders:
-      dashboardproviders.yaml:
-        apiVersion: 1
-        providers:
-          - name: default
-            disableDeletion: false
-            editable: true
-            folder: ""
-            options:
-              path: /var/lib/grafana/dashboards/default
-            orgId: 1
-            type: file
-    dashboards:
-      default:
-        proxmoxVM:
-          gnetId: 13307
-          revision: 6
-          datasource: VictoriaMetrics
-        proxmox:
-          gnetId: 10048
-          revision: 4
-          datasource: VictoriaMetrics
-    datasources:
-      datasources.yaml:
-        apiVersion: 1
-        datasources:
-          - access: proxy
-            isDefault: true
-            name: VictoriaMetrics
-            type: prometheus
-            url: http://vmagent.${HOMEPROD_DOMAIN}:8428
-    envFromSecret: grafana
+    # dashboardProviders:
+    #   dashboardproviders.yaml:
+    #     apiVersion: 1
+    #     providers:
+    #       - name: default
+    #         disableDeletion: false
+    #         editable: true
+    #         folder: ""
+    #         options:
+    #           path: /var/lib/grafana/dashboards/default
+    #         orgId: 1
+    #         type: file
+    # dashboards:
+    #   default:
+    #     proxmoxVM:
+    #       gnetId: 13307
+    #       revision: 6
+    #       datasource: VictoriaMetrics
+    #     proxmox:
+    #       gnetId: 10048
+    #       revision: 4
+    #       datasource: VictoriaMetrics
+    # datasources:
+    #   datasources.yaml:
+    #     apiVersion: 1
+    #     datasources:
+    #       - access: proxy
+    #         isDefault: true
+    #         name: VictoriaMetrics
+    #         type: prometheus
+    #         url: http://vmagent.${HOMEPROD_DOMAIN}:8428
+    # envFromSecret: grafana
     grafana.ini:
       server:
         root_url: https://monitoring.${HOMEPROD_DOMAIN}
-      auth:
-        oauth_auto_login: true
-      auth.basic:
-        disable_login_form: false
-      auth.generic_oauth:
-        enabled: true
-        name: cranitchsso
-        client_id: # Set by env vars
-        client_secret: # Set by env vars
-        scopes: "openid profile email"
-        empty_scopes: false
-        auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
-        token_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/
-        api_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/userinfo/
-        login_attribute_path: preferred_username
-        groups_attribute_path: groups
-        name_attribute_path: name
-        allow_assign_grafana_admin: true
-      auth.generic_oauth.group_mapping:
-          # TODO more from Admin to GrafanaAdmin
-        role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
-        org_id: 1
+    #   auth:
+    #     oauth_auto_login: true
+    #   auth.basic:
+    #     disable_login_form: false
+    #   auth.generic_oauth:
+    #     enabled: true
+    #     name: cranitchsso
+    #     client_id: # Set by env vars
+    #     client_secret: # Set by env vars
+    #     scopes: "openid profile email"
+    #     empty_scopes: false
+    #     auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
+    #     token_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/
+    #     api_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/userinfo/
+    #     login_attribute_path: preferred_username
+    #     groups_attribute_path: groups
+    #     name_attribute_path: name
+    #     allow_assign_grafana_admin: true
+    #   auth.generic_oauth.group_mapping:
+    #       # TODO more from Admin to GrafanaAdmin
+    #     role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
+    #     org_id: 1
     ingress:
       enabled: true
       ingressClassName: "nginx"
