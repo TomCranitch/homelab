@@ -24,7 +24,7 @@ spec:
       retries: 3
   values:
     replicas: 1
-        dashboardProviders:
+    dashboardProviders:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
