@@ -58,7 +58,7 @@ spec:
     envFromSecret: grafana
     grafana.ini:
       server:
-        root_url: https://grafana.${HOMEPROD_DOMAIN}
+        root_url: https://monitoring.${HOMEPROD_DOMAIN}
       auth:
         oauth_auto_login: true
       auth.basic:
