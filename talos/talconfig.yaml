@@ -10,7 +10,7 @@ nodes:
   - hostname: homeprod-cw01
     controlPlane: true
     installDiskSelector:
-      size: '<= 20GB'
+      size: '<= 36GB'
     ipAddress: 192.168.29.168 # A6:4E:F3:1E:9E:4F
     networkInterfaces:
       - interface: ens18
