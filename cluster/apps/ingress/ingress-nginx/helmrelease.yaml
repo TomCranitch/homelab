@@ -31,13 +31,13 @@ spec:
         default: true
       extraArgs:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
-#     metrics:
-#       enabled: true
-#       serviceMonitor:
-#         enabled: true
-#         namespace: ingress
-#         namespaceSelector:
-#           any: true
+      metrics:
+        enabled: true
+        serviceMonitor:
+          enabled: true
+          namespace: ingress
+          namespaceSelector:
+            any: true
       resources:
         requests:
           cpu: 10m
