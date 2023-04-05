@@ -54,7 +54,7 @@ spec:
             isDefault: true
             name: VictoriaMetrics
             type: prometheus
-            url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8428
+            url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429
     envFromSecret: grafana
     grafana.ini:
       server:
