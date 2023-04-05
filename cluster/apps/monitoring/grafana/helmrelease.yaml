@@ -81,6 +81,13 @@ spec:
            # TODO more from Admin to GrafanaAdmin
           role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
           org_id: 1
+    sidecar:
+      dashboards:
+        enabled: true
+        searchNamespace: ALL
+      datasources:
+        enabled: true
+        searchNamespace: ALL
     ingress:
       enabled: true
       ingressClassName: "nginx"
