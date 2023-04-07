@@ -24,12 +24,17 @@ spec:
   dependsOn:
     - name: rook-ceph-operator
       namespace: rook-ceph
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: {port}
+        prometheus.io/scheme: http
   values:
     toolbox:
       enabled: true
     monitoring:
       enabled: true
-      createPrometheusRules: true
     ingress:
       dashboard:
         ingressClassName: "nginx"

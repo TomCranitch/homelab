@@ -25,6 +25,12 @@ spec:
   dependsOn:
     - name: cert-manager
       namespace: ingress
+  template:
+    metadata:
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10254"
+        prometheus.io/scheme: http
   values:
     controller:
       ingressClassResource:
@@ -33,11 +39,6 @@ spec:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
       metrics:
         enabled: true
-        serviceMonitor:
-          enabled: true
-          namespace: ingress
-          namespaceSelector:
-            any: true
       resources:
         requests:
           cpu: 10m
