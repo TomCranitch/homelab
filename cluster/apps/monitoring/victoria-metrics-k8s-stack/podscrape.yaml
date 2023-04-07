@@ -12,7 +12,7 @@ spec:
             [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
           action: keep
           regex: "true"
-        - targetLabels:
+        - sourceLabels:
             [__meta_kubernetes_pod_annotation_prometheus_io_scheme]
           action: replace
           targetLabel: __scheme__
