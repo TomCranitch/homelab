@@ -33,6 +33,11 @@ spec:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
       metrics:
         enabled: true
+        service: 
+          annotations:
+            prometheus.io/scrape: "true"
+            prometheus.io/port: "10254"
+            prometheus.io/scheme: http
       resources:
         requests:
           cpu: 10m
