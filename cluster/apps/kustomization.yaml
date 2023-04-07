@@ -7,6 +7,6 @@ resources:
   - monitoring
   - notifications
   - utils
-  - databases
+# - databases
   - apps
   - storage
