@@ -118,7 +118,8 @@ spec:
         allow_assign_grafana_admin: true
         group_mapping:
            # TODO more from Admin to GrafanaAdmin
-          role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
+           # TODO: role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
+          role_attribute_path: 'Admin'
           org_id: 1
     sidecar:
       dashboards:
