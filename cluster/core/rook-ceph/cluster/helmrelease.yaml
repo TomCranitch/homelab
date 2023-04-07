@@ -4,6 +4,10 @@ kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
   namespace: rook-ceph
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: {port}
+    prometheus.io/scheme: http
 spec:
   interval: 15m
   chart:
@@ -24,12 +28,6 @@ spec:
   dependsOn:
     - name: rook-ceph-operator
       namespace: rook-ceph
-  template:
-    metadata:
-      annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: {port}
-        prometheus.io/scheme: http
   values:
     toolbox:
       enabled: true
