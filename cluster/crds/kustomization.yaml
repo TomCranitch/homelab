@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - rook-ceph
   - cert-manager
+  - kyverno
