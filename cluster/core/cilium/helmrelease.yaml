@@ -50,7 +50,7 @@ spec:
             - &host hubble.${HOMEPROD_DOMAIN}
           tls:
             - hosts:
-                - *hosts
+                - *host
     ipv6:
       enabled: false
     bgp:
