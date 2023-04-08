@@ -1,5 +1,7 @@
 ATM have to comment out BGP (i think???)
 helm template cilium cilium/cilium -f cni/values.yaml -n kube-system > cni/install.yaml
+kustomize build --enable-helm > install.yaml
+
 
 
  1. apply-config to first node
