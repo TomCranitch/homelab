@@ -1,0 +1,59 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kyverno-policies
+  namespace: kyverno
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: raw
+      version: v0.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: dysnix-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: kyverno
+      namespace: kyverno-charts
+  values:
+    resources:
+      - apiVersion: kyverno.io/v1
+        kind: ClusterPolicy
+        metadata:
+          name: sync-postgres-superuser-secret
+          annotations:
+            policies.kyverno.io/title: Sync Postgres Superuser Secret
+            policies.kyverno.io/subject: Secret
+            policies.kyverno.io/description: >-
+              This policy will copy a secret called `postgres-superuser` which
+              exists in the `database` namespace to new namespaces when they are
+              created. It will also push updates to the copied Secrets should the
+              source secret be changed.
+        spec:
+          mutateExistingOnPolicyUpdate: true
+          generateExistingOnPolicyUpdate: true
+          rules:
+            - name: sync-postgres-superuser-secret
+              match:
+                resources:
+                  kinds: 
+                    - Namespace
+              generate:
+                apiVersion: v1
+                kind: Secret
+                name: postgres-superuser
+                namespace: "{{request.object.metadata.name}}"
+                synchronize: true
+                clone:
+                  namespace: database
+                  name: postgres-superuser
