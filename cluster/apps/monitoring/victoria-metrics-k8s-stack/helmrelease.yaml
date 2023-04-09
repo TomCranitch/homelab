@@ -25,64 +25,6 @@ spec:
   values:
     grafana:
       enabled: false
-      #grafana.ini:
-      #  server:
-      #    root_url: "https://monitoring.${S_HOMEPROD_DOMAIN}"
-      #  analytics:
-      #    check_for_updates: false
-      #  auth:
-      #    oauth_auto_login: true
-      #  auth.basic:
-      #    disable_login_form: false
-      #  auth.generic_oauth:
-      #    enabled: true
-      #    name: cranitchsso
-      #    client_id: "${S_GRAFANA_OAUTH_CLIENT_ID}"
-      #    client_secret: "${S_GRAFANA_OAUTH_CLIENT_SECRET}"
-      #    scopes: "openid profile email"
-      #    empty_scopes: false
-      #    auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
-      #    token_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/
-      #    api_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/userinfo/
-      #    login_attribute_path: preferred_username
-      #    groups_attribute_path: groups
-      #    name_attribute_path: name
-      #    allow_assign_grafana_admin: true
-      #    # TODO more from Admin to GrafanaAdmin
-      #    role_attribute_path: contains(groups[*], 'service-admins') && 'Admin' || 'Viewer'
-      #ingress:
-      #  enabled: true
-      #  ingressClassName: "nginx"
-      #  hosts:
-      #    - &host "monitoring.${S_HOMEPROD_DOMAIN}"
-      #  tls:
-      #    - hosts:
-      #      - *host
-      #dashboardProviders:
-      #  dashboardproviders.yaml:
-      #    apiVersion: 1
-      #    providers:
-      #      - name: "default"
-      #        orgId: 1
-      #        folder: ""
-      #        type: file
-      #        disableDeletion: false
-      #        editable: true
-      #        options:
-      #          path: /var/lib/grafana/dashboards/default
-      #dashboards:
-      #  default:
-      #    # TODO flux dashboard
-      #    # TODO: add refs for automatic updates with renvate (e.g. https://github.com/Diaoul/home-ops/blob/main/cluster/apps/monitoring/grafana/helmrelease.yaml#L116)
-      #    proxmoxVM:
-      #      gneId: 13307
-      #      revision: 6
-      #      datasource: VictoriaMetrics
-      #    proxmox:
-      #      gneId: 10048
-      #      revision: 4
-      #      datasource: VictoriaMetrics
-      #defaultDashboardsEnabled: true
     vmagent:
       ingress:
         enabled: true
@@ -99,3 +41,15 @@ spec:
           resources:
             requests:
               storage: 30Gi
+# TODO: fix security errors (based on flux helm-controller logs)
+#   victoria-metrics-operator:
+#     securityContext:
+#         runAsGroup: 1000
+#         runAsUser: 1000
+#         runAsNonRoot: true
+#         allowPrivilegeEscalation: false
+#         capabilities:
+#           drop:
+#             - ALL
+#         seccompProfile.type: RuntimeDefault
+            
