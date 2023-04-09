@@ -24,7 +24,7 @@ spec:
       retries: 3
   dependsOn:
     - name: kyverno
-      namespace: kyverno-charts
+      namespace: kyverno
   values:
     resources:
       - apiVersion: kyverno.io/v1
