@@ -6,6 +6,3 @@ metadata:
   namespace: kyverno
 resources:
   - helmrelease.yaml
-  - rbac.yaml
-  - namespace.yaml
-  - policies
