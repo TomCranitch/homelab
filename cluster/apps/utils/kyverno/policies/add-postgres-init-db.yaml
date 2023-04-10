@@ -25,7 +25,7 @@ spec:
             template:
               spec:
                 initContainers:
-                  image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:633a7416ba34224caf4d7aac70b6e447c875c9a44d81822c961fcb35d383d23e
+                  image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:4c6a27bc6de60ffaad7ce0f41931a2746a52c1c3b728d8135c0198eb69a93f97
                   env:
                     - name: POSTGRES_HOST
                       value: ${POSTGRES_RW_URL}
