@@ -41,15 +41,4 @@ spec:
           resources:
             requests:
               storage: 30Gi
-# TODO: fix security errors (based on flux helm-controller logs)
-#   victoria-metrics-operator:
-#     securityContext:
-#         runAsGroup: 1000
-#         runAsUser: 1000
-#         runAsNonRoot: true
-#         allowPrivilegeEscalation: false
-#         capabilities:
-#           drop:
-#             - ALL
-#         seccompProfile.type: RuntimeDefault
-            
+    prometheus-node-exporter.enabled: false
