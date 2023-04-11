@@ -81,24 +81,25 @@ spec:
                 patchStrategicMerge:
                   spec:
                     initContainers:
-                      image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:4c6a27bc6de60ffaad7ce0f41931a2746a52c1c3b728d8135c0198eb69a93f97
-                      env:
-                        - name: POSTGRES_HOST
-                          value: ${POSTGRES_RW_URL}
-                        - name: POSTGRES_DB
-                          value: windmill
-                        - name: POSTGRES_SUPER_PASS
-                          valueFrom:
-                            secretKeyRef:
-                              name: postgres-superuser
-                              key: password
-                        - name: POSTGRES_USER
-                          valueFrom:
-                            secretKeyRef:
-                              name: windmill
-                              key: POSTGRES_USER
-                        - name: POSTGRES_PASS
-                          valueFrom:
-                            secretKeyRef:
-                              name: windmill
-                              key: POSTGRES_PASS
+                      - name: init-db
+                        image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:4c6a27bc6de60ffaad7ce0f41931a2746a52c1c3b728d8135c0198eb69a93f97
+                        env:
+                          - name: POSTGRES_HOST
+                            value: ${POSTGRES_RW_URL}
+                          - name: POSTGRES_DB
+                            value: windmill
+                          - name: POSTGRES_SUPER_PASS
+                            valueFrom:
+                              secretKeyRef:
+                                name: postgres-superuser
+                                key: password
+                          - name: POSTGRES_USER
+                            valueFrom:
+                              secretKeyRef:
+                                name: windmill
+                                key: POSTGRES_USER
+                          - name: POSTGRES_PASS
+                            valueFrom:
+                              secretKeyRef:
+                                name: windmill
+                                key: POSTGRES_PASS
