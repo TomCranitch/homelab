@@ -57,3 +57,51 @@ spec:
                 clone:
                   namespace: database
                   name: postgres-superuser
+      - apiVersion: kyverno.io/v1
+        kind: ClusterPolicy
+        metadata:
+          name: add-postgres-init-db
+          annotations:
+            policies.kyverno.io/title: Add postgress init db
+            policies.kyverno.io/subject: Pod
+            policies.kyverno.io/description: >-
+              Add the postgres init-db init container to the pod.
+        spec:
+          mutateExistingOnPolicyUpdate: true
+          generateExistingOnPolicyUpdate: true
+          rules:
+            - name: windmill-init-db
+              match:
+                resources:
+                  kinds: 
+                    - Deployments
+                  names:
+                    - windmill
+              mutate:
+                patchStrategicMerge:
+                  spec:
+                    template:
+                      spec:
+                        initContainers:
+                          image: ghcr.io/onedr0p/postgres-initdb:14.7@sha256:4c6a27bc6de60ffaad7ce0f41931a2746a52c1c3b728d8135c0198eb69a93f97
+                          env:
+                            - name: POSTGRES_HOST
+                              value: ${POSTGRES_RW_URL}
+                            - name: POSTGRES_DB
+                              value: windmill
+                            - name: POSTGRES_SUPER_PASS
+                              valueFrom:
+                                secretKeyRef:
+                                  name: postgres-superuser
+                                  key: password
+                            - name: POSTGRES_USER
+                              valueFrom:
+                                secretKeyRef:
+                                  name: windmill
+                                  key: POSTGRES_USER
+                            - name: POSTGRES_PASS
+                              valueFrom:
+                                secretKeyRef:
+                                  name: windmill
+                                  key: POSTGRES_PASS
+         
