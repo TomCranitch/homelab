@@ -57,59 +57,59 @@ spec:
                 clone:
                   namespace: database
                   name: postgres-superuser
-      - apiVersion: kyverno.io/v1
-        kind: ClusterPolicy
-        metadata:
-          name: add-postgres-init-db
-          annotations:
-            policies.kyverno.io/title: Add postgress init db
-            policies.kyverno.io/subject: Pod
-            policies.kyverno.io/description: >-
-              Add the postgres init-db init container to the pod.
-        spec:
-          mutateExistingOnPolicyUpdate: true
-          generateExistingOnPolicyUpdate: true
-          rules:
-            - name: windmill-init-db
-              match:
-                resources:
-                  kinds: 
-                    - Pod
-                  names:
-                    - "windmill-*"
-              mutate:
-                patchStrategicMerge:
-                  spec:
-                    volumes:
-                      - name: init-sql
-                        configMap:
-                          name: windmill-init-sql
-                    initContainers:
-                      - name: init-db
-                        image: ghcr.io/tomcranitch/postgres-initdb-with-sql:0.0.1@sha256:e2dee1d87feb8356bf041daac46839a2beaecb29fe264be03a84a4d112ba53f6
-                        volumeMounts:
-                          - name: init-sql
-                            mountPath: /etc/init.sql
-                            subPath: init.sql
-                        env:
-                          - name: POSTGRES_HOST
-                            value: ${POSTGRES_RW_URL}
-                          - name: POSTGRES_DB
-                            value: windmill
-                          - name: POSTGRES_SUPER_PASS
-                            valueFrom:
-                              secretKeyRef:
-                                name: postgres-superuser
-                                key: password
-                          - name: POSTGRES_USER
-                            valueFrom:
-                              secretKeyRef:
-                                name: windmill
-                                key: POSTGRES_USER
-                          - name: POSTGRES_PASS
-                            valueFrom:
-                              secretKeyRef:
-                                name: windmill
-                                key: POSTGRES_PASS
-                          - name: POSTGRES_INIT_FILE
-                            value:  /etc/init.sql
+#      - apiVersion: kyverno.io/v1
+#        kind: ClusterPolicy
+#        metadata:
+#          name: add-postgres-init-db
+#          annotations:
+#            policies.kyverno.io/title: Add postgress init db
+#            policies.kyverno.io/subject: Pod
+#            policies.kyverno.io/description: >-
+#              Add the postgres init-db init container to the pod.
+#        spec:
+#          mutateExistingOnPolicyUpdate: true
+#          generateExistingOnPolicyUpdate: true
+#          rules:
+#            - name: windmill-init-db
+#              match:
+#                resources:
+#                  kinds: 
+#                    - Pod
+#                  names:
+#                    - "windmill-*"
+#              mutate:
+#                patchStrategicMerge:
+#                  spec:
+#                    volumes:
+#                      - name: init-sql
+#                        configMap:
+#                          name: windmill-init-sql
+#                    initContainers:
+#                      - name: init-db
+#                        image: ghcr.io/tomcranitch/postgres-initdb-with-sql:0.0.1@sha256:e2dee1d87feb8356bf041daac46839a2beaecb29fe264be03a84a4d112ba53f6
+#                        volumeMounts:
+#                          - name: init-sql
+#                            mountPath: /etc/init.sql
+#                            subPath: init.sql
+#                        env:
+#                          - name: POSTGRES_HOST
+#                            value: ${POSTGRES_RW_URL}
+#                          - name: POSTGRES_DB
+#                            value: windmill
+#                          - name: POSTGRES_SUPER_PASS
+#                            valueFrom:
+#                              secretKeyRef:
+#                                name: postgres-superuser
+#                                key: password
+#                          - name: POSTGRES_USER
+#                            valueFrom:
+#                              secretKeyRef:
+#                                name: windmill
+#                                key: POSTGRES_USER
+#                          - name: POSTGRES_PASS
+#                            valueFrom:
+#                              secretKeyRef:
+#                                name: windmill
+#                                key: POSTGRES_PASS
+#                          - name: POSTGRES_INIT_FILE
+#                            value:  /etc/init.sql
