@@ -27,6 +27,7 @@ spec:
       enabled: false
     windmill:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
+      internalUrl: "http://windmill.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
     ingress:
       main:
