@@ -14,7 +14,7 @@ spec:
               service:
                 name: windmill
                 port:
-                  number: 
+                  number: 8000
             path: /
             pathType: Prefix
   tls:
