@@ -12,7 +12,7 @@ spec:
         paths:
           - backend:
               service:
-                name: windmill
+                name: windmill-app
                 port:
                   number: 8000
             path: /
