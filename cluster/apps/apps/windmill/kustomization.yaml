@@ -4,4 +4,9 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
-  - init-sql-configmap.yaml
+configMapGenerator:
+  - name: windmill-init-sql
+    files:
+      - init.sql
+generatorOptions:
+  disableNameSuffixHash: true
