@@ -34,3 +34,6 @@ ALTER DEFAULT PRIVILEGES
 ALTER DEFAULT PRIVILEGES 
     IN SCHEMA public
     GRANT ALL ON SEQUENCES TO windmill_admin;
+
+GRANT windmill_admin TO windmill;
+GRANT windmill_user TO windmill;
