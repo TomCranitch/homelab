@@ -29,17 +29,3 @@ spec:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
         # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - host: &host "windmill.${S_HOMEPROD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  port: 8000
-        tls:
-          - hosts:
-              - *host

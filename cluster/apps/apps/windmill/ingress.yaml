@@ -1,0 +1,22 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: windmill
+  namespace: windmill
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host "windmill.${S_HOMEPROD_DOMAIN}"
+      http:
+        paths:
+          - backend:
+              service:
+                name: windmill
+                port:
+                  number: 
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host

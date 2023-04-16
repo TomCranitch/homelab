@@ -6,6 +6,7 @@ resources:
   - helmrelease.yaml
   - secret.sops.yaml
   - namespace.yaml
+  - ingress.yaml
 configMapGenerator:
   - name: windmill-init-sql
     files:
