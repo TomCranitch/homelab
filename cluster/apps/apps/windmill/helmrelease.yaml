@@ -29,3 +29,4 @@ spec:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
         # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
+      oauthConfig: "{\"cranitchsso\": { \"id\": \"ed5ff4fea4c9ed764d2278e61bbcf70ddfe43e79\", \"secret\": \"1e04734ef12dbe634d05dcd66b2fe934c6611a036faa97f5d507c950cd2436ccfcc8d56ba1f8fa436beca850942b3baa96302b9ae2c7f7c5f62e47fafd665c00\", \"connect_config\": { \"auth_url\": \"https://sso2.cranit.ch/application/o/authorize/\", \"token_url\": \"https://sso2.cranit.ch/application/o/token/\", \"scopes\": [\"openid\", \"profile\"] } } }"
