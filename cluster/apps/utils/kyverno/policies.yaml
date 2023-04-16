@@ -86,7 +86,7 @@ spec:
                           name: windmill-init-sql
                     initContainers:
                       - name: init-db
-                        image: ghcr.io/tomcranitch/postgres-initdb-with-sql:0.0.1@sha256:e2dee1d87feb8356bf041daac46839a2beaecb29fe264be03a84a4d112ba53f6
+                        image: ghcr.io/tomcranitch/postgres-initdb-with-sql:0.0.1@sha256:a763b0ba4b89ce9622554179bc875ee22b59ad35baf044cd2591bce99d73d67f
                         volumeMounts:
                           - name: init-sql
                             mountPath: /etc/init.sql

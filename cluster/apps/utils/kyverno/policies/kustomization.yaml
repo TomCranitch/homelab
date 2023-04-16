@@ -1,9 +1,0 @@
----
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-spec:
-  dependsOn:
-    - name: kyverno
-resources:
-  - sync-postgres-superuser-secret.yaml
-# - add-postgres-init-db.yaml
