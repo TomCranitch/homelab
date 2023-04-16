@@ -5,5 +5,4 @@ resources:
   - vaultwarden
   - mealie
   - immich
-  # Requires running script here: https://docs.windmill.dev/docs/advanced/self_host#run-windmill-without-using-a-postgres-superuser
-# - windmill
+  - windmill
