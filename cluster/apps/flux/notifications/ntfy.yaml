@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   type: generic
-  address: https://ntfy.sh/cranitch-test
+  address: https://windmill.staging.cranit.ch/api/w/default/capture_u/u/tom/shiny_flow
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
