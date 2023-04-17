@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - github.yaml
   - ntfy.yaml
-  - github-secret.yaml
-  - ntfy-secret.yaml
+  - github-secret.sops.yaml
+  - ntfy-secret.sops.yaml
