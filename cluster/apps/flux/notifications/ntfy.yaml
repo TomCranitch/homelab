@@ -16,7 +16,7 @@ metadata:
 spec:
   providerRef:
     name: ntfy
-  eventSeverity: error
+  eventSeverity: info
   eventSources:
     - kind: Kustomization
       name: "*"
