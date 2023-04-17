@@ -7,6 +7,8 @@ metadata:
 spec:
   type: generic
   address: https://windmill.staging.cranit.ch/api/w/default/capture_u/u/tom/shiny_flow
+  secretRef:
+    name: ntfy-flux-secret
 ---
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Alert
@@ -20,5 +22,3 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
-  secretRef:
-    name: ntfy-flux-secret
