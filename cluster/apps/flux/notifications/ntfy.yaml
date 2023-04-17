@@ -20,3 +20,5 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
+  secretRef:
+    name: ntfy-flux-secret
