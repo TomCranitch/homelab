@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   type: generic
-  address: https://windmill.staging.cranit.ch/api/w/default/capture_u/u/tom/shiny_flow
+  address: https://windmill.staging.cranit.ch/api/w/default/jobs/run/f/u/tom/shiny_flow
   secretRef:
     name: ntfy-flux-secret
 ---
