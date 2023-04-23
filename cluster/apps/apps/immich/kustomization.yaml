@@ -11,4 +11,4 @@ resources:
   - pvc.yaml
   - configmap.yaml
   - secret.sops.yaml
-  - volsync
+  - volsync.yaml
