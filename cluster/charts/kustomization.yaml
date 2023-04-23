@@ -17,3 +17,4 @@ resources:
   - grafana-charts.yaml
   - cilium-charts.yaml
   - backube-charts.yaml
+  - piraeus-charts.yaml
