@@ -16,3 +16,4 @@ resources:
   - windmill-labs-charts.yaml
   - grafana-charts.yaml
   - cilium-charts.yaml
+  - backube-charts.yaml
