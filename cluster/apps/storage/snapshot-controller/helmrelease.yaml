@@ -35,4 +35,4 @@ spec:
           csi.storage.k8s.io/snapshotter-secret-namespace: rook-ceph
         deletionPolicy: Delete
     serviceMonitor:
-      create: true
+      create: false
