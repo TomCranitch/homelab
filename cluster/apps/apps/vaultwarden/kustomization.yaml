@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
+  - volsync.yaml
 patchesStrategicMerge:
   - patches/postgres.yaml

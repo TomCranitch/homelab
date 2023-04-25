@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vaultwarden-restic
+  namespace: default
+type: Opaque
+stringData:
+  RESTIC_REPOSITORY: ${S_VOLSYNC_B2_REPO}-vaultwarden
+  RESTIC_PASSWORD: ${S_VOLSYNC_B2_PASSWORD}
+  B2_ACCOUNT_ID: ${S_VOLSYNC_B2_ID}
+  B2_ACCOUNT_KEY: ${S_VOLSYNC_B2_KEY}
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: vaultwarden-restic
+  namespace: default
+spec:
+  sourcePVC: vaultwarden-data
+  trigger:
+    schedule: "0 2 * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 14
+    repository: volsync-restic
+    cacheCapacity: 2Gi
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
+    retain:
+      daily: 7
+      within: 3d
