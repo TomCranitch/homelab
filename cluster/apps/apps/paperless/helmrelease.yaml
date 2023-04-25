@@ -1,0 +1,114 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: paperless-ngx
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-initdb:14.7
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: POSTGRES_HOST
+            value: ${POSTGRES_RW_URL}
+          - name: POSTGRES_DB
+            valueFrom:
+              secretKeyRef:
+                name: paperless
+                key: PAPERLESS_DBNAME
+          - name: POSTGRES_SUPER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-superuser
+                key: password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: paperless
+                key: PAPERLESS_DBUSER
+          - name: POSTGRES_PASS
+            valueFrom:
+              secretKeyRef:
+                name: paperless
+                key: PAPERLESS_DBPASS
+    image:
+      repository: ghcr.io/paperless-ngx/paperless-ngx
+      tag: 1.14.0
+    env:
+      PAPERLESS_CONSUMER_POLLING: 60
+      PAPERLESS_CONSUMER_RECURSIVE: "true"
+      PAPERLESS_CONSUMPTION_DIR: /library/consume
+      PAPERLESS_DATA_DIR: /library/data
+      PAPERLESS_EXPORT_DIR: /library/export
+      PAPERLESS_MEDIA_ROOT: /library/media
+      # PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
+      # PAPERLESS_HTTP_REMOTE_USER_HEADER_NAME: HTTP_REMOTE_USER
+      PAPERLESS_OCR_LANGUAGE: eng
+      PAPERLESS_PORT: &port 80
+      PAPERLESS_REDIS: redis://localhost:6379
+      PAPERLESS_TASK_WORKERS: 2
+      PAPERLESS_TIKA_ENABLED: 1
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://localhost:3000
+      PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
+      PAPERLESS_TIME_ZONE: ${TIMEZONE}
+      PAPERLESS_URL: https://documents.${S_HOMEPROD_DOMAIN}
+      PAPERLESS_DBENGINE: postgresql
+      PAPERLESS_DBPORT: "5432"
+      PAPERLESS_DBHOST: ${POSTGRES_RW_URL}
+      USERMAP_UID: 568
+      USERMAP_GID: 568
+    envFrom:
+      - secretRef:
+          name: paperless
+    persistence:
+      data:
+        enabled: true
+        existingClaim: paperless-nfs
+        mountPath: /library
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "documents.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+        tls:
+          - hosts:
+              - *host
+    sidecars:
+      gotenburg:
+        image: thecodingmachine/gotenberg:7.8.2
+        imagePullPolicy: IfNotPresent
+        env:
+          - { name: DISABLE_GOOGLE_CHROME, value: "1" }
+      redis:
+        image: public.ecr.aws/docker/library/redis:7.0.11
+        imagePullPolicy: IfNotPresent
+      tika:
+        image: ghcr.io/paperless-ngx/tika:2.7.0-full
+        imagePullPolicy: IfNotPresent
