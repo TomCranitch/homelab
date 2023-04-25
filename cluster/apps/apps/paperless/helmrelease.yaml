@@ -74,8 +74,8 @@ spec:
       PAPERLESS_DBENGINE: postgresql
       PAPERLESS_DBPORT: "5432"
       PAPERLESS_DBHOST: ${POSTGRES_RW_URL}
-      USERMAP_UID: 568
-      USERMAP_GID: 568
+      USERMAP_UID: 678
+      USERMAP_GID: 678
     envFrom:
       - secretRef:
           name: paperless
