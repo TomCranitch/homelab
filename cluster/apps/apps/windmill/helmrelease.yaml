@@ -23,7 +23,7 @@ spec:
     remediation:
       retries: 3
   values:
-    postgres:
+    postgresql:
       enabled: false
     windmill:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
