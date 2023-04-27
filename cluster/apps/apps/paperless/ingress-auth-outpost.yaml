@@ -1,0 +1,26 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: authentik-external
+  namespace: default
+spec:
+  type: ExternalName
+  externalName: sso2.cranit.ch
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: paperless-authentik-outpost
+  namespace: default
+spec:
+  rules:
+   - host: documents.staging.cranit.ch
+     http:
+       paths: /outpost.goauthentik.io
+       pathType: Prefix
+       backend:
+         service:
+           name: authentik-external
+           port:
+             number: 9000
