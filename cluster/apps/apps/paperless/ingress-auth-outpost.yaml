@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-   - host: "documents.${S_HOMEPROD_DOMAIN}"
+   - host: &host "documents.${S_HOMEPROD_DOMAIN}"
      http:
        path:
          - path: /outpost.goauthentik.io
