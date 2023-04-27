@@ -95,7 +95,7 @@ spec:
         ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/auth-url: |-
-            http://paperless.authentik-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+            http://authentik-external.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
           nginx.ingress.kubernetes.io/auth-signin: |-
             https://documents.staging.cranit.ch//outpost.goauthentik.io/start?rd=$escaped_request_uri
           nginx.ingress.kubernetes.io/auth-response-headers: |-
