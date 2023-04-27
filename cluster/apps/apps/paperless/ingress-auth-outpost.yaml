@@ -18,7 +18,7 @@ spec:
   rules:
    - host: &host "documents.${S_HOMEPROD_DOMAIN}"
      http:
-       path:
+       paths:
          - path: /outpost.goauthentik.io
            pathType: Prefix
            backend:
