@@ -23,14 +23,14 @@ spec:
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 14
-    repository: volsync-restic
+    repository: paperless-restic
     cacheCapacity: 2Gi
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
     moverSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 0
+      runAsUser: 111
+      runAsGroup: 111
+      fsGroup: 111
     retain:
       daily: 7
       within: 3d
