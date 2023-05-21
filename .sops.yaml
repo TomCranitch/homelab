@@ -1,4 +1,8 @@
 creation_rules:
+  - path_regex: talos/.*\.yaml
+    key_groups:
+      - age:
+          - age1fe4mnzz5uv0c0445m2f9w56r9ydx2lfp5vfx4qchlevfhsaky35sh2zgey
   - path_regex: cluster/.*\.yaml
     encrypted_regex: ^(data|stringData)$
     key_groups:

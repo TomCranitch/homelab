@@ -1,7 +1,7 @@
 clusterName: homeprod
 talosVersion: v1.3.6
 kubernetesVersion: 1.26.2
-endpoint: https://192.168.29.168:6443  # TODO
+endpoint: https://192.168.29.172:6443  # TODO
 cniConfig:
   name: none
 #  urls: 
@@ -11,7 +11,7 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 36GB'
-    ipAddress: 192.168.29.168 # A6:4E:F3:1E:9E:4F
+    ipAddress: 192.168.29.172 # A6:4E:F3:1E:9E:4F
     networkInterfaces:
       - interface: ens18
         dhcp: true
@@ -21,10 +21,12 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 36GB'
-    ipAddress: 192.168.29.169
+    ipAddress: 192.168.29.171
     networkInterfaces:
       - interface: ens18
         dhcp: true
+        addresses: 
+          - 192.168.29.169/24
         vip:
           ip: 192.168.29.10
   - hostname: homeprod-cw03
@@ -41,23 +43,8 @@ controlPlane:
   inlinePatch:
     cluster:
       allowSchedulingOnMasters: true
-      aescbcEncryptionSecret: ${aescbcEncryptionKey}
-      aggregatorCA:
-        crt: ${k8sAggregatorCert}
-        key: ${k8sAggregatorCertKey}
-      ca:
-        crt: ${clusterCert}
-        key: ${clusterCertKey}
-      etcd:
-        ca:
-          crt: ${etcdCert}
-          key: ${etcdCertKey}
       proxy:
         disabled: true
-      secret: ${clusterSecret}
-      serviceAccount:
-        key: ${k8sServiceAccountKey}
-      token: ${clusterToken}
       apiServer:
         auditPolicy:
           apiVersion: audit.k8s.io/v1
@@ -77,22 +64,3 @@ controlPlane:
               namespaces: ["flux-system"]
             # A catch-all rule to log all other requests at the Metadata level.
             - level: Metadata
-    machine:
-      ca:
-        crt: ${machineCert}
-        key: ${machineCertKey}
-      token: ${machineToken}
-#worker:
-# inlinePatch:
-#   cluster:
-#     aescbcEncryptionSecret: ${aescbcEncryptionKey}
-#     ca:
-#       crt: ${clusterCert}
-#       key: ${clusterCertKey}
-#     secret: ${clusterSecret}
-#     token: ${clusterToken}
-#   machine:
-#     ca:
-#       crt: ${machineCert}
-#       key: ${machineCertKey}
-#     token: ${machineToken}
