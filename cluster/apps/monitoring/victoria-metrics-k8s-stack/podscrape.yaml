@@ -1,4 +1,5 @@
 # https://github.com/VictoriaMetrics/VictoriaMetrics/issues/1033#issuecomment-773238961
+# TODO: consider moving into raw chart with dependency on VM to fix issue with CRD
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMPodScrape
 metadata:
