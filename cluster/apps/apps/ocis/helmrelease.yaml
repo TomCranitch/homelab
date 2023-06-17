@@ -54,5 +54,6 @@ spec:
       tls:
         - hosts:
             - *host
-    monitoring:
-      enabled: true
+    # TODO:
+    # monitoring:
+    #   enabled: true
