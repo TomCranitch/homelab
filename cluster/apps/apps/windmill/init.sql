@@ -1,5 +1,6 @@
 CREATE ROLE windmill_user;
 
+-- TODO: is this safe??
 GRANT ALL
 ON ALL TABLES IN SCHEMA public 
 TO windmill_user;

@@ -23,7 +23,7 @@ spec:
     remediation:
       retries: 3
   values:
-    externalDomain: files.${S_HOMEPROD_DOMAIN}
+    externalDomain: &host files.${S_HOMEPROD_DOMAIN}
     # TODO: cache:
     # TODO: store:
     # TODO: externalUserManagement:
@@ -49,5 +49,10 @@ spec:
     #           ????
     #           persistence:
     ingress:
+      enabled: true
+      ingressClassName: nginx
+      tls:
+        - hosts:
+            - *host
     monitoring:
       enabled: true
