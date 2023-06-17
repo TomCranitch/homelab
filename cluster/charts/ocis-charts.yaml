@@ -8,6 +8,7 @@ spec:
   interval: 10m
   url: https://github.com/owncloud/ocis-charts
   ref:
+    # TODO configure renovate
     tag: v0.4.0
   ignore: |-
     # exclude all

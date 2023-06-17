@@ -8,7 +8,7 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: charts/ocis
+      chart: ./charts/ocis
       version: 1.5.1
       sourceRef:
         kind: GitRepository
