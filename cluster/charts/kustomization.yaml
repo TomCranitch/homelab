@@ -18,3 +18,4 @@ resources:
   - cilium-charts.yaml
   - backube-charts.yaml
   - piraeus-charts.yaml
+  - ocis-charts.yaml

@@ -1,0 +1,53 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: ocis
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: charts/ocis
+      version: 1.5.1
+      sourceRef:
+        kind: GitRepository
+        name: ocis-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    externalDomain: files.${S_HOMEPROD_DOMAIN}
+    # TODO: cache:
+    # TODO: store:
+    # TODO: externalUserManagement:
+    # TODO: securityContext: (set to values for nfs)
+    # TODO: services:
+    #         idm:
+    #           persistence:
+    #         nats:
+    #           persistence:
+    #         search:
+    #           extractor:
+    #             type: tika????
+    #           persistence:
+    #         storagesystem:
+    #           persistence:
+    #         storageusers:
+    #           persistence:
+    #         store:
+    #           persistence:
+    #         thumbnails:
+    #           persistence:
+    #         web:
+    #           ????
+    #           persistence:
+    ingress:
+    monitoring:
+      enabled: true
