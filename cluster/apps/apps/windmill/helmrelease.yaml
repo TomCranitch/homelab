@@ -32,6 +32,7 @@ spec:
       # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
       oauthSecretName: windmill-oauth-secret
+      workerGroups: []
     ingress:
       className: nginx
       tls:
