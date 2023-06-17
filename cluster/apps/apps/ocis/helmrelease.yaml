@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: ocis
-  namespace: default
+  namespace: ocis
 spec:
   interval: 15m
   chart:
@@ -26,7 +26,23 @@ spec:
     externalDomain: &host files.${S_HOMEPROD_DOMAIN}
     # TODO: cache:
     # TODO: store:
-    # TODO: externalUserManagement:
+    features:
+      externalUserManagement:
+        enabled: true
+        oidc:
+          issuerURI: https://sso2.cranit.ch/application/o/ocis/
+          webClientID: 1a075b256031b7f352fa1b08569a557a3be35ef2
+          userIDClaim: email
+          roleAssignment:
+            enabled: true
+            claim: groups
+            mapping:
+              - role_name: admin
+                claim_value: service-admins
+              - role_name: user
+                claim_value: service-users
+
+
     # TODO: securityContext: (set to values for nfs)
     # TODO: services:
     #         idm:
