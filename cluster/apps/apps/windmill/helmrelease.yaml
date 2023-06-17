@@ -31,8 +31,8 @@ spec:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
         # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-      enableOauth: true
-      oauthSecretName: windmill-oauth-secret
+      # TODO remove enableOauth: true
+      # oauthSecretName: windmill-oauth
     # TODO: change to info
     rustLog: debug
     ingress:
