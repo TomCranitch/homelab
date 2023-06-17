@@ -29,12 +29,9 @@ spec:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       # TODO rm
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
-        # internalUrl: "http://windmill-app.default.svc.cluster:8000"
+      # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-      # TODO remove enableOauth: true
       # oauthSecretName: windmill-oauth
-      # TODO: change to info
-      # rustLog: debug
     ingress:
       className: nginx
       tls:
