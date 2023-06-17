@@ -26,6 +26,10 @@ spec:
     externalDomain: &host files.${S_HOMEPROD_DOMAIN}
     # TODO: cache:
     # TODO: store:
+    http:
+      cors:
+        allow_origins:
+          - sso2.cranit.ch
     features:
       externalUserManagement:
         enabled: true
