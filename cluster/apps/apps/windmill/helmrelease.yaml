@@ -31,7 +31,7 @@ spec:
       baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
       # internalUrl: "http://windmill-app.default.svc.cluster:8000"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-      oauthSecretName: windmill-oauth
+      oauthSecretName: windmill-oauth-secret
     ingress:
       className: nginx
       tls:
