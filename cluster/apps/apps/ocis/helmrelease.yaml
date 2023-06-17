@@ -29,7 +29,8 @@ spec:
     http:
       cors:
         allow_origins:
-          - sso2.cranit.ch
+          # TODO: - https://sso2.cranit.ch
+          - *
     features:
       externalUserManagement:
         enabled: true
