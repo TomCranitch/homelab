@@ -94,7 +94,7 @@ spec:
             name: VictoriaMetrics
             type: prometheus
             url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429
-    envFromSecret: grafana
+    envFromSecret: grafana-env
     grafana.ini:
       server:
         root_url: https://monitoring.${HOMEPROD_DOMAIN}
