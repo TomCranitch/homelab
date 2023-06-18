@@ -17,7 +17,7 @@ metadata:
   name: paperless-restic
   namespace: default
 spec:
-  sourcePVC: paperless-data
+  sourcePVC: paperless-nfs
   trigger:
     schedule: "0 2 * * *"
   restic:

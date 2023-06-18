@@ -20,7 +20,6 @@ spec:
   sourcePVC: immich-nfs-pvc
   trigger:
     schedule: "0 2 * * *"
-    manual: immich-manual-sync-trigger
   restic:
     # TODO consider moving to an nfs provisoner (e.g. democratic-csi) which supports snapshots
     copyMethod: Direct
