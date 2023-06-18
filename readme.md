@@ -3,9 +3,7 @@
 TODOS:
  - monitoring
    - proxmox
- - add cni config to flux
- - setup nas storage
- - ssd storage on ceph
+   - move crds to fix issue with node bootstrapping
  - vip
  - git push trigger flux
 
