@@ -32,9 +32,7 @@ spec:
     persistence:
       data:
         enabled: true
-        type: pvc
-        size: 1Gi
-        accessMode: ReadWriteOnce
+        existingClaim: mealie
         mountPath: /app/data
     service:
       main:
@@ -121,9 +119,7 @@ spec:
     persistence:
       data:
         enabled: true
-        type: pvc
-        size: 1Gi
-        accessMode: ReadWriteOnce
+        existingClaim: mealie
         mountPath: /app/data
     service:
       main:
