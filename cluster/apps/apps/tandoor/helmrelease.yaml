@@ -58,7 +58,7 @@ spec:
       ENABLE_METRICS: 1
       ENABLE_SIGNUP: 0
       POSTGRES_HOST: ${POSTGRES_RW_URL}
-      # POSTGRES_PORT: 5432
+      POSTGRES_PORT: 5432
     envFrom:
       - secretRef:
           name: tandoor
@@ -66,11 +66,11 @@ spec:
       static:
         enabled: true
         existingClaim: tandoor-static
-        mountPath: /opt/recipes/static
+        mountPath: /opt/recipes/staticfiles
       media:
         enabled: true
         existingClaim: tandoor-media
-        mountPath: /opt/recipes/media
+        mountPath: /opt/recipes/mediafiles
     service:
       main:
         ports:
