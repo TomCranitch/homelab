@@ -85,10 +85,14 @@ spec:
       tag: api-v1.0.0beta-5
     env:
       TZ: ${TIMEZONE}
+      DB_ENGINE: postgres
       POSTGRES_SERVER: ${POSTGRES_RW_URL}
       POSTGRES_PORT: 5432
       POSTGRES_DB: mealie 
       BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
+    envFrom:
+      - secretRef:
+          name: mealie
     persistence:
       data:
         enabled: true
