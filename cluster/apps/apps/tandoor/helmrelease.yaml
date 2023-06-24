@@ -57,6 +57,7 @@ spec:
       TIMEZONE: ${TZ}
       ENABLE_METRICS: 1
       ENABLE_SIGNUP: 0
+      POSTGRES_HOST: ${POSTGRES_RW_URL}
       # POSTGRES_PORT: 5432
     envFrom:
       - secretRef:
