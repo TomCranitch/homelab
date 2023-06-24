@@ -50,7 +50,7 @@ stringData:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: tandoor-media-restic
+  name: tandoor-static-restic
   namespace: default
 spec:
   sourcePVC: tandoor-static
