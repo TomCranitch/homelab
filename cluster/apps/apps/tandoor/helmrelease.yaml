@@ -34,7 +34,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: tandoor
-                key: POSTGRESS_PORT
+                key: POSTGRES_DB
           - name: POSTGRES_SUPER_PASS
             valueFrom:
               secretKeyRef:
@@ -44,12 +44,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: tandoor
-                key: POSTGRESS_USER
+                key: POSTGRES_USER
           - name: POSTGRES_PASS
             valueFrom:
               secretKeyRef:
                 name: tandoor
-                key: POSTGRESS_PASSWORD
+                key: POSTGRES_PASSWORD
     image:
       repository: docker.io/vabene1111/recipes
       tag: 1.5.1
@@ -57,7 +57,7 @@ spec:
       TIMEZONE: ${TZ}
       ENABLE_METRICS: 1
       ENABLE_SIGNUP: 0
-      POSTGRESS_PORT: 5432
+      # POSTGRES_PORT: 5432
     envFrom:
       - secretRef:
           name: tandoor
