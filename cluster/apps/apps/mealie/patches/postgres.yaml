@@ -28,4 +28,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: mealie
-                key: POSTGRES_PASS
+                key: POSTGRES_PASSWORD

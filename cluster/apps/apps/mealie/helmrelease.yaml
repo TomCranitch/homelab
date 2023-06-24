@@ -27,7 +27,7 @@ spec:
       repository: docker.io/hkotel/mealie
       tag: frontend-v1.0.0beta-5
     env:
-      TZ: ${TIMEZONE}
+      TZ: ${TZ}
       API_URL: "http://mealie-api.default.svc.cluster.local:9000"
     persistence:
       data:
