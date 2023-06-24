@@ -7,4 +7,5 @@ resources:
   - windmill
   - paperless
   - ocis
-  - tandoor
+#TODO  - tandoor
+  - mealie
