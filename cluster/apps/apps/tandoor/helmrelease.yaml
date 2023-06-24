@@ -57,6 +57,7 @@ spec:
       TIMEZONE: ${TZ}
       ENABLE_METRICS: 1
       ENABLE_SIGNUP: 0
+      POSTGRESS_PORT: 5432
     envFrom:
       - secretRef:
           name: tandoor
