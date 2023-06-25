@@ -29,7 +29,7 @@ spec:
     env:
       TZ: ${TZ}
     persistence:
-      data:
+      config:
         enabled: true
         existingClaim: home-assistant
         mountPath: /config
@@ -90,5 +90,5 @@ spec:
             - hosts:
                 - *host-code
         volumeMounts:
-          - name: home-assistant
+          - name: config
             mountPath: /config
