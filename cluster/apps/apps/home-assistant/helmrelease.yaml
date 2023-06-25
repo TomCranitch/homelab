@@ -41,11 +41,11 @@ spec:
       repository: ghcr.io/onedr0p/home-assistant
       tag: 2023.6.3
     podAnnotations:
+      # TODO is this needed: "ips": ["192.168.13.0/24"]
       k8s.v1.cni.cncf.io/networks: |
         [{
           "name":"multus-iot",
-          "namespace": "networking",
-          # TODO is this needed: "ips": ["192.168.13.0/24"]
+          "namespace": "networking"
         }]
     env:
       TZ: ${TZ}

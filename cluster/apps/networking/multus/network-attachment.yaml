@@ -5,24 +5,24 @@ metadata:
   name: multus-iot
   namespace: networking
 spec:
+  # TODO: should this be on the vlan 13 interface (not etho0)
+  # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
   config: |-
     {
-      "cniVersion": "0.3.1",
-      "name": "multus-iot",
-      "plugins": [
-        {
-          "type": "macvlan",
-          "master": "eth0.40",
-          "mode": "bridge",
-          "capabilities": {
-            "ips": true
-          },
-          "ipam": {
-            "type": "static",
-            "routes": [
-              { "dst": "192.168.13.1/24", "gw": "192.168.13.1" }
-            ]
-          }
-        }
-      ]
+      "cniVersion": "1.0.0",
+      "master": "eth0",
+      "mode": "bridge",
+      "type": "macvlan",
+      "ipam": {
+        "type": "static",
+          "addresses": [
+             {
+               "address": "192.168.13.50/24"
+             }
+           ],
+        "routes": [
+          { "dst": "192.168.13.0/24", "gw": "192.168.13.1" }
+        ]
+      }
     }
+
