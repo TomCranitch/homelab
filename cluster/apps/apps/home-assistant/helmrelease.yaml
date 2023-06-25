@@ -50,39 +50,44 @@ spec:
         tls:
           - hosts:
               - *host
-        addons:
-    codeserver:
-      enabled: true
-      image:
-        repository: ghcr.io/coder/code-server
-        tag: 4.14.0
-      env:
-        TZ: ${TZ}
-        GIT_AUTHOR_NAME: Tom Cranitch
-      workingDir: '/config'
-      args:
-        - --auth
-        - 'none'
-        - --user-data-dir
-        - '/config/.vscode'
-        - --extensions-dir
-        - '/config/.vscode'
-      ingress:
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+    addons:
+      codeserver:
         enabled: true
-        ingressClassName: 'nginx'
-        annotations:
-          # TODO nginx.ingress.kubernetes.io/auth-url: |-
-          # TODO   http://authentik-external.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-          # TODO nginx.ingress.kubernetes.io/auth-signin: |-
-          # TODO   https://documents.staging.cranit.ch//outpost.goauthentik.io/start?rd=$escaped_request_uri
-        hosts:
-          - host: &host-code "hass-code.${S_HOMEPROD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host-code
-      volumeMounts:
-        - name: config
-          mountPath: /config
+        image:
+          repository: ghcr.io/coder/code-server
+          tag: 4.14.0
+        env:
+          TZ: ${TZ}
+          GIT_AUTHOR_NAME: Tom Cranitch
+        workingDir: '/config'
+        args:
+          - --auth
+          - 'none'
+          - --user-data-dir
+          - '/config/.vscode'
+          - --extensions-dir
+          - '/config/.vscode'
+        ingress:
+          enabled: true
+          ingressClassName: 'nginx'
+          annotations:
+            # TODO nginx.ingress.kubernetes.io/auth-url: |-
+            # TODO   http://authentik-external.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+            # TODO nginx.ingress.kubernetes.io/auth-signin: |-
+            # TODO   https://documents.staging.cranit.ch//outpost.goauthentik.io/start?rd=$escaped_request_uri
+          hosts:
+            - host: &host-code "hass-code.${S_HOMEPROD_DOMAIN}"
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - hosts:
+                - *host-code
+        volumeMounts:
+          - name: config
+            mountPath: /config
