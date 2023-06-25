@@ -90,5 +90,5 @@ spec:
             - hosts:
                 - *host-code
         volumeMounts:
-          - name: config
+          - name: home-assistant
             mountPath: /config
