@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   # TODO: reconcile CRD first
-#  - network-attachment.yaml
+  - network-attachment.yaml
