@@ -19,3 +19,4 @@ resources:
   - backube-charts.yaml
   - piraeus-charts.yaml
   - ocis-charts.yaml
+  - angelnu-charts.yaml
