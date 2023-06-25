@@ -49,7 +49,7 @@ spec:
                 pathType: Prefix
         tls:
           - hosts:
-              - *frontend-host
+              - *host
         addons:
     codeserver:
       enabled: true
