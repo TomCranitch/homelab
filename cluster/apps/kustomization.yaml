@@ -10,3 +10,4 @@ resources:
   - databases
   - apps
   - storage
+  - networking
