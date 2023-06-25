@@ -18,8 +18,8 @@ metadata:
   namespace: monitoring
 spec:
   sourcePVC: vmsingle-victoria-metrics-k8s-stack
-  trigger:
-    schedule: "0 2 * * *"
+  # trigger:
+  #   schedule: "0 2 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 14
