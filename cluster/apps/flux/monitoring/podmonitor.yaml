@@ -1,3 +1,4 @@
+# TODO fix issue with CRD here too
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
