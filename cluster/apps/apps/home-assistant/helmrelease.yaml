@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: ghcr.io/onedr0p/home-assistant
+      tag: 2023.6.3
+    env:
+      TZ: ${TZ}
+    persistence:
+      data:
+        enabled: true
+        existingClaim: home-assistant
+        mountPath: /config
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8123
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "home.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *frontend-host
+        addons:
+    codeserver:
+      enabled: true
+      image:
+        repository: ghcr.io/coder/code-server
+        tag: 4.14.0
+      env:
+        TZ: ${TZ}
+        GIT_AUTHOR_NAME: Tom Cranitch
+      workingDir: '/config'
+      args:
+        - --auth
+        - 'none'
+        - --user-data-dir
+        - '/config/.vscode'
+        - --extensions-dir
+        - '/config/.vscode'
+      ingress:
+        enabled: true
+        ingressClassName: 'nginx'
+        annotations:
+          # TODO nginx.ingress.kubernetes.io/auth-url: |-
+          # TODO   http://authentik-external.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          # TODO nginx.ingress.kubernetes.io/auth-signin: |-
+          # TODO   https://documents.staging.cranit.ch//outpost.goauthentik.io/start?rd=$escaped_request_uri
+        hosts:
+          - host: &host-code "hass-code.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host-code
+      volumeMounts:
+        - name: config
+          mountPath: /config
