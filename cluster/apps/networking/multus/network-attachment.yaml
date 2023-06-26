@@ -2,11 +2,11 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: multus-iot
+  name: multus-serverlan
   namespace: networking
 spec:
-  # TODO: should this be on the vlan 13 interface (not etho0)
   # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
+  # TODO: allow for more than one address
   config: |-
     {
       "cniVersion": "1.0.0",
@@ -17,11 +17,11 @@ spec:
         "type": "static",
           "addresses": [
              {
-               "address": "192.168.13.50/24"
+               "address": "192.168.29.50/24"
              }
            ],
         "routes": [
-          { "dst": "192.168.13.0/24", "gw": "192.168.13.1" }
+          { "dst": "192.168.29.0/24", "gw": "192.168.29.1" }
         ]
       }
     }
