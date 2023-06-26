@@ -33,7 +33,7 @@ spec:
       config:
         enabled: true
         existingClaim: esphome
-        mountPath: /config/.esphome
+        mountPath: /config
     service:
       main:
         ports:
