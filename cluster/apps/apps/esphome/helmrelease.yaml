@@ -26,6 +26,9 @@ spec:
     image:
       repository: ghcr.io/esphome/esphome
       tag: 2023.6.2
+    env:
+      # to avoid the need for mdns
+      ESPHOME_DASHBOARD_USE_PING: true
     persistence:
       config:
         enabled: true
