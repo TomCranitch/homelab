@@ -26,9 +26,12 @@ spec:
     image:
       repository: ghcr.io/esphome/esphome
       tag: 2023.6.2
-    env:
-      # to avoid the need for mdns
-      ESPHOME_DASHBOARD_USE_PING: true
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: |
+        [{
+          "name":"multus-serverlan",
+          "namespace": "networking"
+        }]
     persistence:
       config:
         enabled: true

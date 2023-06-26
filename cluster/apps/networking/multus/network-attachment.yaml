@@ -7,6 +7,7 @@ metadata:
 spec:
   # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
   # TODO: allow for more than one address
+  # host-local maintains a local database of allocated IPs
   config: |-
     {
       "cniVersion": "1.0.0",
@@ -14,12 +15,10 @@ spec:
       "mode": "bridge",
       "type": "macvlan",
       "ipam": {
-        "type": "static",
-          "addresses": [
-             {
-               "address": "192.168.29.50/24"
-             }
-           ],
+        "type": "host-local",
+        "subnet": "192.168.29.0/24",
+        "rangeStart": "192.168.29.150",
+        "rangeEnd": "192.168.29.159",
         "routes": [
           { "dst": "192.168.29.0/24", "gw": "192.168.29.1" }
         ]
