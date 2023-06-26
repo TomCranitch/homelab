@@ -10,3 +10,4 @@ resources:
 #TODO  - tandoor
   - mealie
   - home-assistant
+  - esphome
