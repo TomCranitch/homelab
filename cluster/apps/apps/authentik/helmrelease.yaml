@@ -60,7 +60,7 @@ spec:
       tls:
         - hosts:
             - *host
-    volumesMounts:
+    volumeMounts:
       - mountPath: /blueprint/custom
         name: authentik-blueprints
     volumes: 
