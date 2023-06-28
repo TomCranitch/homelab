@@ -1,0 +1,59 @@
+# TODO: can we standardise the identifiers
+
+version: 1
+metadata:
+  name: Authentication flow
+entries:
+- attrs:
+    designation: authentication
+    name: Welcome to Cranitch SSO
+    title: Welcome to Cranitch SSO
+    authentication: none
+  identifiers:
+    slug: authentication-flow
+  model: authentik_flows.flow
+  id: flow
+
+# Stages
+- attrs:
+    backends:
+    - authentik.core.auth.InbuiltBackend
+    # no password changes for now configure_flow: !Find [authentik_flows.flow, [slug, default-password-change]]
+  identifiers:
+    name: authentication-password
+  id: authentication-password
+  model: authentik_stages_password.passwordstage
+- identifiers:
+    name: authentication-mfa-validation
+  id: authentication-mfa-validation
+  model: authentik_stages_authenticator_validate.authenticatorvalidatestage
+- attrs:
+    user_fields:
+    - email
+    - username
+    password_stage: !Find [authentik_flows.flow, [name, authentication-password]]
+  identifiers:
+    name: authentication-identification
+  id: authentication-identification
+  model: authentik_stages_identification.identificationstage
+- identifiers:
+    name: authentication-login
+  id: authentication-login
+  model: authentik_stages_user_login.userloginstage
+
+# Bindings
+- identifiers:
+    order: 10
+    stage: !KeyOf authentication-identification
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding
+- identifiers:
+    order: 30
+    stage: !KeyOf authentication-mfa-validation
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding
+- identifiers:
+    order: 100
+    stage: !KeyOf authentication-login
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding

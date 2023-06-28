@@ -6,3 +6,9 @@ resources:
   - secret.sops.yaml
 patchesStrategicMerge:
   - patches/postgres.yaml
+configMapGenerator:
+  - name: blueprints
+    files:
+      - /blueprint/flow-authentication.yaml=./blueprints/flow-authentication.yaml
+generatorOptions:
+  disableNameSuffixHash: true
