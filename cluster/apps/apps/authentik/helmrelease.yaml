@@ -25,7 +25,7 @@ spec:
   values:
     valuesFrom:
       - kind: Secret
-        name: authentik
+        name: authentik-secrets
     authentik:
       email:
         from: tom@cranitch.com.au
