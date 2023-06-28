@@ -26,11 +26,24 @@ spec:
     valuesFrom:
       - kind: Secret
         name: authentik-secrets
+        targetPath: authentik.secret
+        valuesKey: secret_key
+      - kind: Secret
+        name: authentik-secrets
+        targetPath: authentik.postgresql.name
+        valuesKey: POSTGRES_DB
+      - kind: Secret
+        name: authentik-secrets
+        targetPath: authentik.postgresql.user
+        valuesKey: POSTGRES_USER
+      - kind: Secret
+        name: authentik-secrets
+        targetPath: authentik.postgresql.password
+        valuesKey: POSTGRES_PASS
     authentik:
       email:
         from: tom@cranitch.com.au
       postgresql:
-        name: authentik
         host: ${POSTGRES_RW_URL}
     redis:
       enabled: true
