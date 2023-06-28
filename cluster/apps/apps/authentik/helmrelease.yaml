@@ -61,7 +61,7 @@ spec:
         - hosts:
             - *host
     volumeMounts:
-      - mountPath: /blueprint/custom
+      - mountPath: /blueprints/custom
         name: authentik-blueprints
     volumes: 
       - configMap:
