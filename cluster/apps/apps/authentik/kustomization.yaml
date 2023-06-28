@@ -8,8 +8,8 @@ resources:
 patchesStrategicMerge:
   - patches/postgres.yaml
 configMapGenerator:
-  - name: blueprints
+  - name: authentik-blueprints
     files:
-      - /blueprint/flow-authentication.yaml=./blueprints/flow-authentication.yaml
+      - flow-authentication.yaml=./blueprints/flow-authentication.yaml
 generatorOptions:
   disableNameSuffixHash: true
