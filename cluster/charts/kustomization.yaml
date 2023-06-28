@@ -20,3 +20,4 @@ resources:
   - piraeus-charts.yaml
   - ocis-charts.yaml
   - angelnu-charts.yaml
+  - authentik-charts.yaml

@@ -11,3 +11,4 @@ resources:
   - mealie
   - home-assistant
   - esphome
+  - authentik
