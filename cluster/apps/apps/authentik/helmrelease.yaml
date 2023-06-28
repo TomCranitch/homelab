@@ -22,24 +22,24 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  valuesFrom:
+    - kind: Secret
+      name: authentik-secret
+      targetPath: authentik.secret_key
+      valuesKey: secret_key
+    - kind: Secret
+      name: authentik-secret
+      targetPath: authentik.postgresql.name
+      valuesKey: POSTGRES_DB
+    - kind: Secret
+      name: authentik-secret
+      targetPath: authentik.postgresql.user
+      valuesKey: POSTGRES_USER
+    - kind: Secret
+      name: authentik-secret
+      targetPath: authentik.postgresql.password
+      valuesKey: POSTGRES_PASS
   values:
-    valuesFrom:
-      - kind: Secret
-        name: authentik-secret
-        targetPath: authentik.secret_key
-        valuesKey: secret_key
-      - kind: Secret
-        name: authentik-secret
-        targetPath: authentik.postgresql.name
-        valuesKey: POSTGRES_DB
-      - kind: Secret
-        name: authentik-secret
-        targetPath: authentik.postgresql.user
-        valuesKey: POSTGRES_USER
-      - kind: Secret
-        name: authentik-secret
-        targetPath: authentik.postgresql.password
-        valuesKey: POSTGRES_PASS
     authentik:
       email:
         from: tom@cranitch.com.au
