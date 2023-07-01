@@ -41,4 +41,5 @@ spec:
           resources:
             requests:
               storage: 30Gi
-    prometheus-node-exporter.enabled: false
+    prometheus-node-exporter:
+      enabled: false
