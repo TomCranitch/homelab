@@ -18,8 +18,8 @@ metadata:
   namespace: default
 spec:
   sourcePVC: immich-nfs-pvc
-  # trigger:
-  #   schedule: "0 2 * * *"
+  trigger:
+    schedule: "0 2 * * *"
   restic:
     # TODO consider moving to an nfs provisoner (e.g. democratic-csi) which supports snapshots
     copyMethod: Direct

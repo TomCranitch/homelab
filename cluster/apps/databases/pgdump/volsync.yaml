@@ -18,8 +18,8 @@ metadata:
   namespace: database
 spec:
   sourcePVC: pgdump-backup
-  # trigger:
-  #   schedule: "0 2 * * *"
+  trigger:
+    schedule: "0 2 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 14

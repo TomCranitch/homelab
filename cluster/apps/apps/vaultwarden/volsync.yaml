@@ -18,8 +18,8 @@ metadata:
   namespace: default
 spec:
   sourcePVC: vaultwarden-data
-  # trigger:
-  #   schedule: "0 2 * * *"
+  trigger:
+    schedule: "0 2 * * *"
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 14
