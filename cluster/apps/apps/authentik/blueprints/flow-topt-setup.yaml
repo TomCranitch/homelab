@@ -1,0 +1,31 @@
+version: 1
+metadata:
+  name: TOTP MFA setup flow
+
+# Flows
+entries:
+- attrs:
+    designation: stage_configuration
+    name: authenticator-totp-setup
+    title: Setup Time Based Two-Factor authentication
+    authentication: require_authenticated
+  identifiers:
+    slug: authenticator-totp-setup
+  model: authentik_flows.flow
+  id: flow
+
+# Stages
+- attrs:
+    configure_flow: !KeyOf flow
+    digits: 6
+  identifiers:
+    name: authenticator-totp-setup
+  id: authenticator-totp-setup
+  model: authentik_stages_authenticator_totp.authenticatortotpstage
+
+# Bindings
+- identifiers:
+    order: 0
+    stage: !KeyOf authenticator-totp-setup
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding

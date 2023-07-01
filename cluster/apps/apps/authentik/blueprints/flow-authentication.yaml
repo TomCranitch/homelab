@@ -1,5 +1,3 @@
-# TODO: can we standardise the identifiers
-
 version: 1
 metadata:
   name: Authentication flow
@@ -18,7 +16,8 @@ entries:
 - attrs:
     backends:
     - authentik.core.auth.InbuiltBackend
-    # no password changes for now configure_flow: !Find [authentik_flows.flow, [slug, default-password-change]]
+    # no password changes for now. to add forgot password set below
+    # configure_flow: !Find [authentik_flows.flow, [slug, default-password-change]]
   identifiers:
     name: authentication-password
   id: authentication-password
@@ -36,6 +35,12 @@ entries:
     name: authentication-identification
   id: authentication-identification
   model: authentik_stages_identification.identificationstage
+- identifiers:
+    name: authentication-flow-mfa
+  id: authentication-flow-mfa
+  attrs:
+    not_configured_action: deny
+  model: authentik_stages_authenticator_validate.authenticatorvalidatestage
 - identifiers:
     name: authentication-login
   id: authentication-login

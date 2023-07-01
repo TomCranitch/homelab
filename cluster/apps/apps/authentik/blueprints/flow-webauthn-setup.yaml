@@ -1,0 +1,30 @@
+version: 1
+metadata:
+  name: WebAuthn setup flow
+
+# Flow
+entries:
+- attrs:
+    designation: stage_configuration
+    name: authenticator-webauthn-setup
+    title: Setup WebAuthn Device
+    authentication: require_authenticated
+  identifiers:
+    slug: authenticator-webauthn-setup
+  model: authentik_flows.flow
+  id: flow
+
+# Stages
+- attrs:
+    configure_flow: !KeyOf flow
+  identifiers:
+    name: authenticator-webauthn-setup
+  id: authenticator-webauthn-setup
+  model: authentik_stages_authenticator_webauthn.authenticatewebauthnstage
+
+# Bindings
+- identifiers:
+    order: 0
+    stage: !KeyOf authenticator-webauthn-setup
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding

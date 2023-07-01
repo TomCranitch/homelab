@@ -1,0 +1,28 @@
+version: 1
+metadata:
+  name: Invalidation flow
+
+# Flow
+entries:
+- attrs:
+    designation: invalidation
+    name: Logout
+    title: Invalidation Flow
+    authentication: none
+  identifiers:
+    slug: invalidation-flow
+  model: authentik_flows.flow
+  id: flow
+
+# Stages
+- identifiers:
+    name: invalidation-logout
+  id: invalidation-logout
+  model: authentik_stages_user_logout.userlogoutstage
+
+# Bindings
+- identifiers:
+    order: 0
+    stage: !KeyOf invalidation-logout
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding
