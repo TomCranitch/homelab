@@ -6,3 +6,4 @@ resources:
   - secret.sops.yaml
   - volsync.yaml
   - pvc.yaml
+  - ingress.yaml

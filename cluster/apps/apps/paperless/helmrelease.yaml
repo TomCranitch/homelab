@@ -105,13 +105,6 @@ spec:
         hosts:
           - host: &host "documents.${S_HOMEPROD_DOMAIN}"
             paths:
-              - path: /outpost.goauthentik.io
-                pathType: Prefix
-                backend:
-                    service:
-                        name: ak-outpost-authentik-embedded-outpost
-                        port:
-                            number: 9000
               - path: /
         tls:
           - hosts:
