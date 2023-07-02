@@ -64,4 +64,4 @@ spec:
                   volumes:
                     - name: data
                       persistentVolumeClaim:
-                        claimName: pgdump-backup
+                        claimName: pgdump
