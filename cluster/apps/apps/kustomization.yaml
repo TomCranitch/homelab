@@ -5,10 +5,10 @@ resources:
   - vaultwarden
   - immich
   - windmill
-  - paperless
+# - paperless
   - ocis
 #TODO  - tandoor
-  - mealie
+# - mealie
   - home-assistant
   - esphome
   - authentik
