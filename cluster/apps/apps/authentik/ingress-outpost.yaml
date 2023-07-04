@@ -6,10 +6,11 @@ spec:
     rules:
         - host: sso.${S_HOMEPROD_DOMAIN}
           http:
-              paths: /outpost.goauthentik.io
-              pathType: Prefix
-              backend:
-                  service:
-                      name: ak-outpost-authentik-embedded-outpost
-                      port:
-                          number: 9000
+              paths: 
+               - path: /outpost.goauthentik.io
+                 pathType: Prefix
+                 backend:
+                     service:
+                         name: ak-outpost-authentik-embedded-outpost
+                         port:
+                             number: 9000
