@@ -5,7 +5,6 @@ metadata:
   name: cluster-settings
   namespace: flux-system
 data:
-  SSO_DOMAIN_PREFIX: sso2
+  SSO_DOMAIN_PREFIX: sso
   TZ: Australia/Sydney
   POSTGRES_RW_URL: cnpg-cluster-rw.database.svc
-  HOMEPROD_DOMAIN: "staging.cranit.ch"

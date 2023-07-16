@@ -47,7 +47,7 @@ spec:
           enabled: true
           className: "nginx"
           hosts:
-            - &host hubble.${HOMEPROD_DOMAIN}
+            - &host hubble.${S_HOMEPROD_DOMAIN}
           tls:
             - hosts:
                 - *host
