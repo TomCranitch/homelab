@@ -33,7 +33,7 @@ spec:
       enabled: true
 # TODO issue when starting up because service service monitor is missing (ceph-cluster-controller: failed to reconcile CephCluster "rook-ceph/rook-ceph". failed to reconcile cluster "rook-ceph": failed to configure local ceph cluster: failed to create cluster: failed to start ceph mgr: failed to enable mgr services: failed to enable service monitor: service monitor could not be enabled: failed to create servicemonitor. the server could not find the requested resource (post servicemonitors.monitoring.coreos.com)
     monitoring:
-      enabled: true
+      enabled: false
     ingress:
       dashboard:
         ingressClassName: "nginx"
