@@ -30,11 +30,13 @@ spec:
           name: immich
       - configMapRef:
           name: immich
-    volumeClaimTemplate:
-      - name: config
-        mountPath: /config
-        accessMode: ReadWriteOnce
+    persistence:
+      config:
+        enabled: true
+        type: pvc
         size: 1Gi
+        accessMode: ReadWriteOnce
+        mountPath: /config
         storageClass: ceph-block
     service:
       main:
