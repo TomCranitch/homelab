@@ -7,7 +7,7 @@ resources:
   - redis 
   - server 
   - web
-  - typesense
+#  - typesense
   - pvc.yaml
   - configmap.yaml
   - secret.sops.yaml
