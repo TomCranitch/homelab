@@ -21,11 +21,11 @@ entries:
 # Bindings
 - identifiers:
     order: 10
-    stage: !Find [authentik_flow.stage, [name, authentication-identification]]
+    stage: !Find [authentik_stages_identification.identificationstage, [name, authentication-identification]]
     target: !KeyOf flow
   model: authentik_flows.flowstagebinding
 - identifiers:
     order: 100
-    stage: !Find [authentik_flow.stage, [name, authentication-login]]
+    stage: !Find [authentik_stages_user_login.userloginstage, [name, authentication-login]]
     target: !KeyOf flow
   model: authentik_flows.flowstagebinding
