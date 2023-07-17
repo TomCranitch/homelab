@@ -52,11 +52,11 @@ entries:
     stage: !KeyOf authentication-identification
     target: !KeyOf flow
   model: authentik_flows.flowstagebinding
-- identifiers:
-    order: 30
-    stage: !KeyOf authentication-mfa-validation
-    target: !KeyOf flow
-  model: authentik_flows.flowstagebinding
+#- identifiers:
+#   order: 30
+#   stage: !KeyOf authentication-mfa-validation
+#   target: !KeyOf flow
+# model: authentik_flows.flowstagebinding
 - identifiers:
     order: 100
     stage: !KeyOf authentication-login
