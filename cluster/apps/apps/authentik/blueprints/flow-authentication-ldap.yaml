@@ -1,0 +1,31 @@
+version: 1
+metadata:
+  name: Authentication flow for LDAP
+entries:
+- model: authentik_blueprints.metaapplyblueprint
+  attrs:
+    identifiers:
+      name: Authentication flow
+    required: true
+
+- attrs:
+    designation: authentication
+    name: Cranitch SSO
+    title: Cranitch SSO
+    authentication: none
+  identifiers:
+    slug: authentication-flow-ldap
+  model: authentik_flows.flow
+  id: flow
+
+# Bindings
+- identifiers:
+    order: 10
+    stage: !KeyOf authentication-identification
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding
+- identifiers:
+    order: 100
+    stage: !KeyOf authentication-login
+    target: !KeyOf flow
+  model: authentik_flows.flowstagebinding

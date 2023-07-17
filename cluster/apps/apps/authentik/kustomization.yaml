@@ -12,6 +12,7 @@ configMapGenerator:
   - name: authentik-blueprints
     files:
       - flow-authentication.yaml=./blueprints/flow-authentication.yaml
+      - flow-authentication-ldap.yaml=./blueprints/flow-authentication-ldap.yaml
       - flow-invalidation.yaml=./blueprints/flow-invalidation.yaml
       - flow-topt-setup.yaml=./blueprints/flow-topt-setup.yaml
       - flow-webauthn-setup.yaml=./blueprints/flow-webauthn-setup.yaml
