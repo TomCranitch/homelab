@@ -44,7 +44,7 @@ spec:
           #       claim_value: service-users
         ldap:
           writable: false
-          uri: ldap://10.244.0.247:389
+          uri: ldap://ak-outpost-authentik-ldap.default:389
           bindDN: cn=ocis-ldap,ou=users,dc=ldap,dc=goauthentik,dc=io
           user:
             schema:
