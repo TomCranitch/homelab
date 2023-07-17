@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - namespace.yaml
+  - ldap-bind-secret.sops.yaml
