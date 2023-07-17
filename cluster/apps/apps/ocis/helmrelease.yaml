@@ -31,8 +31,8 @@ spec:
         enabled: true
         adminUUID: 5bdb004d1fb57a4f4d958982cde3e40f0c78b9b8a919c3908271b9bbf075d51e
         oidc:
-          issuerURI: https://sso2.cranit.ch/application/o/ocis/
-          webClientID: 1a075b256031b7f352fa1b08569a557a3be35ef2
+          issuerURI: https://sso.cranit.ch/application/o/owncloud/
+          webClientID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
           userIDClaim: sub
           # roleAssignment:
           #   enabled: true
