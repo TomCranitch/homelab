@@ -2,7 +2,7 @@
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: multus-serverlan
+  name: multus-iotlan
   namespace: networking
 spec:
   # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
@@ -16,9 +16,9 @@ spec:
       "type": "macvlan",
       "ipam": {
         "type": "host-local",
-        "subnet": "192.168.29.0/24",
-        "rangeStart": "192.168.29.200",
-        "rangeEnd": "192.168.29.210",
+        "subnet": "192.168.13.0/24",
+        "rangeStart": "192.168.13.200",
+        "rangeEnd": "192.168.13.210",
         "routes": [
           { "dst": "192.168.13.0/24", "gw": "192.168.13.1" }
         ]
