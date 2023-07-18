@@ -48,7 +48,7 @@ spec:
                         - "/backup/postgres.pgdump"
                         - "-v"
                         - "-h"
-                        - "postgres-ro"
+                        - ${POSTGRES_RW_URL}
                       env:
                         - name: PGUSER
                           valueFrom:
