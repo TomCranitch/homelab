@@ -5,9 +5,8 @@ metadata:
   name: multus-iotlan
   namespace: networking
 spec:
-  # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
-  # TODO: allow for more than one address
   # host-local maintains a local database of allocated IPs
+  # TODO: need to set the appropriate vlan
   config: |-
     {
       "cniVersion": "1.0.0",

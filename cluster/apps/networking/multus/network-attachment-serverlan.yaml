@@ -6,7 +6,6 @@ metadata:
   namespace: networking
 spec:
   # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
-  # TODO: allow for more than one address
   # host-local maintains a local database of allocated IPs
   config: |-
     {

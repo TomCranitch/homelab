@@ -43,7 +43,7 @@ spec:
     podAnnotations:
       k8s.v1.cni.cncf.io/networks: |
         [{
-          "name":"multus-iotlan",
+          "name":"multus-serverlan",
           "namespace": "networking"
         }]
     env:
