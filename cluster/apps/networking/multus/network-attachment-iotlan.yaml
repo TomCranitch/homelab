@@ -1,0 +1,27 @@
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: multus-serverlan
+  namespace: networking
+spec:
+  # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
+  # TODO: allow for more than one address
+  # host-local maintains a local database of allocated IPs
+  config: |-
+    {
+      "cniVersion": "1.0.0",
+      "master": "eth0",
+      "mode": "bridge",
+      "type": "macvlan",
+      "ipam": {
+        "type": "host-local",
+        "subnet": "192.168.29.0/24",
+        "rangeStart": "192.168.29.200",
+        "rangeEnd": "192.168.29.210",
+        "routes": [
+          { "dst": "192.168.13.0/24", "gw": "192.168.13.1" }
+        ]
+      }
+    }
+
