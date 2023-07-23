@@ -17,7 +17,7 @@ metadata:
   name: pgdump-restic
   namespace: database
 spec:
-  sourcePVC: pgdump-backup
+  sourcePVC: pgdump
   trigger:
     schedule: "0 2 * * *"
   restic:
