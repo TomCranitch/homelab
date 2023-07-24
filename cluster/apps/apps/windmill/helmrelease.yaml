@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: windmill
-      version: 1.6.46
+      version: 1.6.47
       sourceRef:
         kind: HelmRepository
         name: windmill-labs-charts
