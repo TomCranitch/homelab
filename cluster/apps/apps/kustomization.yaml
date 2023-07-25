@@ -14,3 +14,4 @@ resources:
   - esphome
   - authentik
   - emqx
+  - zigbee2mqtt
