@@ -8,3 +8,5 @@ data:
   SSO_DOMAIN_PREFIX: sso
   TZ: Australia/Sydney
   POSTGRES_RW_URL: cnpg-cluster-rw.database.svc
+
+  LB_EMQX: 10.10.1.50

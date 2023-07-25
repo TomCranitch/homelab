@@ -13,3 +13,4 @@ resources:
   - home-assistant
   - esphome
   - authentik
+  - emqx

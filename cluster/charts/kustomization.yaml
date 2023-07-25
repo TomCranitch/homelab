@@ -21,3 +21,4 @@ resources:
   - ocis-charts.yaml
   - angelnu-charts.yaml
   - authentik-charts.yaml
+  - emqx-charts.yaml

@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: emqx
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: emqx
+      version: 5.1.2
+      sourceRef:
+        kind: HelmRepository
+        name: emqx-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    emqxConfig:
+      EMQX_ALLOW_ANONYMOUS: "false"
+      # EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
+      EMQX_DASHBOARD__DEFAULT_USERNAME: admin
+      EMQX_AUTH__USER__1__USERNAME: mqtt-user
+    valuesFrom:
+      - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
+        kind: Secret
+        name: emqx
+        valuesKey: admin_password
+      - targetPath: emqxConfig.EMQX_AUTH__USER__1__PASSWORD
+        kind: Secret
+        name: emqx
+        valuesKey: user_1_password
+    service:
+      type: LoadBalancer
+      annotations:
+        "io.cilium/lb-ipam-ips": ${LB_EMQX}
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "emqx.${S_HOMEPROD_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    metrics:
+      enabled: true
+    persistence:
+      enabled: true
+      storageClassName: rook-ceph
+      size: 250Mi
