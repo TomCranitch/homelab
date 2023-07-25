@@ -53,8 +53,9 @@ spec:
         tls:
           - hosts:
               - *host
-    metrics:
-      enabled: true
+    # TODO
+    # metrics:
+    #   enabled: true
     persistence:
       enabled: true
       storageClassName: rook-ceph
