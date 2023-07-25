@@ -10,7 +10,7 @@ spec:
   config: |-
     {
       "cniVersion": "1.0.0",
-      "master": "eth0",
+      "master": "eth1",
       "mode": "bridge",
       "type": "macvlan",
       "ipam": {
