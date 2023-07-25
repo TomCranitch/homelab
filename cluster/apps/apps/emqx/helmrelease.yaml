@@ -58,5 +58,5 @@ spec:
     #   enabled: true
     persistence:
       enabled: true
-      storageClassName: rook-ceph
+      storageClassName: ceph-block
       size: 250Mi
