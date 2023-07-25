@@ -9,4 +9,5 @@ data:
   TZ: Australia/Sydney
   POSTGRES_RW_URL: cnpg-cluster-rw.database.svc
 
+  # TODO this is wrong ;(
   LB_EMQX: 10.10.1.50

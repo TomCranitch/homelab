@@ -55,7 +55,7 @@ spec:
       # ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: 115200
       # ZIGBEE2MQTT_CONFIG_SERIAL_DISABLE_LED: "false"
       # TODO: set static IP for gateway
-      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.181:8888
+      ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.118:8888
     persistence:
       config:
         enabled: true
