@@ -37,16 +37,16 @@ spec:
         kind: Secret
         name: emqx
         valuesKey: user_1_password
-    service:
-      type: LoadBalancer
-      annotations:
-        "io.cilium/lb-ipam-ips": ${LB_EMQX}
+    # service:
+    #   type: LoadBalancer
+    #   annotations:
+    #     "io.cilium/lb-ipam-ips": ${LB_EMQX}
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
         hosts:
-          - host: &host "emqx.${S_HOMEPROD_DOMAIN}"
+          - host: &host "mqtt.${S_HOMEPROD_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
