@@ -42,14 +42,12 @@ spec:
     #   annotations:
     #     "io.cilium/lb-ipam-ips": ${LB_EMQX}
     ingress:
-      main:
+      dashboard:
         enabled: true
         ingressClassName: nginx
-        hosts:
-          - host: &host "mqtt.${S_HOMEPROD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
+        path: /
+        hosts: 
+          - &host "mqtt.${S_HOMEPROD_DOMAIN}"
         tls:
           - hosts:
               - *host
