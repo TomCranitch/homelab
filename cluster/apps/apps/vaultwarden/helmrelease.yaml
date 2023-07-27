@@ -28,7 +28,7 @@ spec:
       tag: "1.28.1"
     env:
       TZ: ${TZ}
-      DOMAIN: https://passwords.{S_HOMEPROD_DOMAIN}
+      DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
       WEBSOCKET_ENABLED: true
       ADMIN_TOKEN: ${S_VAULTWARDEN_ADMIN_TOKEN}
       # TODO check why this doesnt access the db user/password
