@@ -24,28 +24,28 @@ spec:
       retries: 3
   values:
     initContainers:
-    #  01-init-db:
-    #    image: ghcr.io/onedr0p/postgres-initdb:14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
-    #    env:
-    #      - name: POSTGRES_HOST
-    #        value: ${POSTGRES_RW_URL}
-    #      - name: POSTGRES_DB
-    #        value: vaultwarden
-    #      - name: POSTGRES_SUPER_PASS
-    #        valueFrom:
-    #          secretKeyRef:
-    #            name: postgres-superuser
-    #            key: password
-    #      - name: POSTGRES_USER
-    #        valueFrom:
-    #          secretKeyRef:
-    #            name: vaultwarden
-    #            key: POSTGRES_USER
-    #      - name: POSTGRES_PASS
-    #        valueFrom:
-    #          secretKeyRef:
-    #            name: vaultwarden
-    #            key: POSTGRES_PASS
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-initdb:14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
+        env:
+          - name: POSTGRES_HOST
+            value: ${POSTGRES_RW_URL}
+          - name: POSTGRES_DB
+            value: vaultwarden
+          - name: POSTGRES_SUPER_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgres-superuser
+                key: password
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: vaultwarden
+                key: POSTGRES_USER
+          - name: POSTGRES_PASS
+            valueFrom:
+              secretKeyRef:
+                name: vaultwarden
+                key: POSTGRES_PASS
     image:
       repository: docker.io/vaultwarden/server
       tag: "1.28.1"
