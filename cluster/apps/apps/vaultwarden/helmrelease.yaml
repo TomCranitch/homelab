@@ -73,7 +73,7 @@ spec:
       main:
         ports:
           http:
-            port: &http-port 80
+            port: &port 80
           websocket:
             enable: true
             port: &websocket-port 3012
@@ -87,11 +87,11 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  port: *http-port
+                  port: *port
               - path: /notifications/hub/negotiate
                 pathType: Prefix
                 service:
-                  port: *http-port
+                  port: *port
               - path: /notifications/hub
                 pathType: Prefix
                 service:
