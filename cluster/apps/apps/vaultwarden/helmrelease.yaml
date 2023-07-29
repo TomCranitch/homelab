@@ -52,7 +52,6 @@ spec:
     env:
       TZ: ${TZ}
       DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
-      WEBSOCKET_ENABLED: true
       ADMIN_TOKEN:
         valueFrom:
           secretKeyRef:
@@ -74,9 +73,6 @@ spec:
         ports:
           http:
             port: &port 80
-          websocket:
-            enable: true
-            port: &websocket-port 3012
     ingress:
       main:
         enabled: true
@@ -86,16 +82,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-                service:
-                  port: *port
-              - path: /notifications/hub/negotiate
-                pathType: Prefix
-                service:
-                  port: *port
-              - path: /notifications/hub
-                pathType: Prefix
-                service:
-                  port: *websocket-port
         tls:
           - hosts:
               - *host
