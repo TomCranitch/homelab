@@ -41,9 +41,11 @@ spec:
       repository: ghcr.io/onedr0p/home-assistant
       tag: 2023.7.3
     podAnnotations:
+      # TODO: switch to IOTLan (to hopefully help with mdns)
+      # Using IOTLan was causing connectivity issues with google home hub/esphome
       k8s.v1.cni.cncf.io/networks: |
         [{
-          "name":"multus-iotlan",
+          "name":"multus-serverlan",
           "namespace": "networking"
         }]
     env:
