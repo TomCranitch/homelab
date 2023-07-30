@@ -97,7 +97,7 @@ spec:
     envFromSecret: grafana-env
     grafana.ini:
       server:
-        root_url: &host https://monitoring.${S_HOMEPROD_DOMAIN}
+        root_url: https://monitoring.${S_HOMEPROD_DOMAIN}
       auth:
         oauth_auto_login: true
       auth.basic:
@@ -133,7 +133,7 @@ spec:
       enabled: true
       ingressClassName: "nginx"
       hosts:
-        - *host
+        - &host monitoring.${S_HOMEPROD_DOMAIN}
       tls:
         - hosts:
           - *host
