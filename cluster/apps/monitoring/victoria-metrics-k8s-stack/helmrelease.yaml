@@ -30,7 +30,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - &vmagent-host "vmagent.${HOMEPROD_DOMAIN}"
+          - &vmagent-host "vmagent.${S_HOMEPROD_DOMAIN}"
         tls:
           - hosts:
             - *vmagent-host
