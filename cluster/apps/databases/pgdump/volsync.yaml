@@ -23,7 +23,7 @@ spec:
   restic:
     copyMethod: Snapshot
     pruneIntervalDays: 14
-    repository: volsync-restic
+    repository: pgdump-restic
     cacheCapacity: 2Gi
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block
