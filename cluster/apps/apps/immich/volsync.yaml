@@ -26,7 +26,7 @@ spec:
     pruneIntervalDays: 14
     repository: immich-restic
     cacheCapacity: 2Gi
-    storageClassName: nfs-client
+    storageClassName: ceph-block
     moverSecurityContext:
       runAsUser: 0
       runAsGroup: 0
