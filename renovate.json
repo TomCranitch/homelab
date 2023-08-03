@@ -27,6 +27,18 @@
       "matchDatasources": ["docker"],
       "commitMessageTopic": "image {{depName}}"
     },
+    {
+      "matchDatasources": ["helm"],
+      "commitMessageTopic": "chart {{depName}}",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchDatasources": ["docker"],
+      "commitMessageTopic": "image {{depName}}",
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
 	{
       "description": "Immich images",
       "groupName": "Immich",
