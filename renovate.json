@@ -31,13 +31,15 @@
       "matchDatasources": ["helm"],
       "commitMessageTopic": "chart {{depName}}",
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "automerge": true,
+	  "ignoreTests": true
     },
     {
       "matchDatasources": ["docker"],
       "commitMessageTopic": "image {{depName}}",
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      "automerge": true,
+	  "ignoreTests": true
     },
 	{
       "description": "Immich images",
