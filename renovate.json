@@ -42,6 +42,13 @@
 	  "ignoreTests": true
     },
 	{
+      "groupName": "cilium",
+      "matchPackagePatterns": ["cilium"],
+      "matchDatasources": ["helm"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+	{
       "description": "Immich images",
       "groupName": "Immich",
       "matchPackagePatterns": ["immich"],
