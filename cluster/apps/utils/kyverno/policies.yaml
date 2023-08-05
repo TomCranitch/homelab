@@ -57,6 +57,7 @@ spec:
                 clone:
                   namespace: database
                   name: postgres-superuser
+      # TODO: move to kustomization patch
       - apiVersion: kyverno.io/v1
         kind: ClusterPolicy
         metadata:

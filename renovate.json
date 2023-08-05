@@ -55,7 +55,9 @@
       "matchDatasources": ["docker"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "automerge": false
+
     },
 	{
       "description": "Rook-Ceph image and chart",
@@ -64,7 +66,8 @@
       "matchDatasources": ["docker", "helm"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
-      }
+      },
+      "automerge": false
 	}
   ]
 }
