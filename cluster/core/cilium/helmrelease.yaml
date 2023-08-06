@@ -57,3 +57,5 @@ spec:
       enabled: true
       announce:
         loadbalancerIP: true
+    cni:
+      exclusive: false
