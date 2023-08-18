@@ -27,9 +27,7 @@ spec:
       enabled: false
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
-      # TODO rm
-      baseUrl: "https://windmill.${S_HOMEPROD_DOMAIN}"
-      # internalUrl: "http://windmill-app.default.svc.cluster:8000"
+      baseProtocol: "https"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
       oauthSecretName: windmill-oauth-secret
       workerGroups: []
