@@ -39,7 +39,7 @@ spec:
               name: home-assistant
     image:
       repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.8.1
+      tag: 2023.8.3
     podAnnotations:
       # TODO: switch to IOTLan (to hopefully help with mdns)
       # Using IOTLan was causing connectivity issues with google home hub/esphome
