@@ -27,7 +27,7 @@ spec:
     # TODO maybe add delay for startupProbe due to model downloads
     image:
       repository: ghcr.io/immich-app/immich-machine-learning
-      tag: v1.72.2
+      tag: v1.74.0
     envFrom:
       - secretRef:
           name: immich
