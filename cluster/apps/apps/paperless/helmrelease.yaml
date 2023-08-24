@@ -52,7 +52,7 @@ spec:
                 key: PAPERLESS_DBPASS
     image:
       repository: ghcr.io/paperless-ngx/paperless-ngx
-      tag: 1.17.1
+      tag: 1.17.2
     env:
       PAPERLESS_CONSUMER_POLLING: 60
       PAPERLESS_CONSUMER_RECURSIVE: "true"
