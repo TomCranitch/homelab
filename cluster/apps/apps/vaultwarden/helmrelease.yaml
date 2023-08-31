@@ -48,7 +48,7 @@ spec:
                 key: POSTGRES_PASS
     image:
       repository: docker.io/vaultwarden/server
-      tag: "1.29.1"
+      tag: "1.29.2"
     env:
       TZ: ${TZ}
       DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
