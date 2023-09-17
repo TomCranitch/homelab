@@ -30,8 +30,12 @@ spec:
       TZ: ${TZ}
       NO_AUTOUPDATE: "true"
       TS_USERSPACE: "true"
+      TS_KUBE_SECRET: tailscale-state
         # TS_EXTRA_ARGS: "--advertise-routes=192.168.29.0/24"
       TS_ROUTES: "192.168.29.0/24"
+    envFrom:
+      - secretRef:
+          name: tailscale
     service:
       main:
         enabled: false
