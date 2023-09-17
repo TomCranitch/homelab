@@ -26,6 +26,8 @@ spec:
     image:
       repository: ghcr.io/tailscale/tailscale
       tag: v1.48.1
+    serviceAccount:
+      name: tailscale
     env:
       TZ: ${TZ}
       NO_AUTOUPDATE: "true"
