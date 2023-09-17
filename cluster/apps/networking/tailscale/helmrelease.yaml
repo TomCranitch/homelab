@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: tailscale
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    image:
+      repository: ghcr.io/tailscale/tailscale
+      tag: v1.48.1
+    env:
+      TZ: ${TZ}
+      NO_AUTOUPDATE: "true"
+      TS_USERSPACE: "true"
+      TS_EXTRA_ARGS: "--advertise-routes=192.168.29.0/24"
