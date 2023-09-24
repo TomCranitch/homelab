@@ -27,12 +27,11 @@ spec:
       namespace: ingress
   values:
     controller:
+      allowSnippetAnnotations: "true"
       ingressClassResource:
         default: true
       extraArgs:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
-      config:
-        allowSnippetAnnotations: "true"
       metrics:
         enabled: true
         service: 
