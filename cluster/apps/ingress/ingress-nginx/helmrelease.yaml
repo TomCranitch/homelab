@@ -32,7 +32,7 @@ spec:
       extraArgs:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
       config:
-        allow-snippet-annotations: "true"
+        allowSnippetAnnotations: "true"
       metrics:
         enabled: true
         service: 
