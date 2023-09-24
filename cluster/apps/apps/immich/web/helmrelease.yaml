@@ -54,6 +54,8 @@ spec:
             rewrite /api/(.*) /$1 break;
           nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
           nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          # Logging for rewrite rule
+          nginx.ingress.kubernetes.io/enable-rewrite-log: "true"
         hosts:
           - host: &host photos.${S_HOMEPROD_DOMAIN}
             paths:
