@@ -27,6 +27,7 @@ spec:
     repository: immich-restic
     cacheCapacity: 2Gi
     storageClassName: ceph-block
+    accessModes: ReadWriteOnce
     moverSecurityContext:
       runAsUser: 0
       runAsGroup: 0
