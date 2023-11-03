@@ -6,7 +6,7 @@ resources:
   - immich
   - windmill
   - paperless
-  - ocis
+# - ocis
 # TODO
 # - tandoor
 # - mealie
