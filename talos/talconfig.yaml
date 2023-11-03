@@ -1,7 +1,7 @@
 clusterName: homeprod
 talosVersion: v1.3.6
 kubernetesVersion: 1.26.2
-endpoint: https://192.168.29.172:6443  # TODO
+endpoint: https://192.168.29.170:6443  # TODO
 cniConfig:
   name: none
 nodes:
@@ -9,11 +9,11 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 100GB'
-    ipAddress: 192.168.29.172
+    ipAddress: 192.168.29.170
     network:
       interfaces:
         - deviceSelector:
-            hardwareAddr: A6:4E:F3:1E:9E:4F
+            hardwareAddr: e6:8c:ef:28:48:d6
           dhcp: true
           vip:
             ip: 192.168.29.10
@@ -33,11 +33,11 @@ nodes:
     controlPlane: true
     installDiskSelector:
       size: '<= 100GB'
-    ipAddress: 192.168.29.170
+    ipAddress: 192.168.29.172
     network:
       interfaces:
         - deviceSelector:
-            hardwareAddr: e6:8c:ef:28:48:d6
+            hardwareAddr: A6:4E:F3:1E:9E:4F
           dhcp: true
           vip:
             ip: 192.168.29.10
