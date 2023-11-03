@@ -40,7 +40,7 @@ spec:
               created. It will also push updates to the copied Secrets should the
               source secret be changed.
         spec:
-          mutateExistingOnPolicyUpdate: true
+          # mutateExistingOnPolicyUpdate: true
           generateExistingOnPolicyUpdate: true
           rules:
             - name: sync-postgres-superuser-secret
@@ -68,7 +68,7 @@ spec:
             policies.kyverno.io/description: >-
               Add the postgres init-db init container to the pod.
         spec:
-          mutateExistingOnPolicyUpdate: true
+          # mutateExistingOnPolicyUpdate: true
           generateExistingOnPolicyUpdate: true
           rules:
             - name: windmill-init-db
