@@ -6,7 +6,6 @@ resources:
   - microservices
   - redis 
   - server 
-  - web
   - typesense
   - pvc.yaml
   - configmap.yaml
