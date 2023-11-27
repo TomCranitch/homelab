@@ -94,7 +94,8 @@ spec:
             name: VictoriaMetrics
             type: prometheus
             url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429
-    envFromSecret: grafana-env
+    envFromSecrets:
+      - name: grafana-env
     grafana.ini:
       server:
         root_url: https://monitoring.${S_HOMEPROD_DOMAIN}
@@ -105,8 +106,8 @@ spec:
       auth.generic_oauth:
         enabled: true
         name: cranitchsso
-        client_id: abcd # Set by env vars
-        client_secret: abcd # Set by env vars
+        # client_id: abcd # Set by env vars
+        # client_secret: abcd # Set by env vars
         scopes: "openid profile email"
         empty_scopes: false
         auth_url: https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/
