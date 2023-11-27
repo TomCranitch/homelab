@@ -36,4 +36,4 @@ spec:
     retain:
       daily: 14
       weekly: 4
-      within: 7d
+      montly: 6
