@@ -34,7 +34,7 @@ spec:
               TZ: ${TIMEZONE}
               NTFY_DEBUG: false
               NTFY_BASE_URL: https://notifications.${S_HOMEPROD_DOMAIN}
-              ENABLE_METRICS: true
+              NTFY_ENABLE_METRICS: true
             args:
               - serve
     service:
