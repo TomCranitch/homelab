@@ -85,6 +85,9 @@ spec:
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           datasource: VictoriaMetrics
+        ntfy:
+          url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
+          datasource: VictoriaMetrics
     datasources:
       datasources.yaml:
         apiVersion: 1
