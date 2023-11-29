@@ -29,6 +29,7 @@ spec:
       enabled: false
     monitoring:
       enabled: true
+      createPrometheusRules: true
     resources:
       requests:
         cpu: 10m
