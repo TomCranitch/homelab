@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: esphome-restic
-  namespace: monitoring
+  namespace: default
 type: Opaque
 stringData:
   RESTIC_REPOSITORY: ${S_VOLSYNC_B2_REPO}-esphome
@@ -15,7 +15,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: esphome-restic
-  namespace: monitoring
+  namespace: default
 spec:
   sourcePVC: esphome
   trigger:
