@@ -58,15 +58,11 @@ spec:
         className: nginx
     persistence:
       cache:
-        type: pvc
+        type: persistentVolumeClaim
         size: 1Gi
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /var/cache/ntfy
     serviceMonitor:
-      enabled: true
-      endpoints:
-        - port: http
-          path: /metrics
-          interval: 1m
-          scrapeTimeout: 10s
+      main:
+        enabled: true
