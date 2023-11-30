@@ -44,6 +44,7 @@ spec:
             port: 80
     ingress:
       main:
+        enabled: true
         hosts:
           - host: &host notifications.${S_HOMEPROD_DOMAIN}
             paths:
