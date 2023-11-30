@@ -43,3 +43,5 @@ spec:
               storage: 30Gi
     prometheus-node-exporter:
       enabled: false
+    operator:
+      disable_prometheus_converter: false
