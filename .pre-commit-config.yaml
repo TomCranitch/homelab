@@ -4,3 +4,10 @@ repos:
     rev: v2.1.1
     hooks:
       - id: forbid-secrets
+  # TODO this doesnt work
+  - repo: local
+    hooks:
+      - id: flux-local
+        name: flux-local
+        entry: generate-diff.sh
+        language: script
