@@ -34,7 +34,8 @@ spec:
               TZ: ${TIMEZONE}
               NTFY_DEBUG: false
               NTFY_BASE_URL: https://notifications.${S_HOMEPROD_DOMAIN}
-              NTFY_ENABLE_METRICS: true
+              # TODO: change port
+              NTFY_METRICS_LISTEN_HTTP: :9090
             args:
               - serve
     service:
@@ -42,6 +43,8 @@ spec:
         ports:
           http:
             port: 80
+          metrics:
+            port: 9090
     ingress:
       main:
         enabled: true
@@ -68,3 +71,9 @@ spec:
     serviceMonitor:
       main:
         enabled: true
+        endpoints:
+          - port: metrics
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 10s
