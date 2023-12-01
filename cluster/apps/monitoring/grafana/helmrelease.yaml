@@ -36,6 +36,30 @@ spec:
               path: /var/lib/grafana/dashboards/default
             orgId: 1
             type: file
+          - name: ceph
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+          - name: flux
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
+          - name: kubernetes
+            disableDeletion: false
+            editable: true
+            folder: ""
+            options:
+              path: /var/lib/grafana/dashboards/default
+            orgId: 1
+            type: file
     dashboards:
       default:
         # Ref: https://grafana.com/grafana/dashboards/13307-proxmox-ve/
@@ -44,6 +68,17 @@ spec:
           revision: 6
           datasource: VictoriaMetrics
                 # Ref: https://grafana.com/grafana/dashboards/5342-ceph-pools/
+        cloudnative-pg:
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource: VictoriaMetrics
+        cert-manager:
+          url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+          datasource: VictoriaMetrics
+        ntfy:
+          url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
+          datasource:
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+      ceph:
         ceph-pools:
           gnetId: 5342
           revision: 9
@@ -58,15 +93,17 @@ spec:
           gnetId: 2842
           revision: 16
           datasource: VictoriaMetrics
+      flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
           datasource: VictoriaMetrics
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
           datasource: VictoriaMetrics
-        flux-logs:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
-          datasource: VictoriaMetrics
+        # flux-logs:
+        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
+        #   datasource: VictoriaMetrics
+      kubernetes:
         kubernetes-api-server:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
           datasource: VictoriaMetrics
@@ -85,10 +122,6 @@ spec:
         kubernetes-pods:
           url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
           datasource: VictoriaMetrics
-        ntfy:
-          url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
-          datasource:
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
     datasources:
       datasources.yaml:
         apiVersion: 1
