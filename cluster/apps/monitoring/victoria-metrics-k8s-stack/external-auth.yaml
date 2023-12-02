@@ -23,11 +23,11 @@ metadata:
   namespace: monitoring
 spec:
   tokenRef:
-    name: vmuser-secrets
-    key: proxmox-user-token
+    name: vmuser-secret
+    key: proxmox
   targetRefs:
     - crd:
-        kind: VMAgetn
-        name: example
+        kind: VMAgent
+        name: victoria-metrics-k8s-stack
         namespace: monitoring
       paths: ["/.*"]  # TODO
