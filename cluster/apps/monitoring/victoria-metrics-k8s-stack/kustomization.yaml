@@ -6,3 +6,5 @@ resources:
   - podscrape.yaml
   - servicescrape.yaml
   - volsync.yaml
+  - vmuser-secret.sops.yaml
+  - external-auth.yaml

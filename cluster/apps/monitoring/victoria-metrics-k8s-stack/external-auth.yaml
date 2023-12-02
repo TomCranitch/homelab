@@ -1,0 +1,33 @@
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMAuth
+metadata:
+  name: vmauth-select-all
+  namespace: monitoring
+spec:
+  # TODO???? 
+  # ...
+  # provide access to all users
+  selectAllByDefault: true
+  ingress:
+      class_name: "nginx"
+      # Secret filled in by cert manager
+      # tlsSecretName: vmauth-external-tls-secret
+      tlsHosts:
+        - vmauth-external.${S_HOMEPROD_DOMAIN}
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMUser
+metadata:
+  name: vmuser-proxmox
+  namespace: monitoring
+spec:
+  tokenRef:
+    name: vmuser-secrets
+    key: proxmox-user-token
+  targetRefs:
+    - crd:
+        kind: VMAgetn
+        name: example
+        namespace: monitoring
+      paths: ["/.*"]  # TODO
