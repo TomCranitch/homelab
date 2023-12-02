@@ -16,3 +16,4 @@ resources:
   - emqx
   - zigbee2mqtt
   - ntfy
+  - linkding

@@ -1,0 +1,101 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: linkding
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.0.2
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      main:
+        initContainers:
+          01-init-db:
+            image: 
+              repository: ghcr.io/onedr0p/postgres-initdb
+              tag: 14.8
+            env:
+              - name: POSTGRES_HOST
+                value: ${POSTGRES_RW_URL}
+              - name: POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-superuser
+                    key: password
+            envFrom:
+              - secretRef:
+                  name: linkding
+        containers:
+          main:
+            image:
+              repository: docker.io/sissbruecker/linkding
+              tag: 1.23.0
+            env:
+              LD_SUPERUSER_NAME: tom
+              LD_ENABLE_AUTH_PROXY: true
+              LD_AUTH_PROXY_USERNAME_HEADER: HTTP_X_AUTHENTIK_USERNAME
+              # TODO: LD_AUTH_PROXY_LOGOUT_URL: todo
+              LD_CSRF_TRUSTED_ORIGINS: https://bookmarks.${S_HOMEPROD_DOMAIN}
+              LD_DB_ENGINE: postgres
+              LD_DB_HOST: ${POSTGRES_RW_URL}
+            envFrom:
+              - secretRef:
+                  name: linkding
+    service:
+      main:
+        ports:
+          http:
+            port: 9090
+    ingress:
+      main:
+        enabled: true
+        annotations:
+          nginx.ingress.kubernetes.io/auth-url: |-
+            http://ak-outpost-authentik-embedded-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
+          nginx.ingress.kubernetes.io/auth-signin: |-
+            https://bookmarks.${S_HOMEPROD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
+          nginx.ingress.kubernetes.io/auth-response-headers: |-
+            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
+          nginx.ingress.kubernetes.io/auth-snippet: |
+            proxy_set_header X-Forwarded-Host $http_host;
+        hosts:
+          - host: &host bookmarks.${S_HOMEPROD_DOMAIN}
+            paths:
+              - path: /outpost.goauthentik.io
+                pathType: Prefix
+                service:
+                  name: ak-outpost-authentik-embedded-outpost
+                  port: 9000
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+        className: nginx
+    persistence:
+      data:
+        enabled: true
+        type: persistentVolumeClaim
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        globalMounts:
+          - path: /etc/linkding/data
