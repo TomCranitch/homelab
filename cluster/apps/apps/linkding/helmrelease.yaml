@@ -77,11 +77,11 @@ spec:
         hosts:
           - host: &host bookmarks.${S_HOMEPROD_DOMAIN}
             paths:
-              - path: /outpost.goauthentik.io
-                pathType: Prefix
-                service:
-                  name: ak-outpost-authentik-embedded-outpost
-                  port: 9000
+              # - path: /outpost.goauthentik.io
+              #   pathType: Prefix
+              #   service:
+              #     name: ak-outpost-authentik-embedded-outpost
+              #     port: 9000
               - path: /
                 pathType: Prefix
                 service:

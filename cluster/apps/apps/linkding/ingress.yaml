@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: linkding-authentik-outpost
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+   - host: &host "bookmarks.${S_HOMEPROD_DOMAIN}"
+     http:
+       paths:
+         - path: /outpost.goauthentik.io
+           pathType: Prefix
+           backend:
+             service:
+               name: ak-outpost-authentik-embedded-outpost
+               port:
+                 number: 9000
+  tls:
+    - hosts:
+        - *host
