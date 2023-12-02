@@ -5,7 +5,7 @@ namespace: default
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
-  - ingress-outpost.yaml
+    # - ingress-outpost.yaml
 patchesStrategicMerge:
   - patches/postgres.yaml
 configMapGenerator:
