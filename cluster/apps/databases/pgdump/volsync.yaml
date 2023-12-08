@@ -32,5 +32,6 @@ spec:
       runAsGroup: 0
       fsGroup: 0
     retain:
-      daily: 7
-      within: 3d
+      daily: 30
+      weekly: 12
+      within: 14d
