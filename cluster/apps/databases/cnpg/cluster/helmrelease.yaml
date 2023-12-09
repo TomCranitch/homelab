@@ -45,3 +45,21 @@ spec:
               timezone: ${TZ}
 #         monitoring:
 #           enablePodMonitor: true
+          backup:
+            retentionPolicy: 30d
+            barmanObjectStore:
+              data:
+                compression: bzip2
+              wal:
+                compression: bzip2
+                maxParallel: 4
+          destinationPath: s3://homeprod-cnpg
+          endpointURL:  s3.us-east-005.backblazeb2.com 
+          # serverName: 
+          s3Credentials:
+            accessKeyId:
+              name: postgres-s3
+              key: key-id
+            secretAccessKey:
+              name: postgres-s3
+              key: app-key
