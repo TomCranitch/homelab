@@ -54,7 +54,7 @@ spec:
                 compression: bzip2
                 maxParallel: 4
               destinationPath: s3://homeprod-cnpg
-              endpointURL:  s3.us-east-005.backblazeb2.com 
+              endpointURL:  https://s3.us-east-005.backblazeb2.com 
               # serverName: 
               s3Credentials:
                 accessKeyId:
