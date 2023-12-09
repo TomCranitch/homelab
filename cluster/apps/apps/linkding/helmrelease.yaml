@@ -48,7 +48,7 @@ spec:
               tag: 1.23.0
             env:
               LD_SUPERUSER_NAME: tom
-              LD_ENABLE_AUTH_PROXY: true
+              LD_ENABLE_AUTH_PROXY: "True"
               LD_AUTH_PROXY_USERNAME_HEADER: HTTP_X_AUTHENTIK_USERNAME
               # TODO: LD_AUTH_PROXY_LOGOUT_URL: todo
               LD_CSRF_TRUSTED_ORIGINS: https://bookmarks.${S_HOMEPROD_DOMAIN}
