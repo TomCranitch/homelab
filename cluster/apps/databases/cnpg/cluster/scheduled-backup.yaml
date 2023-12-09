@@ -10,4 +10,3 @@ spec:
   backupOwnerReference: self
   cluster:
     name: cnpg-cluster
-    namespace: database
