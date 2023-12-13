@@ -92,7 +92,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - *host recipes.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx
     persistence:
       static:
