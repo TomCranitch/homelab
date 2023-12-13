@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -22,52 +22,50 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      repository: docker.io/jmalloc/echo-server
-      tag: 0.3.6
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/jmalloc/echo-server
+              tag: 0.3.6
+            resources:
+              requests:
+                cpu: 5m
+                memory: 10Mi
+              limits:
+                memory: 50Mi
+            probes:
+              liveness: &probe
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probe
+              startup:
+                enabled: false
     service:
       main:
         ports:
           http:
             port: 8080
-    probes:
-      liveness:
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /health
-            port: 8080
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      readiness:
-        enabled: true
-        custom: true
-        spec:
-          httpGet:
-            path: /health
-            port: 8080
-          periodSeconds: 10
-          timeoutSeconds: 1
-          failureThreshold: 3
-      startup:
-        enabled: false
     ingress:
       main:
         enabled: true
-        ingressClassName: "nginx"
         hosts:
-          - host: "echo.${S_HOMEPROD_DOMAIN}"
+          - host: &host echo.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              -  "echo.${S_HOMEPROD_DOMAIN}"
-    resources:
-      requests:
-        cpu: 5m
-        memory: 10Mi
-      limits:
-        memory: 50Mi
+              - *host
+        className: nginx

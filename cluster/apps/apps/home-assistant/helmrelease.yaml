@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -23,64 +23,74 @@ spec:
     remediation:
       retries: 3
   values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/onedr0p/postgres-initdb:14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
-        env:
-          - name: POSTGRES_HOST
-            value: ${POSTGRES_RW_URL}
-          - name: POSTGRES_SUPER_PASS
-            valueFrom:
-              secretKeyRef:
-                name: postgres-superuser
-                key: password
-        envFrom:
-          - secretRef:
-              name: home-assistant
-    image:
-      repository: ghcr.io/onedr0p/home-assistant
-      tag: 2023.12.1
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: Always
+    controllers:
+      main:
+        initContainers:
+          01-init-db:
+            env:
+              - name: POSTGRES_HOST
+                value: ${POSTGRES_RW_URL}
+              - name: POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-superuser
+                    key: password
+            envFrom:
+              - secretRef:
+                  name: home-assistant
+            image:
+              repository: ghcr.io/onedr0p/postgres-initdb
+              tag: 14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/home-assistant
+              tag: 2023.12.1
+            envFrom:
+              - secretRef:
+                  name: home-assistant
+            env:
+              TZ: ${TZ}
+    service:
+      main:
+        ports:
+          http:
+            port: 8123
+    ingress:
+      main:
+        enabled: true
+        hosts:
+          - host: &host home.${S_HOMEPROD_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - *host
+        className: nginx
+    persistence:
+      config:
+        enabled: true
+        existingClaim: home-assistant
+        globalMounts:
+          - path: /config
     podAnnotations:
       # TODO: switch to IOTLan (to hopefully help with mdns)
       # Using IOTLan was causing connectivity issues with google home hub/esphome
       k8s.v1.cni.cncf.io/networks: |
         [{
-          "name":"multus-serverlan",
+          "name": "multus-serverlan",
           "namespace": "networking"
         }]
-    env:
-      TZ: ${TZ}
-    envFrom:
-      - secretRef:
-          name: home-assistant
-    persistence:
-      config:
-        enabled: true
-        existingClaim: home-assistant
-        mountPath: /config
-    service:
-      main:
-        ports:
-          http:
-            port: &port 8123
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - host: &host "home.${S_HOMEPROD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      # TODO switch to OnRootMismatch
-      fsGroupChangePolicy: "Always"
     addons:
       codeserver:
         enabled: true
@@ -90,35 +100,27 @@ spec:
         env:
           TZ: ${TZ}
           GIT_AUTHOR_NAME: Tom Cranitch
-        workingDir: '/config'
+        workingDir: /config
         args:
           - --auth
-          - 'none'
+          - none
           - --user-data-dir
-          - '/config/.vscode'
+          - /config/.vscode
           - --extensions-dir
-          - '/config/.vscode'
+          - /config/.vscode
         ingress:
           enabled: true
-          ingressClassName: 'nginx'
-          annotations:
-            # TODO: this isnt working
-            # nginx.ingress.kubernetes.io/auth-url: |-
-            #     http://ak-outpost-authentik-embedded-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-            # nginx.ingress.kubernetes.io/auth-signin: |-
-            #     https://sso.${S_HOMEPROD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
-            # nginx.ingress.kubernetes.io/auth-response-headers: |-
-            #     Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-            # nginx.ingress.kubernetes.io/auth-snippet: |
-            #     proxy_set_header X-Forwarded-Host $http_host;
+          ingressClassName: nginx
+          annotations: null
           hosts:
-            - host: &host-code "hass-code.${S_HOMEPROD_DOMAIN}"
+            # TODO protect with reverse proxy auth
+            - host: &hass-code hass-code.${S_HOMEPROD_DOMAIN}
               paths:
                 - path: /
                   pathType: Prefix
           tls:
             - hosts:
-                - *host-code
+                - *hass-code
         volumeMounts:
           - name: config
             mountPath: /config
