@@ -57,11 +57,31 @@ spec:
                   name: home-assistant
             env:
               TZ: ${TZ}
+          code:
+            image:
+              repository: ghcr.io/coder/code-server
+              tag: 4.19.1
+            env:
+              TZ: ${TZ}
+              GIT_AUTHOR_NAME: Tom Cranitch
+            workingDir: /config
+            args:
+              - --auth
+              - none
+              - --user-data-dir
+              - /config/.vscode
+              - --extensions-dir
+              - /config/.vscode
     service:
       main:
         ports:
           http:
             port: 8123
+      code:
+        controller: main
+        ports:
+          hpttp:
+            port: 8081
     ingress:
       main:
         enabled: true
@@ -77,6 +97,21 @@ spec:
           - hosts:
               - *host
         className: nginx
+      code:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          # TODO protect with reverse proxy auth
+          - host: &hass-code hass-code.${S_HOMEPROD_DOMAIN}
+            paths:
+              - path: /
+                pathType: Prefix
+                service:
+                  name: code
+                  port: http
+        tls:
+          - hosts:
+              - *hass-code
     persistence:
       config:
         enabled: true
@@ -91,36 +126,3 @@ spec:
           "name": "multus-serverlan",
           "namespace": "networking"
         }]
-    addons:
-      codeserver:
-        enabled: true
-        image:
-          repository: ghcr.io/coder/code-server
-          tag: 4.19.1
-        env:
-          TZ: ${TZ}
-          GIT_AUTHOR_NAME: Tom Cranitch
-        workingDir: /config
-        args:
-          - --auth
-          - none
-          - --user-data-dir
-          - /config/.vscode
-          - --extensions-dir
-          - /config/.vscode
-        ingress:
-          enabled: true
-          ingressClassName: nginx
-          annotations: null
-          hosts:
-            # TODO protect with reverse proxy auth
-            - host: &hass-code hass-code.${S_HOMEPROD_DOMAIN}
-              paths:
-                - path: /
-                  pathType: Prefix
-          tls:
-            - hosts:
-                - *hass-code
-        volumeMounts:
-          - name: config
-            mountPath: /config
