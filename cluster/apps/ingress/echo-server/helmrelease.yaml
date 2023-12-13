@@ -36,7 +36,7 @@ spec:
               limits:
                 memory: 50Mi
             probes:
-              liveness:
+              liveness: &probe
                 enabled: true
                 custom: true
                 spec:
@@ -46,16 +46,7 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /health
-                    port: 8080
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
+              readiness: *probe
               startup:
                 enabled: false
     service:
@@ -67,7 +58,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: echo.${S_HOMEPROD_DOMAIN}
+          - host: &host echo.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -76,5 +67,5 @@ spec:
                   port: http
         tls:
           - hosts:
-              - echo.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx

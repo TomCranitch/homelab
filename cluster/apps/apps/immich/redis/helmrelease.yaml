@@ -32,8 +32,7 @@ spec:
               tag: 7.2.3
             env:
               REDIS_REPLICATION_MODE: master
-            command:
-              - redis-server
+            command: redis-server
     service:
       main:
         ports:

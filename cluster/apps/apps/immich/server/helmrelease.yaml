@@ -50,7 +50,7 @@ spec:
           nignx.ingress.kubernetes.io/force-ssl-redirect: 'true'
           nginx.ingress.kubernetes.io/proxy-body-size: '0'
         hosts:
-          - host: photos.${S_HOMEPROD_DOMAIN}
+          - host: &host photos.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -59,7 +59,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - photos.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx
     persistence:
       data:

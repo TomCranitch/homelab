@@ -36,7 +36,7 @@ spec:
               - configMapRef:
                   name: immich
             probes:
-              liveness: &id001
+              liveness: &probe
                 enabled: true
                 custom: true
                 spec:
@@ -47,7 +47,7 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *id001
+              readiness: *probe
               startup:
                 enabled: false
     service:

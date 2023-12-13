@@ -84,7 +84,7 @@ spec:
         enabled: true
         annotations: null
         hosts:
-          - host: recipes.${S_HOMEPROD_DOMAIN}
+          - host: &host recipes.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 service:
@@ -92,7 +92,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - recipes.${S_HOMEPROD_DOMAIN}
+              - *host recipes.${S_HOMEPROD_DOMAIN}
         className: nginx
     persistence:
       static:

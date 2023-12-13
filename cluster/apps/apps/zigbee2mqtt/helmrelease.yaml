@@ -68,7 +68,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: zigbee.${S_HOMEPROD_DOMAIN}
+          - host: &host zigbee.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -77,7 +77,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - zigbee.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx
     persistence:
       config:

@@ -39,7 +39,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: esphome.${S_HOMEPROD_DOMAIN}
+          - host: &host esphome.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -48,7 +48,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - esphome.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx
     persistence:
       config:
@@ -57,5 +57,8 @@ spec:
         globalMounts:
           - path: /config
     podAnnotations:
-      k8s.v1.cni.cncf.io/networks: "[{\n  \"name\":\"multus-serverlan\",\n  \"namespace\"\
-        : \"networking\"\n}]\n"
+      k8s.v1.cni.cncf.io/networks: |
+        [{
+          "name": "multus-serverlan",
+          "namespace": "networking"
+        }]

@@ -66,7 +66,7 @@ spec:
       main:
         enabled: true
         hosts:
-          - host: home.${S_HOMEPROD_DOMAIN}
+          - host: &host home.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
@@ -75,7 +75,7 @@ spec:
                   port: http
         tls:
           - hosts:
-              - home.${S_HOMEPROD_DOMAIN}
+              - *host
         className: nginx
     persistence:
       config:
@@ -84,8 +84,13 @@ spec:
         globalMounts:
           - path: /config
     podAnnotations:
-      k8s.v1.cni.cncf.io/networks: "[{\n  \"name\":\"multus-serverlan\",\n  \"namespace\"\
-        : \"networking\"\n}]\n"
+      # TODO: switch to IOTLan (to hopefully help with mdns)
+      # Using IOTLan was causing connectivity issues with google home hub/esphome
+      k8s.v1.cni.cncf.io/networks: |
+        [{
+          "name": "multus-serverlan",
+          "namespace": "networking"
+        }]
     addons:
       codeserver:
         enabled: true
@@ -108,13 +113,14 @@ spec:
           ingressClassName: nginx
           annotations: null
           hosts:
-            - host: hass-code.${S_HOMEPROD_DOMAIN}
+            # TODO protect with reverse proxy auth
+            - host: &hass-code hass-code.${S_HOMEPROD_DOMAIN}
               paths:
                 - path: /
                   pathType: Prefix
           tls:
             - hosts:
-                - hass-code.${S_HOMEPROD_DOMAIN}
+                - *hass-code
         volumeMounts:
           - name: config
             mountPath: /config
