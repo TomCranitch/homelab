@@ -58,7 +58,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: pvc
+        type: persistentVolumeClaim
         size: 1Gi
         accessMode: ReadWriteOnce
         storageClass: ceph-block
