@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -23,34 +23,39 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      repository: ghcr.io/esphome/esphome
-      tag: 2023.11.6
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |
-        [{
-          "name":"multus-serverlan",
-          "namespace": "networking"
-        }]
-    persistence:
-      config:
-        enabled: true
-        existingClaim: esphome
-        mountPath: /config
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/esphome/esphome
+              tag: 2023.11.6
     service:
       main:
         ports:
           http:
-            port: &port 6052
+            port: 6052
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
         hosts:
-          - host: &host "esphome.${S_HOMEPROD_DOMAIN}"
+          - host: esphome.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - *host
+              - esphome.${S_HOMEPROD_DOMAIN}
+        className: nginx
+    persistence:
+      config:
+        enabled: true
+        existingClaim: esphome
+        globalMounts:
+          - path: /config
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: "[{\n  \"name\":\"multus-serverlan\",\n  \"namespace\"\
+        : \"networking\"\n}]\n"
