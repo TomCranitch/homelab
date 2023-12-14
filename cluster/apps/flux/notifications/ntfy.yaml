@@ -10,7 +10,7 @@ spec:
   secretRef:
     name: ntfy-flux-secret
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta2
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
   name: ntfy
