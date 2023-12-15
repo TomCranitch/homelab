@@ -57,7 +57,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: 'true'
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: 'true'
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.default.svc.cluster.local
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.118:8888
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.121:8888
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ezsp
     service:
       main:
