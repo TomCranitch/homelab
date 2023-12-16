@@ -137,9 +137,6 @@ spec:
                    name: ak-outpost-authentik-embedded-outpost
                    port:
                      number: 9000
-  tls:
-    - hosts:
-        - *host
     persistence:
       config:
         enabled: true
