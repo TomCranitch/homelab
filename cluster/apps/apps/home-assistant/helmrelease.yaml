@@ -124,19 +124,10 @@ spec:
         tls:
           - hosts:
               - *hass-code
-      auth-outpost:
-        enabled: true
-        ingressClassName: nginx
-        host:
-         - host: &host "home.${S_HOMEPROD_DOMAIN}"
-           paths:
-             - path: /outpost.goauthentik.io
-               pathType: Prefix
-               backend:
-                 service:
-                   name: ak-outpost-authentik-embedded-outpost
-                   port:
-                     number: 9000
+      # auth-outpost:
+      #   enabled: true
+      #   ingressClassName: nginx
+      #   host:
     persistence:
       config:
         enabled: true
