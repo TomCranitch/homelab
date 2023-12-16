@@ -80,7 +80,7 @@ spec:
       code:
         controller: main
         ports:
-          hpttp:
+          http:
             port: 8081
     ingress:
       main:
