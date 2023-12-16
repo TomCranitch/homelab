@@ -67,11 +67,14 @@ spec:
             workingDir: /config
             args:
               - --auth
-              - none
+              - "none"
               - --user-data-dir
-              - /config/.vscode
+              - "/config/.vscode"
               - --extensions-dir
-              - /config/.vscode
+              - "/config/.vscode"
+              - --port
+              - "8081"
+              - "/config"
     service:
       main:
         ports:
