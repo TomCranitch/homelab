@@ -3,14 +3,64 @@ kind: Ingress
 metadata:
     name: authentik-outpost
 spec:
-    rules:
-        - host: sso.${S_HOMEPROD_DOMAIN}
-          http:
-              paths: 
-               - path: /outpost.goauthentik.io
-                 pathType: Prefix
-                 backend:
-                     service:
-                         name: ak-outpost-authentik-embedded-outpost
-                         port:
-                             number: 9000
+  rules:
+    - host: sso.${S_HOMEPROD_DOMAIN}
+      http:
+        paths: 
+         - path: /outpost.goauthentik.io
+           pathType: Prefix
+           backend:
+             service:
+               name: ak-outpost-authentik-embedded-outpost
+               port:
+                 number: 9000
+    - host: hass-code.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
+    - host: esphome.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
+    - host: hubble.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
+    - host: rook.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
+    - host: zigbee.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
