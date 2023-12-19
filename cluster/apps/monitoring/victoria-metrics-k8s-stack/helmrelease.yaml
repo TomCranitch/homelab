@@ -40,14 +40,6 @@ spec:
             proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - &vmagent-host "vmagent.${S_HOMEPROD_DOMAIN}"
-        extraPaths:
-          - path: /outpost.goauthentik.io
-            pathType: Prefix
-            backend:
-              service:
-                name: ak-outpost-authentik-embedded-outpost
-                port:
-                  number: 9000
         tls:
           - hosts:
             - *vmagent-host
