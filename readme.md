@@ -16,4 +16,4 @@ TODOS:
  - git push trigger flux
  - renovate
    - grafana dashboards
-
+ - oidc for talos apiServer
