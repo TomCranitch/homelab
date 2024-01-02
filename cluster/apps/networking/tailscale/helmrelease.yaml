@@ -37,9 +37,9 @@ spec:
                   name: tailscale
             env:
               TZ: ${TZ}
-              NO_AUTOUPDATE: 'true'
-              TS_USERSPACE: 'true'
-              TS_KUBE_SECRET: tailscale-state
+              NO_AUTOUPDATE: true
+              TS_USERSPACE: true
+              TS_KUBE_SECRET: ""
               TS_ROUTES: 192.168.29.0/24,192.168.30.0/24
               TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:2000
             probes:
