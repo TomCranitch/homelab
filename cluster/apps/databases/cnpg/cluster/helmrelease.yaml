@@ -33,6 +33,7 @@ spec:
           namespace: database
         spec:
           instances: 3
+          imageName: ghcr.io/bo0tzz/cnpgvecto.rs:16.1-v0.1.13
           primaryUpdateStrategy: unsupervised
           storage:
             size: 15Gi
@@ -43,6 +44,8 @@ spec:
           postgresql:
             parameters:
               timezone: ${TZ}
+            shared_preload_libraries:
+             - "vectors.so"
 #         monitoring:
 #           enablePodMonitor: true
           backup:
