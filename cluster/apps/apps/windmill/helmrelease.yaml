@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: windmill
@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: windmill
-      version: 2.0.57
+      version: 2.0.61
       sourceRef:
         kind: HelmRepository
         name: windmill-labs-charts

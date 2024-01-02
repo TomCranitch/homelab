@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: home-assistant
@@ -51,7 +51,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/home-assistant
-              tag: 2023.12.3
+              tag: 2023.12.4
             envFrom:
               - secretRef:
                   name: home-assistant
@@ -60,7 +60,7 @@ spec:
           code:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.19.1
+              tag: 4.20.0
             env:
               TZ: ${TZ}
               GIT_AUTHOR_NAME: Tom Cranitch
