@@ -6,7 +6,6 @@ resources:
   - microservices
   - redis 
   - server 
-  - typesense
   - pvc.yaml
   - configmap.yaml
   - secret.sops.yaml
