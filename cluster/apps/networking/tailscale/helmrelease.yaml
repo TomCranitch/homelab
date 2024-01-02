@@ -25,6 +25,8 @@ spec:
   values:
     controllers:
       main:
+        replicas: 2
+        strategy: RollingUpdate
         containers:
           main:
             image:
@@ -34,11 +36,13 @@ spec:
               - secretRef:
                   name: tailscale
             env:
+              NO_AUTOUPDATE: true
               TZ: ${TZ}
               NO_AUTOUPDATE: 'true'
               TS_USERSPACE: 'true'
               TS_KUBE_SECRET: tailscale-state
               TS_ROUTES: 192.168.29.0/24,192.168.30.0/24
+              TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:2000
             probes:
               liveness:
                 enabled: false
@@ -48,6 +52,16 @@ spec:
                 enabled: false
     service:
       main:
-        enabled: false
+        ports:
+          http:
+            port: 2000
     serviceAccount:
       name: tailscale
+    # TODO: dashboard
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: http
+            scheme: http
+            path: /debug/metrics
