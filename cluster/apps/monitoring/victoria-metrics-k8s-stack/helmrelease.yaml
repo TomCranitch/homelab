@@ -26,6 +26,8 @@ spec:
     grafana:
       enabled: false
     vmagent:
+      spec:
+        externalLabels: {}
       ingress:
         enabled: true
         ingressClassName: "nginx"
