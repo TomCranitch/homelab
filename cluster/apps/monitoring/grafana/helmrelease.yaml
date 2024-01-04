@@ -70,7 +70,8 @@ spec:
                 # Ref: https://grafana.com/grafana/dashboards/5342-ceph-pools/
         cloudnative-pg:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: VictoriaMetrics
+          datasource: 
+            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: VictoriaMetrics
@@ -94,6 +95,7 @@ spec:
           revision: 16
           datasource: VictoriaMetrics
       flux:
+        # TODO: fix
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
           datasource: VictoriaMetrics
