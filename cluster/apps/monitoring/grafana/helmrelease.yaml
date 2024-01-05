@@ -69,6 +69,7 @@ spec:
           datasource: VictoriaMetrics
                 # Ref: https://grafana.com/grafana/dashboards/5342-ceph-pools/
         cloudnative-pg:
+          # TODO: this is broken by externalLabels from victoriametrics
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
           datasource: 
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
