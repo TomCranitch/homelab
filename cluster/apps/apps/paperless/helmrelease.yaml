@@ -84,8 +84,8 @@ spec:
               PAPERLESS_DBENGINE: postgresql
               PAPERLESS_DBPORT: '5432'
               PAPERLESS_DBHOST: ${POSTGRES_RW_URL}
-              USERMAP_UID: 1000
-              USERMAP_GID: 100
+              USERMAP_UID: ${CONTAINER_UID}
+              USERMAP_GID: ${CONTAINER_GID}
     service:
       main:
         ports:

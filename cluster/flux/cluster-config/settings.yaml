@@ -11,3 +11,6 @@ data:
 
   # TODO this is wrong ;(
   LB_EMQX: 10.10.1.50
+
+  CONTAINER_UID: 100
+  CONTAINER_GID: 1000
