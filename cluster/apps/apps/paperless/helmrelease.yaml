@@ -58,7 +58,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 1.17.4
+              tag: 2.3.3
             envFrom:
               - secretRef:
                   name: paperless
@@ -122,7 +122,7 @@ spec:
           - path: /library
     sidecars:
       gotenburg:
-        image: thecodingmachine/gotenberg:7.10.2
+        image: thecodingmachine/gotenberg:8.0.1
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
