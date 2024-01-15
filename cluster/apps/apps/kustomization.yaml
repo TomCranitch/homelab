@@ -17,3 +17,4 @@ resources:
   - zigbee2mqtt
   - ntfy
   - linkding
+  - radicale
