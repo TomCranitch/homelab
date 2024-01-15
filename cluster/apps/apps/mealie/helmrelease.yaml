@@ -1,15 +1,16 @@
+# TODO: no guarantee this works - not tested on app-template v2
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: mealie-frontend
+  name: mealie
   namespace: default
 spec:
   interval: 15m
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -23,106 +24,84 @@ spec:
     remediation:
       retries: 3
   values:
-    image:
-      repository: docker.io/hkotel/mealie
-      tag: frontend-v1.0.0beta-5
-    env:
-      TZ: ${TZ}
-      API_URL: "http://mealie-api.default.svc.cluster.local:9000"
-    persistence:
-      data:
-        enabled: true
-        existingClaim: mealie
-        mountPath: /app/data
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: docker.io/hkotel/mealie
+              tag: frontend-v1.0.0beta-5
+            env:
+              TZ: ${TZ}
+              API_URL: "http://mealie-api.default.svc.cluster.local:9000"
+      backend:
+        initContainers:
+          01-init-db:
+            image: ghcr.io/onedr0p/postgres-initdb:14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
+            env:
+              - name: POSTGRES_HOST
+                value: ${POSTGRES_RW_URL}
+              - name: POSTGRES_DB
+                value: mealie
+              - name: POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-superuser
+                    key: password
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie
+                    key: POSTGRES_USER
+              - name: POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: mealie
+                    key: POSTGRES_PASSWORD
+        containers:
+          main:
+            image:
+              repository: docker.io/hkotel/mealie
+              tag: api-v1.0.0beta-5
+            env:
+              TZ: ${TZ}
+              DB_ENGINE: postgres
+              POSTGRES_SERVER: ${POSTGRES_RW_URL}
+              POSTGRES_PORT: 5432
+              POSTGRES_DB: mealie 
+              BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
+            envFrom:
+              - secretRef:
+                  name: mealie
     service:
       main:
         ports:
           http:
-            port: &frontend-port 3000
+            port: 3000
+      backend:
+        ports:
+          http:
+            port: 9000
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
         annotations:
           nginx.ingress.kubernetes.io/proxy-body-size: "50m"
         hosts:
-          - host: &frontend-host "recipes.${S_HOMEPROD_DOMAIN}"
+          - host: &host recipes.${S_HOMEPROD_DOMAIN}
             paths:
               - path: /
                 pathType: Prefix
                 service:
-                  port: *frontend-port
+                  name: main
+                  port: http
         tls:
           - hosts:
-              - *frontend-host
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
-kind: HelmRelease
-metadata:
-  name: mealie-api
-  namespace: default
-spec:
-  interval: 15m
-  chart:
-    spec:
-      chart: app-template
-      version: 1.5.1
-      sourceRef:
-        kind: HelmRepository
-        name: bjw-s-charts
-        namespace: flux-system
-      interval: 15m
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    remediation:
-      retries: 3
-  values:
-    initContainers:
-      01-init-db:
-        image: ghcr.io/onedr0p/postgres-initdb:14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
-        env:
-          - name: POSTGRES_HOST
-            value: ${POSTGRES_RW_URL}
-          - name: POSTGRES_DB
-            value: mealie
-          - name: POSTGRES_SUPER_PASS
-            valueFrom:
-              secretKeyRef:
-                name: postgres-superuser
-                key: password
-          - name: POSTGRES_USER
-            valueFrom:
-              secretKeyRef:
-                name: mealie
-                key: POSTGRES_USER
-          - name: POSTGRES_PASS
-            valueFrom:
-              secretKeyRef:
-                name: mealie
-                key: POSTGRES_PASSWORD
-    image:
-      repository: docker.io/hkotel/mealie
-      tag: api-v1.0.0beta-5
-    env:
-      TZ: ${TZ}
-      DB_ENGINE: postgres
-      POSTGRES_SERVER: ${POSTGRES_RW_URL}
-      POSTGRES_PORT: 5432
-      POSTGRES_DB: mealie 
-      BASE_URL: https://recipes.${S_HOMEPROD_DOMAIN}
-    envFrom:
-      - secretRef:
-          name: mealie
+              - *host
+        className: nginx
     persistence:
-      data:
+      config:
         enabled: true
         existingClaim: mealie
-        mountPath: /app/data
-    service:
-      main:
-        ports:
-          http:
-            port: 9000
+        globalMounts:
+          - path: /app/data
