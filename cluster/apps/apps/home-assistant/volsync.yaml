@@ -52,5 +52,5 @@ spec:
     # cacheAccessModes: ReadWriteOnce
     cacheCapacity: 2Gi
     storageClassName: ceph-block
-    accessModes: ReadWriteOnce
+    # accessModes: ReadWriteOnce
     capacity: 1Gi  # TODO: keep in sync with pvc
