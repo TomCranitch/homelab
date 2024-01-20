@@ -35,3 +35,21 @@ spec:
       daily: 7
       weekly: 6
       monthly: 6
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: home-assistant-restic
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: home-assistant-restic
+    copyMethod: Snapshot # must be Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    cacheStorageClassName: ceph-block
+    cacheAccessModes: ReadWriteOnce}
+    cacheCapacity: 2Gi
+    storageClassName: ceph-block
+    accessModes: ReadWriteOnce
+    capacity: 1Gi  # TODO: keep in sync with pvc
