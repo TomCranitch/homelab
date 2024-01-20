@@ -56,6 +56,6 @@ spec:
       - ReadWriteOnce
     capacity: 1Gi  # TODO: keep in sync with pvc
     moverSecurityContext:
-      runAsUser: 0
-      runAsGroup: 0
-      fsGroup: 0
+      runAsUser: 568
+      runAsGroup: 111
+      fsGroup: 111
