@@ -39,7 +39,7 @@ spec:
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: home-assistant-restic
+  name: home-assistant-destination
 spec:
   trigger:
     manual: restore-once
@@ -47,8 +47,8 @@ spec:
     repository: home-assistant-restic
     copyMethod: Snapshot # must be Snapshot
     volumeSnapshotClassName: csi-ceph-blockpool
-    cacheStorageClassName: ceph-block
-    cacheAccessModes: ReadWriteOnce
+    # cacheStorageClassName: ceph-block
+    # cacheAccessModes: ReadWriteOnce
     cacheCapacity: 2Gi
     storageClassName: ceph-block
     accessModes: ReadWriteOnce
