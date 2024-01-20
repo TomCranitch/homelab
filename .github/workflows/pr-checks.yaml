@@ -13,6 +13,8 @@ jobs:
           - helmrelease
           - kustomization
     steps:
+      - name: Setup Flux CLI
+        uses: fluxcd/flux2/action@v2
       - uses: allenporter/flux-local/action/diff@4.3.0
         id: diff
         with:
