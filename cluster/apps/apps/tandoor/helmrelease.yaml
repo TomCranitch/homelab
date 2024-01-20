@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.4.0
+      version: 2.5.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -64,7 +64,7 @@ spec:
           main:
             image:
               repository: docker.io/vabene1111/recipes
-              tag: 1.5.10
+              tag: 1.5.11
             envFrom:
               - secretRef:
                   name: tandoor
