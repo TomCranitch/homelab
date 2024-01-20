@@ -55,3 +55,7 @@ spec:
     accessModes: 
       - ReadWriteOnce
     capacity: 1Gi  # TODO: keep in sync with pvc
+    moverSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      fsGroup: 0
