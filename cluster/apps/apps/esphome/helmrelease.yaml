@@ -30,6 +30,13 @@ spec:
             image:
               repository: ghcr.io/esphome/esphome
               tag: 2023.12.9
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-serverlan",
+                "namespace": "networking"
+              }]
     service:
       main:
         ports:
@@ -65,9 +72,3 @@ spec:
         existingClaim: esphome
         globalMounts:
           - path: /config
-    podAnnotations:
-      k8s.v1.cni.cncf.io/networks: |
-        [{
-          "name": "multus-iotlan",
-          "namespace": "networking"
-        }]
