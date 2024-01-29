@@ -24,6 +24,7 @@ spec:
       retries: 3
   values:
     emqxConfig:
+      # TODO this isnt working...
       EMQX_ALLOW_ANONYMOUS: "false"
       # EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
       EMQX_DASHBOARD__DEFAULT_USERNAME: admin
@@ -48,15 +49,6 @@ spec:
         path: /
         hosts: 
           - &host "mqtt.${S_HOMEPROD_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
-      mqtt:
-        # TODO: disable
-        enabled: true
-        ingressClassName: nginx
-        hosts: 
-          - &host "mqtt-broker.${S_HOMEPROD_DOMAIN}"
         tls:
           - hosts:
               - *host
