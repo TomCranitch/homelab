@@ -51,6 +51,15 @@ spec:
         tls:
           - hosts:
               - *host
+      mqtt:
+        # TODO: disable
+        enabled: true
+        ingressClassName: nginx
+        hosts: 
+          - &host "mqtt-broker.${S_HOMEPROD_DOMAIN}"
+        tls:
+          - hosts:
+              - *host
     # TODO
     # metrics:
     #   enabled: true
