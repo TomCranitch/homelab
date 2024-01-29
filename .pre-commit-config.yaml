@@ -4,6 +4,12 @@ repos:
     rev: v2.1.1
     hooks:
       - id: forbid-secrets
+  - repo: https://github.com/gabe565/pre-commit-gitops
+    rev: 'v0.4.0'  # Use the sha / tag you want to point at
+    hooks:
+      - id: check-charts-support-renovate
+      - id: check-drift-detection-enabled
+      - id: check-secrets-encrypted
   # TODO this doesnt work
   - repo: local
     hooks:
