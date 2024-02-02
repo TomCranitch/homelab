@@ -34,9 +34,13 @@ spec:
               RADICALE_CONFIG: /config/config
         pod:
           securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            fsGroup: ${APP_GID}
+            # TODO
+            # runAsUser: ${APP_UID}
+            # runAsGroup: ${APP_GID}
+            # fsGroup: ${APP_GID}
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
             fsGroupChangePolicy: "OnRootMismatch"
     service:
       main:
