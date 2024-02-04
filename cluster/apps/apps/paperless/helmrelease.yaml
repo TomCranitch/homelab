@@ -86,6 +86,20 @@ spec:
               PAPERLESS_DBHOST: ${POSTGRES_RW_URL}
               USERMAP_UID: ${CONTAINER_UID}
               USERMAP_GID: ${CONTAINER_GID}
+          gotenburg:
+            image:
+              repository: thecodingmachine/gotenberg
+              tag: 8.0.2
+            env:
+              DISABLE_GOOGLE_CHROME: 1
+          redis:
+            image:
+              repository: public.ecr.aws/docker/library/redis
+              tag: 7.2.4
+          tika:
+            image:
+              repository: ghcr.io/paperless-ngx/tika
+              tag: 2.9.0-full
     service:
       main:
         ports:
