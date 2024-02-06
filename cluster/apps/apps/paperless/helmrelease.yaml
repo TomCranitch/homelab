@@ -99,7 +99,7 @@ spec:
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.0-full
+              tag: 2.9.1-full
     service:
       main:
         ports:
@@ -145,5 +145,5 @@ spec:
         image: public.ecr.aws/docker/library/redis:7.2.4
         imagePullPolicy: IfNotPresent
       tika:
-        image: ghcr.io/paperless-ngx/tika:2.9.0-full
+        image: ghcr.io/paperless-ngx/tika:2.9.1-full
         imagePullPolicy: IfNotPresent
