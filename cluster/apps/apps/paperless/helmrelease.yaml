@@ -91,7 +91,7 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.0.2
+              tag: 8.0.3
             env:
               DISABLE_GOOGLE_CHROME: 1
           redis:
@@ -101,7 +101,7 @@ spec:
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
-              tag: 2.9.0-full
+              tag: 2.9.1-full
     service:
       main:
         ports:
@@ -138,7 +138,7 @@ spec:
           - path: /library
     sidecars:
       gotenburg:
-        image: thecodingmachine/gotenberg:8.0.2
+        image: thecodingmachine/gotenberg:8.0.3
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
@@ -147,5 +147,5 @@ spec:
         image: public.ecr.aws/docker/library/redis:7.2.4
         imagePullPolicy: IfNotPresent
       tika:
-        image: ghcr.io/paperless-ngx/tika:2.9.0-full
+        image: ghcr.io/paperless-ngx/tika:2.9.1-full
         imagePullPolicy: IfNotPresent
