@@ -21,6 +21,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     installCRDs: false
     extraArgs:

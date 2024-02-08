@@ -22,6 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni

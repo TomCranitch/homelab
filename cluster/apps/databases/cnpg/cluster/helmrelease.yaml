@@ -20,6 +20,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   interval: 15m
   dependsOn:
     - name: cnpg

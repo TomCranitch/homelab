@@ -24,6 +24,8 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     crds:
       enabled: false
