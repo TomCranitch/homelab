@@ -26,4 +26,7 @@ spec:
     mode: enabled
   values:
     installCRDs: true
-    backgroundController.resources.limits: {"memory":"256Mi"}
+    backgroundController:
+      resources:
+        limits:
+          memory: "256Mi"
