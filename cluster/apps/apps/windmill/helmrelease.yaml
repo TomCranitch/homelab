@@ -31,8 +31,6 @@ spec:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-      oauthSecretName: windmill-oauth-secret
-      workerGroups: []
     ingress:
       className: nginx
       tls:
