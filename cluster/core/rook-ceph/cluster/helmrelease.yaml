@@ -89,19 +89,19 @@ spec:
           limits:
             memory: "1Gi"
           requests:
-            cpu: "200m"
+            cpu: "100m"
             memory: "256Mi"
         mon:
           limits:
             memory: "2Gi"
           requests:
-            cpu: "500m"
+            cpu: "200m"
             memory: "512Mi"
         osd:
           limits:
             memory: "4Gi"
           requests:
-            cpu: "500m"
+            cpu: "200m"
             memory: "1Gi"
         prepareosd:
           limits:
@@ -133,6 +133,8 @@ spec:
           requests:
             cpu: "250m"
             memory: "50Mi"
+    #     requests:
+    #       cpu: "100m"
     cephBlockPoolVolumeSnapshotClass:
       enabled: false
     cephFileSystems: []
