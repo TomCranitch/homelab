@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: windmill
-      version: 2.0.88
+      version: 2.0.100
       sourceRef:
         kind: HelmRepository
         name: windmill-labs-charts
@@ -22,6 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     postgresql:
       enabled: false
@@ -29,8 +31,6 @@ spec:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
       databaseUrl: ${S_WINDMILL_POSTGRES_URL}
-      oauthSecretName: windmill-oauth-secret
-      workerGroups: []
     ingress:
       className: nginx
       tls:

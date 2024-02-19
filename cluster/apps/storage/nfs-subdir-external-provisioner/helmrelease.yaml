@@ -22,6 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     nfs:
       server: ${S_NFS_SERVER}

@@ -22,6 +22,8 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  driftDetection:
+    mode: enabled
   values:
     manageCRDs: false
     # TODO get monitoring working
