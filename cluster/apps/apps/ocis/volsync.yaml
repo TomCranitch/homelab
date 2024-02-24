@@ -1,0 +1,37 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: esphome-restic
+  namespace: default
+type: Opaque
+stringData:
+  RESTIC_REPOSITORY: ${S_VOLSYNC_B2_REPO}-esphome
+  RESTIC_PASSWORD: ${S_VOLSYNC_B2_PASSWORD}
+  B2_ACCOUNT_ID: ${S_VOLSYNC_B2_ID}
+  B2_ACCOUNT_KEY: ${S_VOLSYNC_B2_KEY}
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: esphome-restic
+  namespace: default
+spec:
+  sourcePVC: esphome
+  trigger:
+    schedule: "0 2 * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 14
+    repository: esphome-restic
+    cacheCapacity: 2Gi
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 111
+      runAsGroup: 111
+      fsGroup: 111
+    retain:
+      daily: 7
+      weekly: 6
+      monthly: 6

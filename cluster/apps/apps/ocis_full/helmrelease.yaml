@@ -1,0 +1,85 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: ocis
+  namespace: ocis
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: ./charts/ocis
+      version: 0.4.0
+      sourceRef:
+        kind: GitRepository
+        name: ocis-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    externalDomain: &host files.${S_HOMEPROD_DOMAIN}
+    # TODO: cache:
+    # TODO: store:
+    features:
+      externalUserManagement:
+        enabled: true
+        adminUUID: 5bdb004d1fb57a4f4d958982cde3e40f0c78b9b8a919c3908271b9bbf075d51e
+        oidc:
+          issuerURI: https://sso.cranit.ch/application/o/owncloud/
+          webClientID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
+          userIDClaim: sub
+          # roleAssignment:
+          #   enabled: true
+          #   claim: groups
+          #   mapping:
+          #     - role_name: admin
+          #       claim_value: service-admins
+          #     - role_name: user
+          #       claim_value: service-users
+        ldap:
+          writable: false
+          uri: ldap://ak-outpost-authentik-ldap.default:389
+          bindDN: cn=ocis-ldap,ou=users,dc=ldap,dc=goauthentik,dc=io
+          user:
+            schema:
+              id: uid
+
+
+    # TODO: securityContext: (set to values for nfs)
+    # TODO: services:
+    #         idm:
+    #           persistence:
+    #         nats:
+    #           persistence:
+    #         search:
+    #           extractor:
+    #             type: tika????
+    #           persistence:
+    #         storagesystem:
+    #           persistence:
+    #         storageusers:
+    #           persistence:
+    #         store:
+    #           persistence:
+    #         thumbnails:
+    #           persistence:
+    #         web:
+    #           ????
+    #           persistence:
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      tls:
+        - hosts:
+            - *host
+    # TODO:
+    # monitoring:
+    #   enabled: true
