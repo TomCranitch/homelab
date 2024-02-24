@@ -35,6 +35,7 @@ spec:
             command: [/bin/sh]
             args: ["-c", "ocis init || true; ocis server"]
             env:
+              OCIS_INSECURE: false
               OCIS_URL: https://files.${S_HOMEPROD_DOMAIN}
               DEMO_USERS: false
               PROXY_TLS: false
