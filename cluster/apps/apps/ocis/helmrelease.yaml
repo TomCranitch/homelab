@@ -53,8 +53,8 @@ spec:
               # docs: https://doc.owncloud.com/ocis/next/deployment/services/s-list/proxy.html#automatic-role-assignments
               PROXY_USER_OIDC_CLAIM: "preferred_username"
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
-              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: groups
-              WEB_OIDC_SCOPE: "openid profile email groups"
+              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "ocis-role"
+              WEB_OIDC_SCOPE: "openid profile email groups ocis-role"
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
