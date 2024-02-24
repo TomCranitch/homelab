@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: esphome
+  name: ocis
   namespace: default
 spec:
   interval: 15m
