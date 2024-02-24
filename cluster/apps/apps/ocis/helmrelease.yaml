@@ -82,7 +82,10 @@ spec:
     persistence:
       storage-users:
         enabled: true
-        type: nfs-client
+        type: persistentVolumeClaim
+        storageClassName: nfs-client
+        accessMode: ReadWriteOnce
+        size: 40Gi
         advancedMounts:
           main:
             main:
@@ -90,7 +93,10 @@ spec:
                 subPath: storage-users
       config:
         enabled: true
-        type: nfs-client
+        type: persistentVolumeClaim
+        storageClassName: nfs-client
+        accessMode: ReadWriteOnce
+        size: 1Gi
         advancedMounts:
           main:
             main:
@@ -98,7 +104,10 @@ spec:
                 subPath: config
       data:
         enabled: true
-        type: nfs-client
+        type: persistentVolumeClaim
+        storageClassName: nfs-client
+        accessMode: ReadWriteOnce
+        size: 10Gi
         advancedMounts:
           main:
             main:
