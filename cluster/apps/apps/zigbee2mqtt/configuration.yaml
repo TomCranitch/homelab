@@ -1,0 +1,4 @@
+external_converters:
+  - ext_converter.js
+ota:
+  zigbee_ota_override_index_location: my_index.json

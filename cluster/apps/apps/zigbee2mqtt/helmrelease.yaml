@@ -97,3 +97,7 @@ spec:
         existingClaim: zigbee2mqtt
         globalMounts:
           - path: /config
+    # TODO: this is temporary, remove later
+    volumeMounts:
+      - mountPath: /config
+        name: z2m-special-config
