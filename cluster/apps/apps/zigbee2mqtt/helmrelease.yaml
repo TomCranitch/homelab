@@ -101,3 +101,8 @@ spec:
     volumeMounts:
       - mountPath: /config
         name: z2m-special-config
+    volumes: 
+      - configMap:
+          name: z2m-special-config
+        name: z2m-special-config
+
