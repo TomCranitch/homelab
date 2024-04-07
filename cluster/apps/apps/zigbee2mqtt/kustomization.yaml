@@ -8,9 +8,11 @@ resources:
 # To upgrade Ikdea Styrbar: https://github.com/Koenkk/zigbee2mqtt/issues/18515
 # TODO: remove this once upgrade is complete
 configMapGenerator:
-  - name: config.yaml
+  - name: z2m-special-config
     files:
       - configuration.yaml
       - 10078031-zingo_kt_styrbar_remote-2.4.5.ota.ota.signed
       - ext_converter.js
       - my_index.json
+generatorOptions:
+  disableNameSuffixHash: true
