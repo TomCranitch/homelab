@@ -57,7 +57,7 @@ spec:
               WEB_OIDC_SCOPE: "openid profile email groups ocis_role"
             envFrom:
               - secretRef:
-                  name: paperless
+                  name: ocis
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
