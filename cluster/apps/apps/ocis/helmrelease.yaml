@@ -45,7 +45,7 @@ spec:
               OCIS_LOG_PRETTY: true
               STORAGE_USERS_OCIS_ROOT: /data
               # Authentik OIDC
-              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/application/o/owncloud/
+              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/
               WEB_OIDC_CLIENT_ID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_AUTOPROVISION_ACCOUNTS: true
