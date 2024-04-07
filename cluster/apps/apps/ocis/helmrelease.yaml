@@ -55,6 +55,9 @@ spec:
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
               PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "ocis_role"
               WEB_OIDC_SCOPE: "openid profile email groups ocis_role"
+            envFrom:
+              - secretRef:
+                  name: paperless
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
