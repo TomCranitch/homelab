@@ -29,7 +29,7 @@ spec:
       outputs: |
         [OUTPUT]
             Name http
-            Match .*
+            Match *
             host victoria-logs-victoria-logs-single-server.monitoring.svc.cluster.local
             port 9428
             uri /insert/jsonline?_stream_fields=stream&_msg_field=log&_time_field=date
