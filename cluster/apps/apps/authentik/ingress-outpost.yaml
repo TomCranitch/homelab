@@ -54,3 +54,13 @@ spec:
                 name: ak-outpost-authentik-embedded-outpost
                 port:
                   number: 9000
+    - host: logs.${S_HOMEPROD_DOMAIN}
+      http:
+        paths:
+          - path: /outpost.goauthentik.io
+            pathType: Prefix
+            backend:
+              service:
+                name: ak-outpost-authentik-embedded-outpost
+                port:
+                  number: 9000
