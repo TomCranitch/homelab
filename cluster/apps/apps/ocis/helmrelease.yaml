@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: docker.io/owncloud/ocis
-              tag: 4.0.6
+              tag: 5.0.1
             command: [/bin/sh]
             args: ["-c", "ocis init || true; ocis server"]
             env:
@@ -45,7 +45,7 @@ spec:
               OCIS_LOG_PRETTY: true
               STORAGE_USERS_OCIS_ROOT: /data
               # Authentik OIDC
-              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/application/o/owncloud/
+              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/
               WEB_OIDC_CLIENT_ID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_AUTOPROVISION_ACCOUNTS: true
@@ -53,8 +53,11 @@ spec:
               # docs: https://doc.owncloud.com/ocis/next/deployment/services/s-list/proxy.html#automatic-role-assignments
               PROXY_USER_OIDC_CLAIM: "preferred_username"
               PROXY_ROLE_ASSIGNMENT_DRIVER: oidc
-              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "ocis-role"
-              WEB_OIDC_SCOPE: "openid profile email groups ocis-role"
+              PROXY_ROLE_ASSIGNMENT_OIDC_CLAIM: "ocis_role"
+              WEB_OIDC_SCOPE: "openid profile email groups ocis_role"
+            envFrom:
+              - secretRef:
+                  name: ocis
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}

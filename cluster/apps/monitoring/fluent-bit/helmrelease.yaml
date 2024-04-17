@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: fluent-bit
+  namespace: fluent-bit
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: fluent-bit
+      version: 0.46.1
+      sourceRef:
+        kind: HelmRepository
+        name: fluent-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    config:
+      outputs: |
+        [OUTPUT]
+            Name http
+            Match *
+            host victoria-logs-victoria-logs-single-server.monitoring.svc.cluster.local
+            port 9428
+            uri /insert/jsonline?_stream_fields=stream&_msg_field=log&_time_field=date
+            format json_lines
+            json_date_format iso8601

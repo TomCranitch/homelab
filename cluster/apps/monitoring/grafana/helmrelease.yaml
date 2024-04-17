@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 7.3.3
+      version: 7.3.8
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -136,6 +136,10 @@ spec:
             name: VictoriaMetrics
             type: prometheus
             url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429
+          - access: proxy
+            name: VictoriaLogs
+            type: victorialogs-datasource
+            url: http://victoria-logs-victoria-logs-single-server.monitoring.svc:9428
     envFromSecrets:
       - name: grafana-env
     grafana.ini:
@@ -160,6 +164,8 @@ spec:
         name_attribute_path: name
         allow_assign_grafana_admin: false
         role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
+      plugins:
+        allow_loading_unsigned_plugins: "victorialogs-datasource"
     sidecar:
       dashboards:
         enabled: true
@@ -167,6 +173,28 @@ spec:
       datasources:
         enabled: true
         searchNamespace: ALL
+    extraInitContainers:
+      - name: "load-vm-ds-plugin"
+        image: "curlimages/curl:7.88.1"
+        command: [ "/bin/sh" ]
+        workingDir: "/var/lib/grafana"
+        securityContext:
+          runAsUser: 472
+          runAsNonRoot: true
+          runAsGroup: 472
+        args:
+         - "-c"
+         - |
+           set -ex
+           mkdir -p /var/lib/grafana/plugins/
+           ver=$(curl -s https://api.github.com/repos/VictoriaMetrics/victorialogs-datasource/releases/latest | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+           curl -L https://github.com/VictoriaMetrics/victorialogs-datasource/releases/download/$ver/victorialogs-datasource-$ver.tar.gz -o /var/lib/grafana/plugins/plugin.tar.gz
+           tar -xf /var/lib/grafana/plugins/plugin.tar.gz -C /var/lib/grafana/plugins/
+           rm /var/lib/grafana/plugins/plugin.tar.gz
+        volumeMounts:
+          # For grafana-operator users, change `name: storage` to `name: grafana-data`
+          - name: storage
+            mountPath: /var/lib/grafana
     ingress:
       enabled: true
       ingressClassName: "nginx"

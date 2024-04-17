@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 1.36.0
+              tag: 1.36.1
             env:
               TZ: ${TZ}
               ZIGBEE2MQTT_DATA: /config
@@ -60,7 +60,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: 'true'
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: 'true'
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.default.svc.cluster.local
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.121:6638
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.13.51:6638
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ezsp
     service:
       main:
@@ -97,3 +97,12 @@ spec:
         existingClaim: zigbee2mqtt
         globalMounts:
           - path: /config
+    # TODO: this is temporary, remove later
+    volumeMounts:
+      - mountPath: /config
+        name: z2m-special-config
+    volumes: 
+      - configMap:
+          name: z2m-special-config
+        name: z2m-special-config
+

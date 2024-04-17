@@ -5,3 +5,5 @@ resources:
  - namespace.yaml
  - victoria-metrics-k8s-stack
  - grafana
+ - fluent-bit
+ - victoria-logs

@@ -22,3 +22,4 @@ resources:
   - angelnu-charts.yaml
   - authentik-charts.yaml
   - emqx-charts.yaml
+  - fluent-charts.yaml

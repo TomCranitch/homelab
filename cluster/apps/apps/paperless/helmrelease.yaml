@@ -54,13 +54,13 @@ spec:
                     name: paperless
                     key: PAPERLESS_DBPASS
             image:
-              repository: ghcr.io/onedr0p/postgres-initdb
+              repository: ghcr.io/onedr0p/postgres-init
               tag: '14.8'
         containers:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.5.4
+              tag: 2.7.2
             envFrom:
               - secretRef:
                   name: paperless
@@ -91,7 +91,7 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.2.1
+              tag: 8.4.0
             env:
               DISABLE_GOOGLE_CHROME: 1
           redis:
@@ -138,7 +138,7 @@ spec:
           - path: /library
     sidecars:
       gotenburg:
-        image: thecodingmachine/gotenberg:8.2.1
+        image: thecodingmachine/gotenberg:8.4.0
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
