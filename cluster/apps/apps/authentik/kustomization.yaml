@@ -6,8 +6,6 @@ resources:
   - helmrelease.yaml
   - secret.sops.yaml
   - ingress-outpost.yaml
-patchesStrategicMerge:
-  - patches/postgres.yaml
 configMapGenerator:
   - name: authentik-blueprints
     files:
