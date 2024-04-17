@@ -50,7 +50,7 @@ spec:
                     name: vaultwarden
                     key: POSTGRES_PASS
             image:
-              repository: ghcr.io/onedr0p/postgres-initdb
+              repository: ghcr.io/onedr0p/postgres-init
               tag: 14.8@sha256:0141cf427c47f2d534711a3f9e8c5f9008bc6b585463ccd9288cf0f027e20deb
         containers:
           main:

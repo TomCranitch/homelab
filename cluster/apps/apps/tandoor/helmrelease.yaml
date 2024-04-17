@@ -60,7 +60,7 @@ spec:
                     name: tandoor
                     key: POSTGRES_PASSWORD
             image:
-              repository: ghcr.io/onedr0p/postgres-initdb
+              repository: ghcr.io/onedr0p/postgres-init
               tag: '14.8'
         containers:
           main:

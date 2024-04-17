@@ -54,7 +54,7 @@ spec:
                     name: paperless
                     key: PAPERLESS_DBPASS
             image:
-              repository: ghcr.io/onedr0p/postgres-initdb
+              repository: ghcr.io/onedr0p/postgres-init
               tag: '14.8'
         containers:
           main:
