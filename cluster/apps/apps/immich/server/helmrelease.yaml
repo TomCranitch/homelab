@@ -27,6 +27,33 @@ spec:
   values:
     controllers:
       main:
+        initContainers:
+          init-db:
+            image: ghcr.io/onedr0p/postgres-init:14.8
+            env:
+              - name: POSTGRES_HOST
+                value: ${POSTGRES_RW_URL}
+              - name: POSTGRES_DB
+                value: immich
+                # valueFrom:
+                #   configMapKeyRef:
+                #     name: immich
+                #     key: DB_DATABASE_NAME
+              - name: POSTGRES_SUPER_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: postgres-superuser
+                    key: password
+              - name: POSTGRES_USER
+                valueFrom:
+                  secretKeyRef:
+                    name: immich
+                    key: DB_USERNAME
+              - name: POSTGRES_PASS
+                valueFrom:
+                  secretKeyRef:
+                    name: immich
+                    key: DB_PASSWORD
         containers:
           main:
             image:
