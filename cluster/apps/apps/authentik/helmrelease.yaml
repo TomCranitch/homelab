@@ -53,8 +53,10 @@ spec:
       enabled: false
     server:
       initContainers:
-        init-db:
-          image: ghcr.io/onedr0p/postgres-init:14.8
+        01-init-db:
+          image:
+            repository: ghcr.io/onedr0p/postgres-init
+            tag: 14.8
           envFrom:
             - secretRef:
                 name: authentik-secret
