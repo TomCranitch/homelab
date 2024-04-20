@@ -32,7 +32,7 @@ spec:
             env:
               - name: INIT_POSTGRES_HOST
                 value: ${POSTGRES_RW_URL}
-              - name: INIT_POSTGRES_DB
+              - name: INIT_POSTGRES_DB_NAME
                 value: vaultwarden
               - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
