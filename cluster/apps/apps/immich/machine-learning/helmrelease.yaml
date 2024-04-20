@@ -39,6 +39,11 @@ spec:
                   name: immich
               - configMapRef:
                   name: immich
+        pod:
+          securityContext:
+            runAsUser: ${CONTAINER_UID}
+            runAsGroup: ${CONTAINER_GID}
+            runAsNonRoot: true
     service:
       main:
         ports:

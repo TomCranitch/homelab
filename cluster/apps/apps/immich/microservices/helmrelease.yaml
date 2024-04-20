@@ -40,6 +40,11 @@ spec:
             command: /bin/sh
             args:
               - ./start-microservices.sh
+        pod:
+          securityContext:
+            runAsUser: ${CONTAINER_UID}
+            runAsGroup: ${CONTAINER_GID}
+            runAsNonRoot: true
     service:
       main:
         enabled: false

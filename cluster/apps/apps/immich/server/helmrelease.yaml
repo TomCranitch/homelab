@@ -69,6 +69,11 @@ spec:
             command: /bin/sh
             args:
               - ./start-server.sh
+        pod:
+          securityContext:
+            runAsUser: ${CONTAINER_UID}
+            runAsGroup: ${CONTAINER_GID}
+            runAsNonRoot: true
     service:
       main:
         ports:
