@@ -41,21 +41,21 @@ spec:
           01-init-db:
             image: ghcr.io/onedr0p/postgres-init:14.8
             env:
-              - name: POSTGRES_HOST
+              - name: INIT_POSTGRES_HOST
                 value: ${POSTGRES_RW_URL}
-              - name: POSTGRES_DB
+              - name: INIT_POSTGRES_DB
                 value: mealie
-              - name: POSTGRES_SUPER_PASS
+              - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
                     name: postgres-superuser
                     key: password
-              - name: POSTGRES_USER
+              - name: INIT_POSTGRES_USER
                 valueFrom:
                   secretKeyRef:
                     name: mealie
                     key: POSTGRES_USER
-              - name: POSTGRES_PASS
+              - name: INIT_POSTGRES_PASS
                 valueFrom:
                   secretKeyRef:
                     name: mealie

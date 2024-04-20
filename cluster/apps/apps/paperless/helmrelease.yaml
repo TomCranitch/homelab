@@ -31,24 +31,24 @@ spec:
           01-init-db:
             imagePullPolicy: IfNotPresent
             env:
-              - name: POSTGRES_HOST
+              - name: INIT_POSTGRES_HOST
                 value: ${POSTGRES_RW_URL}
-              - name: POSTGRES_DB
+              - name: INIT_POSTGRES_DB
                 valueFrom:
                   secretKeyRef:
                     name: paperless
                     key: PAPERLESS_DBNAME
-              - name: POSTGRES_SUPER_PASS
+              - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
                     name: postgres-superuser
                     key: password
-              - name: POSTGRES_USER
+              - name: INIT_POSTGRES_USER
                 valueFrom:
                   secretKeyRef:
                     name: paperless
                     key: PAPERLESS_DBUSER
-              - name: POSTGRES_PASS
+              - name: INIT_POSTGRES_PASS
                 valueFrom:
                   secretKeyRef:
                     name: paperless

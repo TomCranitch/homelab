@@ -30,21 +30,21 @@ spec:
         initContainers:
           01-init-db:
             env:
-              - name: POSTGRES_HOST
+              - name: INIT_POSTGRES_HOST
                 value: ${POSTGRES_RW_URL}
-              - name: POSTGRES_DB
+              - name: INIT_POSTGRES_DB
                 value: vaultwarden
-              - name: POSTGRES_SUPER_PASS
+              - name: INIT_POSTGRES_SUPER_PASS
                 valueFrom:
                   secretKeyRef:
                     name: postgres-superuser
                     key: password
-              - name: POSTGRES_USER
+              - name: INIT_POSTGRES_USER
                 valueFrom:
                   secretKeyRef:
                     name: vaultwarden
                     key: POSTGRES_USER
-              - name: POSTGRES_PASS
+              - name: INIT_POSTGRES_PASS
                 valueFrom:
                   secretKeyRef:
                     name: vaultwarden

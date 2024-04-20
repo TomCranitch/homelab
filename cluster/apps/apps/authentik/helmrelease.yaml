@@ -59,9 +59,9 @@ spec:
             - secretRef:
                 name: authentik-secret
           env:
-            - name: POSTGRES_HOST
+            - name: INIT_POSTGRES_HOST
               value: ${POSTGRES_RW_URL}
-            - name: POSTGRES_SUPER_PASS
+            - name: INIT_POSTGRES_SUPER_PASS
               valueFrom:
                 secretKeyRef:
                   name: postgres-superuser
