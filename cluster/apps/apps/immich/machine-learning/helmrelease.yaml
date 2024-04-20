@@ -55,3 +55,6 @@ spec:
         existingClaim: immich-nfs-pvc
         globalMounts:
           - path: /usr/src/app/upload
+      cache:
+        enabled: true
+        type: emptyDir
