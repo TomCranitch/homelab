@@ -74,6 +74,7 @@ spec:
           externalClusters:
             - name: clusterBackup
               barmanObjectStore:
+                serverName: cnpg-cluster
                 destinationPath: s3://homeprod-cnpg
                 endpointURL:  https://s3.us-east-005.backblazeb2.com 
                 # serverName: 
