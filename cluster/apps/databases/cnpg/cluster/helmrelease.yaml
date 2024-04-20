@@ -31,7 +31,7 @@ spec:
       - apiVersion: postgresql.cnpg.io/v1
         kind: Cluster
         metadata:
-          name: cnpg-cluster
+          name: cnpg-cluster-1
           namespace: database
         spec:
           instances: 3
