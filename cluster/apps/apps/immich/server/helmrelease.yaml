@@ -35,7 +35,7 @@ spec:
             env:
               - name: INIT_POSTGRES_HOST
                 value: ${POSTGRES_RW_URL}
-              - name: INIT_POSTGRES_DB_NAME
+              - name: INIT_POSTGRES_DBNAME
                 value: immich
                 # valueFrom:
                 #   configMapKeyRef:
