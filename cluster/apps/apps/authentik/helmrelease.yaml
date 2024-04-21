@@ -74,7 +74,7 @@ spec:
         hosts:
           - &host "sso.${S_HOMEPROD_DOMAIN}"
         paths:
-          - path: /
+          - /
         tls:
           - hosts:
               - *host
