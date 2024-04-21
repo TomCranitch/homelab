@@ -164,7 +164,6 @@ spec:
                 serverName: cnpg-cluster
                 destinationPath: s3://homeprod-cnpg
                 endpointURL:  https://s3.us-east-005.backblazeb2.com 
-                serverName: cluster
                 s3Credentials:
                   accessKeyId:
                     name: postgres-s3
