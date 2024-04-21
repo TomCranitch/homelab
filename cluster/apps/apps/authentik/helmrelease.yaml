@@ -32,15 +32,15 @@ spec:
     - kind: Secret
       name: authentik-secret
       targetPath: authentik.postgresql.name
-      valuesKey: POSTGRES_DB
+      valuesKey: INIT_POSTGRES_DB
     - kind: Secret
       name: authentik-secret
       targetPath: authentik.postgresql.user
-      valuesKey: POSTGRES_USER
+      valuesKey: INIT_POSTGRES_USER
     - kind: Secret
       name: authentik-secret
       targetPath: authentik.postgresql.password
-      valuesKey: POSTGRES_PASS
+      valuesKey: INIT_POSTGRES_PASS
   values:
     authentik:
       email:
