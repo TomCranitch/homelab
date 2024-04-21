@@ -72,10 +72,9 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-          - host: &host "sso.${S_HOMEPROD_DOMAIN}"
-            paths:
-              - path: /
-                pathType: Prefix
+          - &host "sso.${S_HOMEPROD_DOMAIN}"
+        paths:
+          - path: /
         tls:
           - hosts:
               - *host
