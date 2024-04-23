@@ -51,11 +51,11 @@ spec:
             differential: "0 4 * * *"
             incremental: "0/15 * * * *"
       global:
-        repo1-retention-incremental: 7
+        repo1-retention-incremental: "7"
         repo1-retention-incremental-type: time
-        repo1-retention-differential: 21
+        repo1-retention-differential: "21"
         repo1-retention-differential-type: time
-        repo1-retention-full: 120
+        repo1-retention-full: "120"
         repo1-retention-full-type: time
   # TODO: datasource
   # TODO: proxy.pgBouncer
