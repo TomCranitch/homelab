@@ -5,4 +5,4 @@ resources:
   - cnpg
   - namespace.yaml
   - pgdump
-  - crunchy-postgres-operator
+  - crunchy-postgres-operator/ks.yaml
