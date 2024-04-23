@@ -3,6 +3,7 @@ apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
   name: postgres
+  namespace: database
   labels:
     crunchy-userinit.ramblurr.github.com/enabled: "true"
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
