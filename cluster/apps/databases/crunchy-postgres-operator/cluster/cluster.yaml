@@ -33,7 +33,8 @@ spec:
       databases:
         - postgres
       options: "SUPERUSER"
-      password: AlphaNumeric
+      password: 
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration:
@@ -50,11 +51,11 @@ spec:
             differential: "0 4 * * *"
             incremental: "0/15 * * * *"
           global:
-            b2-retention-incremental: 7
-            b2-retention-incremental-type: time
-            b2-retention-differential: 21
-            b2-retention-differential-type: time
-            b2-retention-full: 120
-            b2-retention-full-type: time
+            repo1-retention-incremental: 7
+            repo1-retention-incremental-type: time
+            repo1-retention-differential: 21
+            repo1-retention-differential-type: time
+            repo1-retention-full: 120
+            repo1-retention-full-type: time
   # TODO: datasource
   # TODO: proxy.pgBouncer
