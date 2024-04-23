@@ -41,7 +41,7 @@ spec:
         - secret:
             name: crunchy-backup-secret  # TODO
       repos:
-        - name: b2
+        - name: repo1
           s3:
             bucket: homeprod-crunchy
             endpoint: https://s3.us-east-005.backblazeb2.com
