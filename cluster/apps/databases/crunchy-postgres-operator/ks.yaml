@@ -21,7 +21,26 @@ metadata:
   name: cluster-apps-databases-crunchy-cluster
   namespace: flux-system
 spec:
-  path: "./cluster/apps/databases/crunchy-postgres-operator/pgo/"
+  path: "./cluster/apps/databases/crunchy-postgres-operator/cluster/"
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  prune: true
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  dependsOn:
+    - name: cluster-apps-databases-crunchy-pgo
+    - name: cluster-apps-databases-crunchy-userinit-controller
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-databases-crunchy-userinit-controller
+  namespace: flux-system
+spec:
+  path: "./cluster/apps/databases/crunchy-postgres-operator/userinit-controller/"
   sourceRef:
     kind: GitRepository
     name: flux-system
