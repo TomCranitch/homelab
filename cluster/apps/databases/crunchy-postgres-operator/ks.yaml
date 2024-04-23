@@ -14,6 +14,16 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -30,6 +40,16 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-databases-crunchy-pgo
     - name: cluster-apps-databases-crunchy-userinit-controller
@@ -49,5 +69,15 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+      - kind: Secret
+        name: cluster-secrets
   dependsOn:
     - name: cluster-apps-databases-crunchy-pgo
