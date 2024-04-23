@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: pgdump-backup
+  name: crunchy-userinit-controller
   namespace: database
 spec:
   interval: 15m
@@ -12,7 +12,7 @@ spec:
       version: 0.0.4
       sourceRef:
         kind: HelmRepository
-        name: crunchy-userinit-controller
+        name: crunchy-userinit-controller-charts
         namespace: flux-system
       interval: 15m
   install:

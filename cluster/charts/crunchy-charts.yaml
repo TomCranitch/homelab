@@ -2,8 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: angelnu-charts
+  name: crunchy-charts
   namespace: flux-system
 spec:
+  type: oci
   interval: 10m
-  url: https://ramblurr.github.io/crunchy-userinit-controller
+  url: oci://registry.developers.crunchydata.com/crunchydata

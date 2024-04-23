@@ -23,3 +23,5 @@ resources:
   - authentik-charts.yaml
   - emqx-charts.yaml
   - fluent-charts.yaml
+  - crunchy-charts.yaml
+  - crunchy-userinit-controller-charts.yaml
