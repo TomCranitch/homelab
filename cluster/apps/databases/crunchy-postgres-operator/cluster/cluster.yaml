@@ -35,6 +35,41 @@ spec:
       options: "SUPERUSER"
       password: 
         type: AlphaNumeric
+    - name: authentik
+      databases:
+        - authentik
+      password: 
+        type: AlphaNumeric
+    - name: hass
+      databases:
+        - hass
+      password: 
+        type: AlphaNumeric
+    - name: immich
+      databases:
+        - immich
+      password: 
+        type: AlphaNumeric
+    - name: linkding
+      databases:
+        - linkding
+      password: 
+        type: AlphaNumeric
+    - name: paperless
+      databases:
+        - paperless
+      password: 
+        type: AlphaNumeric
+    - name: vaultwarden
+      databases:
+        - vaultwarden
+      password: 
+        type: AlphaNumeric
+    - name: windmill
+      databases:
+        - windmill
+      password: 
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration:
