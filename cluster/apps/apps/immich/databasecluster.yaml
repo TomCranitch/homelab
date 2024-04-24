@@ -58,5 +58,6 @@ spec:
         repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
+        repo1-path: immich/
   # TODO: datasource
   # TODO: proxy.pgBouncer
