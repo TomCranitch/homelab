@@ -10,3 +10,4 @@ resources:
   - configmap.yaml
   - secret.sops.yaml
   - volsync.yaml
+  - databasecluster.yaml
