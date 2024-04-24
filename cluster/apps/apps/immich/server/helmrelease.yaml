@@ -27,40 +27,17 @@ spec:
   values:
     controllers:
       main:
-        initContainers:
-          01-init-db:
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 14.8
-            env:
-              - name: INIT_POSTGRES_HOST
-                value: ${POSTGRES_RW_URL}
-              - name: INIT_POSTGRES_DBNAME
-                value: immich
-                # valueFrom:
-                #   configMapKeyRef:
-                #     name: immich
-                #     key: DB_DATABASE_NAME
-              - name: INIT_POSTGRES_SUPER_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-superuser
-                    key: password
-              - name: INIT_POSTGRES_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: immich
-                    key: DB_USERNAME
-              - name: INIT_POSTGRES_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: immich
-                    key: DB_PASSWORD
         containers:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.101.0
+            env:
+              - name: DB_URL
+                valueFrom:
+                  secretKeyRef:
+                    name: immich-cluster-pguser-immich
+                    key: uri
             envFrom:
               - secretRef:
                   name: immich
