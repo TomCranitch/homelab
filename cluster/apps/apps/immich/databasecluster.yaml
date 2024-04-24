@@ -9,7 +9,7 @@ metadata:
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
 spec:
   postgresVersion: 16
-  image: ghcr.io/chkpwd/cdpgvecto.rs:ubi8-16.2-0-v0.2.0
+  image: ghcr.io/budimanjojo/cdpgvecto.rs:ubi8-16.2-0-v0.2.1
   instances:
     - name: postgres
       replicas: 3
@@ -58,6 +58,6 @@ spec:
         repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
-        repo1-path: immich/
+        repo1-path: /immich/
   # TODO: datasource
   # TODO: proxy.pgBouncer
