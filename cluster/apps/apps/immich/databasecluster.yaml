@@ -61,5 +61,10 @@ spec:
         repo1-retention-full: "120"
         repo1-retention-full-type: time
         repo1-path: /immich/
+      manual:
+        repoName: repo1
+        options:
+          - --type=full
+  
   # TODO: datasource
   # TODO: proxy.pgBouncer
