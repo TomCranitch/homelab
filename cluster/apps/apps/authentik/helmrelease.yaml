@@ -30,23 +30,25 @@ spec:
       targetPath: authentik.secret_key
       valuesKey: secret_key
     - kind: Secret
-      name: authentik-secret
+      name: default-cluster-pguser-authentik
       targetPath: authentik.postgresql.name
-      valuesKey: INIT_POSTGRES_DBNAME
+      valuesKey: dbname
     - kind: Secret
-      name: authentik-secret
+      name: default-cluster-pguser-authentik
       targetPath: authentik.postgresql.user
-      valuesKey: INIT_POSTGRES_USER
+      valuesKey: user
     - kind: Secret
-      name: authentik-secret
+      name: default-cluster-pguser-authentik
       targetPath: authentik.postgresql.password
-      valuesKey: INIT_POSTGRES_PASS
+      valuesKey: password
+    - kind: Secret
+      name: default-cluster-pguser-authentik
+      targetPath: authentik.postgresql.host
+      valuesKey: host
   values:
     authentik:
       email:
         from: tom@cranitch.com.au
-      postgresql:
-        host: ${POSTGRES_RW_URL}
     redis:
       enabled: true
     postgres:

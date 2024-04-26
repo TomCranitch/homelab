@@ -27,35 +27,6 @@ spec:
   values:
     controllers:
       main:
-        initContainers:
-          01-init-db:
-            imagePullPolicy: IfNotPresent
-            env:
-              - name: INIT_POSTGRES_HOST
-                value: ${POSTGRES_RW_URL}
-              - name: INIT_POSTGRES_DBNAME
-                valueFrom:
-                  secretKeyRef:
-                    name: paperless
-                    key: PAPERLESS_DBNAME
-              - name: INIT_POSTGRES_SUPER_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres-superuser
-                    key: password
-              - name: INIT_POSTGRES_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: paperless
-                    key: PAPERLESS_DBUSER
-              - name: INIT_POSTGRES_PASS
-                valueFrom:
-                  secretKeyRef:
-                    name: paperless
-                    key: PAPERLESS_DBPASS
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: '14.8'
         containers:
           main:
             image:
@@ -83,11 +54,34 @@ spec:
               PAPERLESS_TIKA_ENDPOINT: http://localhost:9998
               PAPERLESS_TIME_ZONE: ${TZ}
               PAPERLESS_URL: https://documents.${S_HOMEPROD_DOMAIN}
-              PAPERLESS_DBENGINE: postgresql
-              PAPERLESS_DBPORT: '5432'
-              PAPERLESS_DBHOST: ${POSTGRES_RW_URL}
               USERMAP_UID: ${CONTAINER_UID}
               USERMAP_GID: ${CONTAINER_GID}
+              PAPERLESS_DBENGINE: postgresql
+              PAPERLESS_DBPORT: 
+                valueFrom:
+                  secretKeyRef:
+                    name: default-cluster-pguser-paperless
+                    key: port
+              PAPERLESS_DBHOST: 
+                valueFrom:
+                  secretKeyRef:
+                    name: default-cluster-pguser-paperless
+                    key: host
+              PAPERLESS_DBNAME:
+                valueFrom:
+                  secretKeyRef:
+                    name: default-cluster-pguser-paperless
+                    key: dbname
+              PAPERLESS_DBUSER:
+                valueFrom:
+                  secretKeyRef:
+                    name: default-cluster-pguser-paperless
+                    key: user
+              PAPERLESS_DBPASS:
+                valueFrom:
+                  secretKeyRef:
+                    name: default-cluster-pguser-paperless
+                    key: password
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
