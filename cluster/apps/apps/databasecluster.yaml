@@ -35,6 +35,11 @@ spec:
         - authentik
       password: 
         type: AlphaNumeric
+    - name: hass
+      databases:
+        - hass
+      password: 
+        type: AlphaNumeric
     - name: linkding
       databases:
         - linkding
