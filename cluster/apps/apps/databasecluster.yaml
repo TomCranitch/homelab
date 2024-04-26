@@ -69,7 +69,7 @@ spec:
         repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
-        repo1-path: /immich/
+        repo1-path: /default/
       manual:
         repoName: repo1
         options:
