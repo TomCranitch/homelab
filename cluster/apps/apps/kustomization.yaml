@@ -9,7 +9,7 @@ resources:
   - ocis
 # TODO
 # - tandoor
-# - mealie
+  - mealie
   - home-assistant
   - esphome
   - authentik

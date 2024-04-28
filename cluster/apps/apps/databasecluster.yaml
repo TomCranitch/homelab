@@ -40,6 +40,11 @@ spec:
         - linkding
       password: 
         type: AlphaNumeric
+    - name: mealie
+      databases:
+        - mealie
+      password: 
+        type: AlphaNumeric
     - name: paperless
       databases:
         - paperless
