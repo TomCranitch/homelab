@@ -1,3 +1,4 @@
+# TODO: this doesnt work atm as its restricted by ns
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease

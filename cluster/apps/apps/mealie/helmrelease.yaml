@@ -34,7 +34,7 @@ spec:
               tag: frontend-v1.0.0beta-5
             env:
               TZ: ${TZ}
-              API_URL: "http://mealie-api.default.svc.cluster.local:9000"
+              API_URL: "http://mealie-backend.default.svc.cluster.local:9000"
       backend:
         containers:
           main:
@@ -81,6 +81,11 @@ spec:
         ports:
           http:
             port: 3000
+      backend:
+        controller: backend
+        ports:
+          http:
+            port: 9000
     ingress:
       main:
         enabled: true
