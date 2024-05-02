@@ -30,7 +30,7 @@ spec:
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
-      databaseUrl: ${S_WINDMILL_POSTGRES_URL}
+        # TODO: databaseUrl:
     ingress:
       className: nginx
       tls:

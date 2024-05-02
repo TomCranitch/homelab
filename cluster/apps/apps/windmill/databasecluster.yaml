@@ -2,14 +2,13 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: postgres
-  namespace: database
+  name: windmill-cluster
+  namespace: windmill
   labels:
     crunchy-userinit.ramblurr.github.com/enabled: "true"
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
 spec:
   postgresVersion: 16
-  image: ghcr.io/chkpwd/cdpgvecto.rs:ubi8-16.2-0-v0.2.0
   instances:
     - name: postgres
       replicas: 3
@@ -25,44 +24,10 @@ spec:
       synchronous_mode: true
       postgresql:
         synchronous_commit: "on"
-        parameters:
-          shared_preload_libraries: "vectors.so"
-          search_path: '"$user", public, vectors'
   users:
     - name: postgres
       databases:
         - postgres
-      options: "SUPERUSER"
-      password: 
-        type: AlphaNumeric
-    - name: authentik
-      databases:
-        - authentik
-      password: 
-        type: AlphaNumeric
-    - name: hass
-      databases:
-        - hass
-      password: 
-        type: AlphaNumeric
-    - name: immich
-      databases:
-        - immich
-      password: 
-        type: AlphaNumeric
-    - name: linkding
-      databases:
-        - linkding
-      password: 
-        type: AlphaNumeric
-    - name: paperless
-      databases:
-        - paperless
-      password: 
-        type: AlphaNumeric
-    - name: vaultwarden
-      databases:
-        - vaultwarden
       password: 
         type: AlphaNumeric
     - name: windmill
@@ -86,8 +51,14 @@ spec:
             differential: "0 4 * * *"
             incremental: "0/15 * * * *"
       global:
-        repo1-retention-differential: "21"
+        repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
+        repo1-path: /windmill/
+      manual:
+        repoName: repo1
+        options:
+          - --type=full
+  
   # TODO: datasource
   # TODO: proxy.pgBouncer
