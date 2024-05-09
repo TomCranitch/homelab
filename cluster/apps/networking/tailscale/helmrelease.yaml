@@ -47,11 +47,9 @@ spec:
               TS_TAILSCALED_EXTRA_ARGS: --debug=0.0.0.0:2000
             probes:
               liveness:
-                enabled: false
+                enabled: true
               readiness:
-                enabled: false
-              startup:
-                enabled: false
+                enabled: true
     service:
       main:
         ports:
