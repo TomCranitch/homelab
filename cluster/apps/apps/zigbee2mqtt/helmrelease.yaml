@@ -62,7 +62,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.default.svc.cluster.local
                 # TODO...
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.169:6638
-              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+              ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ezsp
     service:
       main:
         ports:
