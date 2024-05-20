@@ -14,12 +14,13 @@ spec:
     - name: postgres
       replicas: 3
       dataVolumeClaimSpec:
+        # TODO: move to local storage
         storageClassName: ceph-block
         accessModes:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 15Gi
+            storage: 20Gi
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
