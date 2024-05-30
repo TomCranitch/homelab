@@ -4,5 +4,5 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helmrelease.yaml
-  - role-binding.yaml
+  - rbac.yaml
   - plans

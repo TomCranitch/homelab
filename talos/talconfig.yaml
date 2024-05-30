@@ -44,27 +44,36 @@ nodes:
           vip:
             ip: 192.168.29.10
 controlPlane:
-  inlinePatch:
-    cluster:
-      allowSchedulingOnMasters: true
-      proxy:
-        disabled: true
-      apiServer:
-        auditPolicy:
-          apiVersion: audit.k8s.io/v1
-          kind: Policy
-          rules:
-            # Log the request body of configmap changes in kube-system.
-            - level: Request
-              resources:
-              - group: "" # core API group
-                resources: ["configmaps"]
-              namespaces: ["kube-system"]
-            # Log the request body of secret changes in flux-system.
-            - level: Request
-              resources:
-              - group: "" # core API group
-                resources: ["secrets"]
-              namespaces: ["flux-system"]
-            # A catch-all rule to log all other requests at the Metadata level.
-            - level: Metadata
+  patches:
+    # cluster.proxy.disabled: true??
+    - |-
+      cluster:
+        allowSchedulingOnMasters: true
+        apiServer:
+          auditPolicy:
+            apiVersion: audit.k8s.io/v1
+            kind: Policy
+            rules:
+              # Log the request body of configmap changes in kube-system.
+              - level: Request
+                resources:
+                - group: "" # core API group
+                  resources: ["configmaps"]
+                namespaces: ["kube-system"]
+              # Log the request body of secret changes in flux-system.
+              - level: Request
+                resources:
+                - group: "" # core API group
+                  resources: ["secrets"]
+                namespaces: ["flux-system"]
+              # A catch-all rule to log all other requests at the Metadata level.
+              - level: Metadata
+    - |-
+      machine:
+        features:
+          kubernetesTalosAPIAccess:
+            enabled: true
+            allowedRoles:
+              - os:admin
+            allowedKubernetesNamespaces:
+              - system-upgrade
