@@ -20,7 +20,7 @@ spec:
           - ReadWriteOnce
         resources:
           requests:
-            storage: 20Gi
+            storage: 30Gi
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
