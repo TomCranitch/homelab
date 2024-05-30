@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/bjw-s/radicale
-              tag: 3.1.9
+              tag: 3.2.0
             env:
               RADICALE_CONFIG: /config/config
         pod:
