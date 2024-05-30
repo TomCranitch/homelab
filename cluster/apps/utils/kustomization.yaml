@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - kyverno
   - volsync
-  - system-upgrade-controller
+  - system-upgrade-controller/ks.yaml
