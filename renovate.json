@@ -77,7 +77,7 @@
       "automerge": false
 
     },
-	{
+    {
       "description": "Rook-Ceph image and chart",
       "groupName": "Rook-Ceph",
       "matchPackagePatterns": ["rook.ceph"],
@@ -86,6 +86,25 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "automerge": false
-	}
+    },
+    {
+      "description": "Talos",
+      "groupName": "Talos",
+      "matchPackagePatterns": ["talos"],
+      "matchDatasources": ["docker"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "automerge": false
+    }, {
+      "description": "Kubelet",
+      "groupName": "Kubelet",
+      "matchPackagePatterns": ["kubelet"],
+      "matchDatasources": ["docker", "helm"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "automerge": false
+    }
   ]
 }
