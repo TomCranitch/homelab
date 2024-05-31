@@ -5,3 +5,4 @@ resources:
   - kyverno
   - volsync
   - system-upgrade-controller/ks.yaml
+  - node-feature-discovery/ks.yaml
