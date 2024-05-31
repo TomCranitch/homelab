@@ -25,3 +25,4 @@ resources:
   - fluent-charts.yaml
   - crunchy-charts.yaml
   - crunchy-userinit-controller-charts.yaml
+  - node-feature-discovery-charts.yaml
