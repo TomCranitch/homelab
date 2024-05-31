@@ -12,7 +12,7 @@ spec:
       version: 0.16.0
       sourceRef:
         kind: HelmRepository
-        name: node-feature-discovery
+        name: node-feature-discovery-charts
         namespace: flux-system
       interval: 15m
   install:
