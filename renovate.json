@@ -90,7 +90,7 @@
     {
       "description": "Talos",
       "groupName": "Talos",
-      "matchPackagePatterns": ["talos"],
+      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
       "matchDatasources": ["docker"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
@@ -99,7 +99,7 @@
     }, {
       "description": "Kubelet",
       "groupName": "Kubelet",
-      "matchPackagePatterns": ["kubelet"],
+      "matchPackagePatterns": ["siderolabs/kubelet", "kubectl"],
       "matchDatasources": ["docker", "helm"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
