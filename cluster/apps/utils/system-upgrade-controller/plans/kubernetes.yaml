@@ -1,7 +1,7 @@
 apiVersion: upgrade.cattle.io/v1
 kind: Plan
 metadata:
-  name: talos
+  name: kubernetes
   namespace: system-upgrade
 spec:
   version: ${KUBERNETES_VERSION}
