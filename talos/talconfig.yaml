@@ -1,9 +1,9 @@
 clusterName: homeprod
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.7.4
+talosVersion: v1.3.6
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: 1.26.2
-endpoint: https://192.168.29.170:6443  # TODO
+endpoint: https://cranitch.k8s:6443
 cniConfig:
   name: none
 nodes:
@@ -17,8 +17,6 @@ nodes:
         - deviceSelector:
             hardwareAddr: e6:8c:ef:28:48:d6
           dhcp: true
-          vip:
-            ip: 192.168.29.10
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
@@ -29,8 +27,6 @@ nodes:
         - deviceSelector:
             hardwareAddr: A2:D9:49:EB:D0:CD
           dhcp: true
-          vip:
-            ip: 192.168.29.10
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
@@ -41,8 +37,6 @@ nodes:
         - deviceSelector:
             hardwareAddr: A6:4E:F3:1E:9E:4F
           dhcp: true
-          vip:
-            ip: 192.168.29.10
 controlPlane:
   patches:
     # cluster.proxy.disabled: true??
