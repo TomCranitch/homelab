@@ -18,4 +18,3 @@ resources:
   - ntfy
   - linkding
   - radicale
-  - databasecluster.yaml
