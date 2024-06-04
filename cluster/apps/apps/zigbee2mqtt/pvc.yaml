@@ -13,4 +13,4 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: home-assistant-destination
+    name: zigbee2mqtt-destination
