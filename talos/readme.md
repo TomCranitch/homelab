@@ -7,7 +7,9 @@ kustomize build --enable-helm > install.yaml
  1. apply-config to first node
  2. bootstrap
  3. `helm repo update`
- 3. comment out bgp and generate cni config `helm template cilium cilium/cilium -f cni/values.yaml -n kube-system > cni/install.yaml`
+ 3. 
+helm template cilium cilium/cilium -f cni/values.yaml -n kube-system > cni/install.yaml
+kustomize build --enable-helm > install.yaml
  4. apply cni yaml `kubectl apply -f cni/install.yaml`
     - may need to get new kubeconfig first
  5. apply-config for other nodes
