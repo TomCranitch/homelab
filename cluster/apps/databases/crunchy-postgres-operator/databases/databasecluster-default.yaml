@@ -57,12 +57,12 @@ spec:
         type: AlphaNumeric
   backups:
     pgbackrest:
-      configuration:
+      configuration: &brcfg
         - secret:
             name: crunchy-backup-secret
       repos:
         - name: repo1
-          s3:
+          s3: &brrepos3
             bucket: homeprod-crunchy
             endpoint: https://s3.us-east-005.backblazeb2.com
             region: us-east-005
@@ -70,7 +70,7 @@ spec:
             full: "15 3 * * 2"
             differential: "15 4 * * *"
             incremental: "0 * * * *"
-      global:
+      global: &brgflags
         repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
@@ -79,6 +79,14 @@ spec:
         repoName: repo1
         options:
           - --type=full
+  dataSource:
+    pgbackrest:
+      stanza: db
+      configuration: *brcfg     
+      global: *brgflags
+      repo:
+        name: repo1
+        s3: *brrepos3
   
   # TODO: datasource
   # TODO: proxy.pgBouncer
