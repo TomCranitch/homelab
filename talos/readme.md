@@ -15,14 +15,9 @@ kustomize build --enable-helm > install.yaml
  5. apply-config for other nodes
  8. bootsrap flux: flux bootstrap github --owner=TomCranitch  --repository=homelab --branch=main --path=./cluster/flux 
  7. once the flux-system namespace is created: apply sops secret: cat ~/.config/sops/age/keys.txt | kubectl create secret generic sops-age -n flux-system --from-file=age.agekey=/dev/stdin
- 6. --uncomment bgp and genreate cni config--
     
 	requires a github PAT with read/write for administration and content on the homelab repo
 
-
-
- 6. uncomment bgp and genreate cni config
- 	requires pvc
 
 
 talosctl --talosconfig ./talosconfig bootstrap

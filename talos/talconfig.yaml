@@ -12,31 +12,41 @@ nodes:
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.170
-    network:
-      interfaces:
-        - deviceSelector:
-            hardwareAddr: e6:8c:ef:28:48:d6
-          dhcp: true
+    networkInterfaces:
+      # set a predictable interface for multus
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: e6:8c:ef:28:48:d6
+        dhcp: true
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.171
-    network:
-      interfaces:
-        - deviceSelector:
-            hardwareAddr: A2:D9:49:EB:D0:CD
-          dhcp: true
+    networkInterfaces:
+      # set a predictable interface for multus
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: a2:d9:49:eb:d0:cd
+        dhcp: true
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.172
-    network:
-      interfaces:
-        - deviceSelector:
-            hardwareAddr: A6:4E:F3:1E:9E:4F
-          dhcp: true
+    networkInterfaces:
+      # set a predictable interface for multus
+      - interface: bond0
+        bond:
+          mode: active-backup
+          deviceSelectors:
+            - hardwareAddr: a2:d9:49:eb:d0:cd
+            - hardwareAddr: A6:4E:F3:1E:9E:4F
+        dhcp: true
 controlPlane:
   patches:
     # cluster.proxy.disabled: true??

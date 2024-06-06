@@ -75,6 +75,7 @@ spec:
         repo1-retention-full: "120"
         repo1-retention-full-type: time
         repo1-path: /default/
+        # TODO: repo1-bundle=y
       manual:
         repoName: repo1
         options:

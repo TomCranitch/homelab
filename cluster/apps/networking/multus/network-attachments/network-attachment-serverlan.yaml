@@ -5,13 +5,10 @@ metadata:
   name: multus-serverlan
   namespace: networking
 spec:
-  # TODO: label the network device in talos: talos.dev/v1.4/talos-guides/network/device-selector/
-  # TODO: this should be easier in talos 1.5: https://github.com/siderolabs/talos/issues/4203#issuecomment-1618376876
-  # host-local maintains a local database of allocated IPs
   config: |-
     {
       "cniVersion": "1.0.0",
-      "master": "eth0",
+      "master": "bond0",
       "mode": "bridge",
       "type": "macvlan",
       "ipam": {
