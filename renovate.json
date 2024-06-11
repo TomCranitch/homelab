@@ -36,6 +36,12 @@
   "commitMessageTopic": "{{depName}}: renovate",
   "commitMessageExtra": "from {{currentVersion}} to {{newVersion}}",
   "commitMessageSuffix": "",
+  "major": {
+	"minimumReleaseAge": "7 days"
+  },
+  "minor": {
+	"minimumReleaseAge": "2 days"
+  },
   "packageRules": [
     {
       "matchDatasources": ["helm"],
@@ -49,15 +55,13 @@
       "matchDatasources": ["helm"],
       "commitMessageTopic": "chart {{depName}}",
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-	  "ignoreTests": true
+      "automerge": true
     },
     {
       "matchDatasources": ["docker"],
       "commitMessageTopic": "image {{depName}}",
       "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true,
-	  "ignoreTests": true
+      "automerge": true
     },
 	{
       "groupName": "cilium",
