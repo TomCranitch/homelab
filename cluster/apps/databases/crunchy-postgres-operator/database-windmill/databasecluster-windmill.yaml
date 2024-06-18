@@ -59,6 +59,13 @@ spec:
         repoName: repo1
         options:
           - --type=full
+  dataSource:
+    pgbackrest:
+      stanza: db
+      configuration: *brcfg     
+      global: *brgflags
+      repo:
+        name: repo1
+        s3: *brrepos3
   
-  # TODO: datasource
   # TODO: proxy.pgBouncer
