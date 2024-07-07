@@ -43,9 +43,6 @@ spec:
                   name: immich
               - configMapRef:
                   name: immich
-            command: /bin/sh
-            args:
-              - ./start-server.sh
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
