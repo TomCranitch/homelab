@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.105.1
+              tag: v1.107.2
             env:
               - name: DB_URL
                 valueFrom:
@@ -43,9 +43,6 @@ spec:
                   name: immich
               - configMapRef:
                   name: immich
-            command: /bin/sh
-            args:
-              - ./start-server.sh
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
