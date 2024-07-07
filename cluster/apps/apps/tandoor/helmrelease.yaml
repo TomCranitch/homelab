@@ -61,7 +61,7 @@ spec:
                     key: POSTGRES_PASSWORD
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: '14.8'
+              tag: '16.3'
         containers:
           main:
             image:
