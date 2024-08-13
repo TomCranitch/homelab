@@ -37,20 +37,20 @@ spec:
         type: AlphaNumeric
   backups:
     pgbackrest:
-      configuration:
+      configuration: &brcfg
         - secret:
             name: crunchy-backup-secret
       repos:
         - name: repo1
-          s3:
+          s3: &brrepos3
             bucket: homeprod-crunchy
             endpoint: https://s3.us-east-005.backblazeb2.com
             region: us-east-005
           schedules:
-            full: "0 3 * * 2"
-            differential: "0 4 * * *"
-            incremental: "0/15 * * * *"
-      global:
+            full: "15 3 * * 2"
+            differential: "15 4 * * *"
+            incremental: "0 * * * *"
+      global: &brgflags
         repo1-retention-diff: "21"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
