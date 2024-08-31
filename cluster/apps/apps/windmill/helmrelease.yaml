@@ -25,8 +25,6 @@ spec:
   driftDetection:
     mode: enabled
   values:
-    postgresql:
-      enabled: true
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
