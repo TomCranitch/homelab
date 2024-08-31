@@ -30,6 +30,14 @@ spec:
       baseProtocol: "https"
       databaseUrlSecretName: default-cluster-pguser-windmill
       databaseUrlSecretKey: uri
+      app:
+        resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 2056Mi
+              cpu: 2000m
       workerGroups:
         - name: default
           replicas: 2
