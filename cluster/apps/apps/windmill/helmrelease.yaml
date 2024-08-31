@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: windmill
-  namespace: windmill
+  namespace: default
 spec:
   interval: 15m
   chart:
@@ -26,11 +26,11 @@ spec:
     mode: enabled
   values:
     postgresql:
-      enabled: false
+      enabled: true
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
-        # TODO: databaseUrl:
+      databaseUrlSecretName: default-cluster-pguser-windmill
     ingress:
       className: nginx
       tls:
