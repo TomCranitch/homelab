@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: docker.io/vabene1111/recipes
-              tag: 1.5.17
+              tag: 1.5.19
             envFrom:
               - secretRef:
                   name: tandoor
