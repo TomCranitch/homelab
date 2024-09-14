@@ -175,7 +175,7 @@ spec:
         searchNamespace: ALL
     extraInitContainers:
       - name: "load-vm-ds-plugin"
-        image: "curlimages/curl:8.8.0"
+        image: "curlimages/curl:8.9.1"
         command: [ "/bin/sh" ]
         workingDir: "/var/lib/grafana"
         securityContext:
