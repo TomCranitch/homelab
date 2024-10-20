@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v1.116.2
+              tag: v1.118.2
             env:
               - name: DB_URL
                 valueFrom:
@@ -52,7 +52,7 @@ spec:
       main:
         ports:
           http:
-            port: 3001
+            port: 2283
     ingress:
       main:
         enabled: true
