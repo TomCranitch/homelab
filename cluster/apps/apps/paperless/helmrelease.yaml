@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
-              tag: 2.9.0
+              tag: 2.12.1
             envFrom:
               - secretRef:
                   name: paperless
@@ -85,13 +85,13 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.6.0
+              tag: 8.11.0
             env:
               DISABLE_GOOGLE_CHROME: 1
           redis:
             image:
               repository: public.ecr.aws/docker/library/redis
-              tag: 7.2.5
+              tag: 7.4.0
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
@@ -132,13 +132,13 @@ spec:
           - path: /library
     sidecars:
       gotenburg:
-        image: thecodingmachine/gotenberg:8.6.0
+        image: thecodingmachine/gotenberg:8.11.0
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
             value: '1'
       redis:
-        image: public.ecr.aws/docker/library/redis:7.2.5
+        image: public.ecr.aws/docker/library/redis:7.4.0
         imagePullPolicy: IfNotPresent
       tika:
         image: ghcr.io/paperless-ngx/tika:2.9.1-full

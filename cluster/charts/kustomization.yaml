@@ -18,7 +18,6 @@ resources:
   - cilium-charts.yaml
   - backube-charts.yaml
   - piraeus-charts.yaml
-  - ocis-charts.yaml
   - angelnu-charts.yaml
   - authentik-charts.yaml
   - emqx-charts.yaml

@@ -3,13 +3,13 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: windmill
-  namespace: windmill
+  namespace: default
 spec:
   interval: 15m
   chart:
     spec:
       chart: windmill
-      version: 2.0.207
+      version: 2.0.283
       sourceRef:
         kind: HelmRepository
         name: windmill-labs-charts
@@ -25,12 +25,40 @@ spec:
   driftDetection:
     mode: enabled
   values:
-    postgresql:
-      enabled: false
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
-        # TODO: databaseUrl:
+      databaseUrlSecretName: default-cluster-pguser-windmill
+      databaseUrlSecretKey: uri
+      app:
+        resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 2056Mi
+              cpu: 2000m
+      workerGroups:
+        - name: default
+          replicas: 2
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 1028Mi
+              cpu: 1000m
+        - name: native
+          replicas: 2
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
+      lspReplicas: 1
+      multiplayerReplicas: 1
     ingress:
       className: nginx
       tls:

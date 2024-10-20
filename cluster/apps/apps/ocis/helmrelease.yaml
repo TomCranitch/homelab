@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: docker.io/owncloud/ocis
-              tag: 5.0.5
+              tag: 5.0.8
             command: [/bin/sh]
             args: ["-c", "ocis init || true; ocis server"]
             env:
@@ -47,6 +47,8 @@ spec:
               # Authentik OIDC
               OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/
               WEB_OIDC_CLIENT_ID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
+              # https://github.com/owncloud/ocis/issues/6479#issuecomment-2309819585
+              PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: "none"
               PROXY_OIDC_REWRITE_WELLKNOWN: true
               PROXY_AUTOPROVISION_ACCOUNTS: true
               # Auto role assignment
