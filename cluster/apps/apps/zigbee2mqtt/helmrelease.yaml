@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: zigbee2mqtt
@@ -37,7 +37,7 @@ spec:
           main:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 1.40.2
+              tag: 1.41.0
             env:
               TZ: ${TZ}
               ZIGBEE2MQTT_DATA: /config

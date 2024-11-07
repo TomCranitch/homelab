@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: esphome
@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: ghcr.io/esphome/esphome
-              tag: 2024.10.1
+              tag: 2024.10.2
         pod:
           annotations:
             k8s.v1.cni.cncf.io/networks: |

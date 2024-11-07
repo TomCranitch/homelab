@@ -1,5 +1,5 @@
 ---
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: vaultwarden
@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: docker.io/vaultwarden/server
-              tag: 1.32.2
+              tag: 1.32.3
             env:
               TZ: ${TZ}
               DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
