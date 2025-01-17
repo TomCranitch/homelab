@@ -40,7 +40,7 @@ spec:
                 spec:
                   containers:
                     - name: dump
-                      image: postgres:16.4-alpine@sha256:d898b0b78a2627cb4ee63464a14efc9d296884f1b28c841b0ab7d7c42f1fffdf
+                      image: postgres:17.2-alpine@sha256:0bcc5bbbb2aa9c9b4c6505845918c7eb55d783cf5c1f434fac33012579fb149d
                       volumeMounts:
                         - name: data
                           mountPath: /backup
