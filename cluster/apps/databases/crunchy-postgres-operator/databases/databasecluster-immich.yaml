@@ -21,6 +21,13 @@ spec:
         resources:
           requests:
             storage: 30Gi
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "kubernetes.io/hostname"
+          whenUnsatisfiable: "DoNotSchedule"
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/data: postgres
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
