@@ -31,7 +31,7 @@ spec:
           main:
             image:
               repository: docker.io/vaultwarden/server
-              tag: 1.32.4
+              tag: 1.33.1
             env:
               TZ: ${TZ}
               DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
