@@ -83,8 +83,7 @@ spec:
             differential: "15 4 * * *"
             incremental: "0 * * * *"
       global: &brgflags
-        repo1-retention-diff: "21"
-        repo1-retention-diff-type: time
+        repo1-retention-diff: "10"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
         repo1-path: /default/
