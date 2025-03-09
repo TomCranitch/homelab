@@ -25,7 +25,7 @@ spec:
     copyMethod: Direct
     pruneIntervalDays: 14
     repository: immich-restic
-    cacheCapacity: 2Gi
+    cacheCapacity: 4Gi
     storageClassName: ceph-block
     accessModes:
       - ReadWriteOnce
