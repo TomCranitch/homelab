@@ -85,7 +85,7 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.17.0
+              tag: 8.17.3
             env:
               DISABLE_GOOGLE_CHROME: 1
           redis:
@@ -132,7 +132,7 @@ spec:
           - path: /library
     sidecars:
       gotenburg:
-        image: thecodingmachine/gotenberg:8.17.0
+        image: thecodingmachine/gotenberg:8.17.3
         imagePullPolicy: IfNotPresent
         env:
           - name: DISABLE_GOOGLE_CHROME
