@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
     name: authentik-outpost
 spec:
+  ingressClassName: nginx
   rules:
     - host: hass-code.${S_HOMEPROD_DOMAIN}
       http:
