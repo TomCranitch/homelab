@@ -9,7 +9,9 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            # https://kubernetes.github.io/ingress-nginx/faq/#validation-of-path
+            # When "ingress.spec.rules.http.pathType=Exact" or "pathType=Prefix", this validation will limit the characters accepted on the field "ingress.spec.rules.http.paths.path", to "alphanumeric characters", and "/", "_", "-". Also, in this case, the path should start with "/".
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
@@ -19,7 +21,7 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
@@ -29,7 +31,7 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
@@ -39,7 +41,7 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
@@ -49,7 +51,7 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
@@ -59,7 +61,7 @@ spec:
       http:
         paths:
           - path: /outpost.goauthentik.io
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: ak-outpost-authentik-embedded-outpost
