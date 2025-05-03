@@ -165,7 +165,8 @@ spec:
         allow_assign_grafana_admin: false
         role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
       plugins:
-        allow_loading_unsigned_plugins: "victorialogs-datasource"
+        - victorialogs-datasource
+        - victoriametrics-metrics-datasource
     sidecar:
       dashboards:
         enabled: true
