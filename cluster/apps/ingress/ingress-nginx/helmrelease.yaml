@@ -32,6 +32,9 @@ spec:
       allowSnippetAnnotations: "true"
       ingressClassResource:
         default: true
+      config:
+        # Required for allowSnippetAnnotations
+        annotations-risk-level: "Critical"
       extraArgs:
         default-ssl-certificate: "ingress/homeprod-domain-tls"
       metrics:
