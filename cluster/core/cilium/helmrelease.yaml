@@ -26,7 +26,7 @@ spec:
   values:
     cluster:
       name: "homeprod"
-      id: "1"
+      id: 1
     securityContext:
       privileged: true
     kubeProxyReplacement: "strict"
