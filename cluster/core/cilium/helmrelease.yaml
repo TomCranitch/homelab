@@ -36,8 +36,6 @@ spec:
     # ipv4NativeRoutingCIDR: 10.10.0.0/116
     ipam:
       mode: "kubernetes"
-    containerRuntime:
-      integration: containerd
     hubble:
       enabled: true
       relay:
