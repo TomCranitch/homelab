@@ -110,7 +110,7 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "automerge": false
+      "automerge": false,
       "separateMinorPatch": true,
       "separateMultipleMinor": true
     }
