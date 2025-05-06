@@ -99,7 +99,9 @@
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
-      "automerge": false
+      "automerge": false,
+      "separateMinorPatch": true,
+      "separateMultipleMinor": true,
     }, {
       "description": "Kubelet",
       "groupName": "Kubelet",
@@ -109,6 +111,8 @@
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "automerge": false
+      "separateMinorPatch": true,
+      "separateMultipleMinor": true,
     }
   ]
 }
