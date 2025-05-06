@@ -101,7 +101,7 @@
       },
       "automerge": false,
       "separateMinorPatch": true,
-      "separateMultipleMinor": true,
+      "separateMultipleMinor": true
     }, {
       "description": "Kubelet",
       "groupName": "Kubelet",
@@ -112,7 +112,7 @@
       },
       "automerge": false
       "separateMinorPatch": true,
-      "separateMultipleMinor": true,
+      "separateMultipleMinor": true
     }
   ]
 }
