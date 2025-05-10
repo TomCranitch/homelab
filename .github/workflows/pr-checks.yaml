@@ -2,7 +2,7 @@ name: PR Diffs
 on:
   workflow_dispatch:
   pull_request:
-    types: [edited]
+    types: [opened, synchronize, edited, closed]
 jobs:
   diffs:
     name: Compute diffs
