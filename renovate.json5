@@ -1,118 +1,168 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:base",
-	":dependencyDashboard"
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  extends: [
+    'config:recommended',
+    ':dependencyDashboard',
   ],
-  "prHourlyLimit": 0,
-  "flux": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+  prHourlyLimit: 0,
+  flux: {
+    managerFilePatterns: [
+      '/cluster/.+\\.ya?ml$/',
+    ],
   },
-  "helm-values": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+  'helm-values': {
+    managerFilePatterns: [
+      '/cluster/.+\\.ya?ml$/',
+    ],
   },
-  "kubernetes": {
-    "fileMatch": ["cluster/.+\\.ya?ml$"]
+  kubernetes: {
+    managerFilePatterns: [
+      '/cluster/.+\\.ya?ml$/',
+    ],
   },
-  "customManagers": [
+  customManagers: [
     {
-      "customType": "regex",
-      "description": ["Process custom dependencies"],
-      "fileMatch": [".+\\.ya?ml$"],
-      "matchStrings": [
-        // # renovate: datasource=github-releases depName=k3s-io/k3s
+      customType: 'regex',
+      description: [
+        'Process custom dependencies',
+      ],
+      managerFilePatterns: [
+        '/.+\\.ya?ml$/',
+      ],
+      matchStrings: [
+	// # renovate: datasource=github-releases depName=k3s-io/k3s
         // k3s_release_version: &version v1.29.0+k3s1
         // # renovate: datasource=helm depName=cilium repository=https://helm.cilium.io
         // version: 1.15.1
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)",
-        // # renovate: datasource=github-releases depName=rancher/system-upgrade-controller
+        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( repository=(?<registryUrl>\\S+))?\\n.+: (&\\S+\\s)?(?<currentValue>\\S+)',
+	// # renovate: datasource=github-releases depName=rancher/system-upgrade-controller
         // https://github.com/rancher/system-upgrade-controller/releases/download/v0.13.2/crd.yaml
-        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)"
+        'datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)\\n.+/(?<currentValue>(v|\\d)[^/]+)',
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}"
+      datasourceTemplate: '{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}',
     },
   ],
-  "semanticCommits": "disabled",
-  "commitMessageTopic": "{{depName}}: renovate",
-  "commitMessageExtra": "from {{currentVersion}} to {{newVersion}}",
-  "commitMessageSuffix": "",
-  "major": {
-	"minimumReleaseAge": "7 days"
+  semanticCommits: 'disabled',
+  commitMessageTopic: '{{depName}}: renovate',
+  commitMessageExtra: 'from {{currentVersion}} to {{newVersion}}',
+  commitMessageSuffix: '',
+  major: {
+    minimumReleaseAge: '7 days',
   },
-  "minor": {
-	"minimumReleaseAge": "2 days"
+  minor: {
+    minimumReleaseAge: '2 days',
   },
-  "packageRules": [
+  packageRules: [
     {
-      "matchDatasources": ["helm"],
-      "commitMessageTopic": "chart {{depName}}"
-    },
-    {
-      "matchDatasources": ["docker"],
-      "commitMessageTopic": "image {{depName}}"
+      matchDatasources: [
+        'helm',
+      ],
+      commitMessageTopic: 'chart {{depName}}',
     },
     {
-      "matchDatasources": ["helm"],
-      "commitMessageTopic": "chart {{depName}}",
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      matchDatasources: [
+        'docker',
+      ],
+      commitMessageTopic: 'image {{depName}}',
     },
     {
-      "matchDatasources": ["docker"],
-      "commitMessageTopic": "image {{depName}}",
-      "matchUpdateTypes": ["minor", "patch"],
-      "automerge": true
+      matchDatasources: [
+        'helm',
+      ],
+      commitMessageTopic: 'chart {{depName}}',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      automerge: true,
     },
-	{
-      "groupName": "cilium",
-      "matchPackagePatterns": ["cilium"],
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"],
-      "automerge": true
+    {
+      matchDatasources: [
+        'docker',
+      ],
+      commitMessageTopic: 'image {{depName}}',
+      matchUpdateTypes: [
+        'minor',
+        'patch',
+      ],
+      automerge: true,
     },
-	{
-      "description": "Immich images",
-      "groupName": "Immich",
-      "matchPackagePatterns": ["immich"],
-      "matchDatasources": ["docker"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+    {
+      groupName: 'cilium',
+      matchDatasources: [
+        'helm',
+      ],
+      matchUpdateTypes: [
+        'patch',
+      ],
+      automerge: true,
+      matchPackageNames: [
+        '/cilium/',
+      ],
+    },
+    {
+      description: 'Immich images',
+      groupName: 'Immich',
+      matchDatasources: [
+        'docker',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
       },
-      "automerge": false
-
+      automerge: false,
+      matchPackageNames: [
+        '/immich/',
+      ],
     },
     {
-      "description": "Rook-Ceph image and chart",
-      "groupName": "Rook-Ceph",
-      "matchPackagePatterns": ["rook.ceph"],
-      "matchDatasources": ["docker", "helm"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: 'Rook-Ceph image and chart',
+      groupName: 'Rook-Ceph',
+      matchDatasources: [
+        'docker',
+        'helm',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
       },
-      "automerge": false
+      automerge: false,
+      matchPackageNames: [
+        '/rook.ceph/',
+      ],
     },
     {
-      "description": "Talos",
-      "groupName": "Talos",
-      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
-      "matchDatasources": ["docker"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      description: 'Talos',
+      groupName: 'Talos',
+      matchDatasources: [
+        'docker',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
       },
-      "automerge": false,
-      "separateMinorPatch": true,
-      "separateMultipleMinor": true
-    }, {
-      "description": "Kubelet",
-      "groupName": "Kubelet",
-      "matchPackagePatterns": ["siderolabs/kubelet", "kubectl"],
-      "matchDatasources": ["docker", "helm"],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
+      automerge: false,
+      separateMinorPatch: true,
+      separateMultipleMinor: true,
+      matchPackageNames: [
+        '/siderolabs/talosctl/',
+        '/siderolabs/installer/',
+      ],
+    },
+    {
+      description: 'Kubelet',
+      groupName: 'Kubelet',
+      matchDatasources: [
+        'docker',
+        'helm',
+      ],
+      group: {
+        commitMessageTopic: '{{{groupName}}} group',
       },
-      "automerge": false,
-      "separateMinorPatch": true,
-      "separateMultipleMinor": true
-    }
-  ]
+      automerge: false,
+      separateMinorPatch: true,
+      separateMultipleMinor: true,
+      matchPackageNames: [
+        '/siderolabs/kubelet/',
+        '/kubectl/',
+      ],
+    },
+  ],
 }
