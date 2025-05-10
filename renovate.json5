@@ -109,12 +109,9 @@
       group: {
         commitMessageTopic: '{{{groupName}}} group',
       },
-      automerge: true,
+      automerge: false,
       matchPackageNames: [
         '/immich/',
-      ],
-      matchUpdateTypes: [
-        'patch',
       ],
     },
     {
@@ -126,9 +123,12 @@
       group: {
         commitMessageTopic: '{{{groupName}}} group',
       },
-      automerge: false,
+      automerge: true,
       matchPackageNames: [
         '/immich/',
+      ],
+      matchUpdateTypes: [
+        'patch',
       ],
     },
     {
