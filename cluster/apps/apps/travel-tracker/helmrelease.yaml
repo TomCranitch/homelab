@@ -41,6 +41,12 @@ spec:
             image:
               repository: ghcr.io/tomcranitch/travel-tracker
               tag: latest  # TODO
+            env:
+              STADIA_API_KEY:
+                valueFrom:
+                  secretKeyRef:
+                    name: travel-tracker
+                    key: STADIA_API_KEY
     service:
       main:
         ports:
