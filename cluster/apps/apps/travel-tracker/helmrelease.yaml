@@ -26,13 +26,14 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
-      securityContext:
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
+      # TODO: lock down container
+      # securityContext:
+      #   runAsUser: 568
+      #   runAsGroup: 568
+      #   fsGroup: 568
+      #   fsGroupChangePolicy: OnRootMismatch
       imagePullSecrets: 
-        - ghcr-secret
+        - name: ghcr-secret
     controllers:
       main:
         containers:
