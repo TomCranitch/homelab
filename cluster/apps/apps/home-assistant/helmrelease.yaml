@@ -46,7 +46,7 @@ spec:
           code:
             image:
               repository: ghcr.io/coder/code-server
-              tag: 4.101.2
+              tag: 4.102.1
             env:
               TZ: ${TZ}
               GIT_AUTHOR_NAME: Tom Cranitch
