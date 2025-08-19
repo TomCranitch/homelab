@@ -5,3 +5,4 @@ resources:
   - databasecluster-default.yaml
   - databasecluster-immich.yaml
   - crunchy-backup-secret.sops.yaml
+  - immich-init.yaml

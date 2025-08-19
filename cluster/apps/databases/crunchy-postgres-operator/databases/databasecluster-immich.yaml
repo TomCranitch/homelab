@@ -9,7 +9,7 @@ metadata:
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
 spec:
   postgresVersion: 16
-  image: ghcr.io/budimanjojo/cdpgvecto.rs:ubi8-16.2-0-v0.2.1
+  image: ghcr.io/budimanjojo/crunchy-postgres-vectorchord:ubi9-17.5-2520
   instances:
     - name: postgres
       replicas: 3
@@ -34,10 +34,13 @@ spec:
       postgresql:
         synchronous_commit: "on"
         parameters:
-          shared_preload_libraries: "vectors.so"
+          shared_preload_libraries: "vchord.so"
           search_path: '"$user", public, vectors'
         pg_hba:
           - hostnossl all all 10.244.0.0/16 md5
+  databaseInitSQL:
+    name: immich-database-init-sql
+    key: init.sql
   users:
     - name: postgres
       databases:
