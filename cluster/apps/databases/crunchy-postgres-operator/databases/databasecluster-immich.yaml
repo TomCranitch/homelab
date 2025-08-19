@@ -9,7 +9,7 @@ metadata:
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
 spec:
   postgresVersion: 16
-  image: ghcr.io/budimanjojo/crunchy-postgres-vectorchord:ubi9-17.5-2520
+  image: ghcr.io/budimanjojo/crunchy-postgres-vectorchord:ubi9-16.9-2520-0.4.3
   instances:
     - name: postgres
       replicas: 3
