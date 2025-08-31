@@ -45,3 +45,4 @@ spec:
       - --image=ghcr.io/siderolabs/installer:$(SYSTEM_UPGRADE_PLAN_LATEST_VERSION)
       - --preserve=true
       - --wait=false
+  postCompleteDelay: "3m"
