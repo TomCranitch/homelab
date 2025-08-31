@@ -2,7 +2,7 @@ clusterName: homeprod
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.10.7
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: 1.33.0
+kubernetesVersion: 1.33.4
 endpoint: https://cranitch.k8s:6443
 cniConfig:
   name: none
