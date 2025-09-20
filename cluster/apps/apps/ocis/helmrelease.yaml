@@ -88,6 +88,13 @@ spec:
               - *host
         className: nginx
     persistence:
+      ocis-config-files:
+        type: configMap
+        name: ocis
+        globalMounts:
+          - path: /etc/ocis/csp.yaml
+            subPath: csp.yaml
+            readOnly: true
       storage-users:
         enabled: true
         type: persistentVolumeClaim
