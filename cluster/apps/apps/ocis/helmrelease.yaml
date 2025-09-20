@@ -45,7 +45,8 @@ spec:
               OCIS_LOG_PRETTY: true
               STORAGE_USERS_OCIS_ROOT: /data
               # Authentik OIDC
-              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/
+              OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/application/o/owncloud/
+              OCIS_OIDC_METADATA_URL: https://sso.${S_HOMEPROD_DOMAIN}/application/o/owncloud/.well-known/openid-configuration
               WEB_OIDC_CLIENT_ID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
               # Fix the CSP settings to allow requests to the SSO server.
               PROXY_CSP_CONFIG_FILE_LOCATION: /etc/ocis/csp.yaml
