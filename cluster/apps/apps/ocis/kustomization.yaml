@@ -8,6 +8,6 @@ resources:
 configMapGenerator:
   - name: ocis
     files:
-      - csp.yaml=./config/csp.yaml
+      - csp.yaml=./csp.yaml
 generatorOptions:
   disableNameSuffixHash: true
