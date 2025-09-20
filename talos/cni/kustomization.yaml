@@ -7,7 +7,7 @@ helmCharts:
   repo: https://helm.cilium.io/
   valuesFile: values.yaml
   valuesMerge: override
-  version: 1.17.3
+  version: 1.18.2
 # TODO: use same values as rest of repo and override as below
 #   valuesInline:
 #     hubble:
