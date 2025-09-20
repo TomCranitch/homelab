@@ -5,3 +5,9 @@ resources:
   - helmrelease.yaml
   - secret.sops.yaml
     # TODO: - volsync.yaml
+configMapGenerator:
+  - name: ocis
+    files:
+      - csp.yaml=./config/csp.yaml
+generatorOptions:
+  disableNameSuffixHash: true

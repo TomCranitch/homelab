@@ -47,6 +47,8 @@ spec:
               # Authentik OIDC
               OCIS_OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/
               WEB_OIDC_CLIENT_ID: fiehYo5V5NOhkwhiRApM4fgdMHNSV3kJx0a2T3kZ
+              # Fix the CSP settings to allow requests to the SSO server.
+              PROXY_CSP_CONFIG_FILE_LOCATION: /etc/ocis/csp.yaml
               # https://github.com/owncloud/ocis/issues/6479#issuecomment-2309819585
               PROXY_OIDC_ACCESS_TOKEN_VERIFY_METHOD: "none"
               PROXY_OIDC_REWRITE_WELLKNOWN: true
