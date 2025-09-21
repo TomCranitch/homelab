@@ -1,0 +1,61 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: karakeep-restic
+  namespace: default
+type: Opaque
+stringData:
+  RESTIC_REPOSITORY: ${S_VOLSYNC_B2_REPO}-karakeep
+  RESTIC_PASSWORD: ${S_VOLSYNC_B2_PASSWORD}
+  B2_ACCOUNT_ID: ${S_VOLSYNC_B2_ID}
+  B2_ACCOUNT_KEY: ${S_VOLSYNC_B2_KEY}
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: karakeep-restic
+  namespace: default
+spec:
+  sourcePVC: karakeep
+  trigger:
+    schedule: "0 2 * * *"
+  restic:
+    copyMethod: Snapshot
+    pruneIntervalDays: 14
+    repository: karakeep-restic
+    cacheCapacity: 2Gi
+    volumeSnapshotClassName: csi-ceph-blockpool
+    storageClassName: ceph-block
+    moverSecurityContext:
+      runAsUser: 111
+      runAsGroup: 111
+      fsGroup: 111
+    retain:
+      daily: 7
+      weekly: 6
+      monthly: 6
+---
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: karakeep-destination
+  namespace: default
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: karakeep-restic
+    copyMethod: Snapshot # must be Snapshot
+    volumeSnapshotClassName: csi-ceph-blockpool
+    # cacheStorageClassName: ceph-block
+    # cacheAccessModes: ReadWriteOnce
+    cacheCapacity: 2Gi
+    storageClassName: ceph-block
+    accessModes: 
+      - ReadWriteOnce
+    capacity: 1Gi  # TODO: keep in sync with pvc
+    moverSecurityContext:
+      runAsUser: 568
+      runAsGroup: 111
+      fsGroup: 111
