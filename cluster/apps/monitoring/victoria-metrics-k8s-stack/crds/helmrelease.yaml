@@ -1,0 +1,34 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: victoria-metrics-k8s-stack
+  namespace: monitoring
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: victoria-metrics-operator-crds
+      version: 0.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: victoriametrics-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    fullnameOverride: "vm-opo-crds"
+    crds:
+      enabled: true
+      # plain == false results in CRDs being rendered as templates which allows them to be upgraded
+      plain: false
+      cleanup:
+        enabled: false
