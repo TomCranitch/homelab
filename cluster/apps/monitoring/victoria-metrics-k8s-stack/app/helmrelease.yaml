@@ -43,9 +43,6 @@ spec:
             proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - &vmagent-host "vmagent.${S_HOMEPROD_DOMAIN}"
-        tls:
-          - hosts:
-            - *vmagent-host
     vmsingle:
       spec:
         storage:
@@ -67,9 +64,6 @@ spec:
             proxy_set_header X-Forwarded-Host $http_host;
         hosts:
           - &vmsingle-host "vmsingle.${S_HOMEPROD_DOMAIN}"
-        tls:
-          - hosts:
-            - *vmsingle-host
     prometheus-node-exporter:
       enabled: false
     victoria-metrics-operator:
