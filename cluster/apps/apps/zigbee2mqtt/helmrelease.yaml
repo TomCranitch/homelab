@@ -110,9 +110,3 @@ spec:
         existingClaim: zigbee2mqtt
         globalMounts:
           - path: /config
-      z2m-special-config:
-        enabled: true
-        type: configMap
-        name: z2m-special-config
-        globalMounts:
-          - path: /config
