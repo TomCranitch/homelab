@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,14 +27,24 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      radicale:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/bjw-s-labs/radicale
               tag: 3.5.5
             env:
               RADICALE_CONFIG: /config/config
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
         pod:
           securityContext:
             # TODO
@@ -45,7 +56,8 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: "OnRootMismatch"
     service:
-      main:
+      app:
+        controller: radicale
         ports:
           http:
             port: 5232
@@ -67,7 +79,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:

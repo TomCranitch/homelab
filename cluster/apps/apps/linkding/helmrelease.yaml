@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,9 +27,9 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      linkding:
         containers:
-          main:
+          app:
             image:
               repository: docker.io/sissbruecker/linkding
               tag: 1.42.0
@@ -59,8 +60,19 @@ spec:
                   secretKeyRef:
                     name: default-cluster-pguser-linkding
                     key: password
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: linkding
         ports:
           http:
             port: 9090
@@ -82,7 +94,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:

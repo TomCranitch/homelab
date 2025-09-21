@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -26,17 +27,36 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      "immich-redis":
         containers:
-          main:
+          app:
             image:
               repository: public.ecr.aws/docker/library/redis
               tag: 8.2.1
             env:
               REDIS_REPLICATION_MODE: master
             command: redis-server
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+              readiness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+              startup:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: "immich-redis"
         ports:
           http:
             port: 6379

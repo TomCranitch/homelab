@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -32,12 +33,12 @@ spec:
       #   runAsGroup: 568
       #   fsGroup: 568
       #   fsGroupChangePolicy: OnRootMismatch
-      imagePullSecrets: 
+      imagePullSecrets:
         - name: ghcr-secret
     controllers:
-      main:
+      "travel-tracker":
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/tomcranitch/travel-tracker
               tag: latest  # TODO
@@ -47,8 +48,19 @@ spec:
                   secretKeyRef:
                     name: travel-tracker
                     key: STADIA_API_KEY
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: "travel-tracker"
         ports:
           http:
             port: 8080
@@ -61,7 +73,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
