@@ -104,7 +104,6 @@ spec:
       ocis-config-files:
         type: configMap
         name: ocis
-        namespace: default
         globalMounts:
           - path: /etc/ocis/csp.yaml
             subPath: csp.yaml
