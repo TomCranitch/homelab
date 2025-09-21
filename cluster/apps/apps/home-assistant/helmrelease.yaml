@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -32,9 +33,18 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: Always
     controllers:
-      main:
+      "home-assistant":
+        pod:
+          annotations:
+            # TODO: switch to IOTLan (to hopefully help with mdns)
+            # Using IOTLan was causing connectivity issues with google home hub/esphome
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-serverlan",
+                "namespace": "networking"
+              }]
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/home-assistant
               tag: 2025.3.3
@@ -43,6 +53,16 @@ spec:
                   name: home-assistant
             env:
               TZ: ${TZ}
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
           code:
             image:
               repository: ghcr.io/coder/code-server
@@ -61,20 +81,24 @@ spec:
               - --port
               - "8081"
               - "/config"
-        pod:
-          annotations:
-            k8s.v1.cni.cncf.io/networks: |
-              [{
-                "name": "multus-serverlan",
-                "namespace": "networking"
-              }]
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: "home-assistant"
         ports:
           http:
             port: 8123
       code:
-        controller: main
+        controller: "home-assistant"
         ports:
           http:
             port: 8081
@@ -96,7 +120,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -113,7 +137,7 @@ spec:
             Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
           nginx.ingress.kubernetes.io/auth-snippet: |
             proxy_set_header X-Forwarded-Host $http_host;
-        ingressClassName: nginx
+        className: nginx
         hosts:
           # TODO protect with reverse proxy auth
           - host: &hass-code hass-code.${S_HOMEPROD_DOMAIN}
@@ -121,7 +145,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: code
+                  identifier: code
                   port: http
         tls:
           - hosts:
@@ -136,11 +160,3 @@ spec:
         existingClaim: home-assistant
         globalMounts:
           - path: /config
-    podAnnotations:
-      # TODO: switch to IOTLan (to hopefully help with mdns)
-      # Using IOTLan was causing connectivity issues with google home hub/esphome
-      k8s.v1.cni.cncf.io/networks: |
-        [{
-          "name": "multus-serverlan",
-          "namespace": "networking"
-        }]

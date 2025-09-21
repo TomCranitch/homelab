@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -26,11 +26,11 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      tailscale:
         replicas: 2
         strategy: RollingUpdate
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/tailscale/tailscale
               tag: v1.86.5
@@ -50,16 +50,20 @@ spec:
                 enabled: true
               readiness:
                 enabled: true
+        serviceAccount:
+          identifier: tailscale
     service:
-      main:
+      app:
+        controller: tailscale
         ports:
           http:
             port: 2000
     serviceAccount:
-      name: tailscale
+      tailscale:
+        enabled: true
     # TODO: dashboard
     serviceMonitor:
-      main:
+      app:
         enabled: true
         endpoints:
           - port: http

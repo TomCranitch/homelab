@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -26,9 +27,9 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      ocis:
         containers:
-          main:
+          app:
             image:
               repository: docker.io/owncloud/ocis
               tag: 7.2.0
@@ -63,13 +64,24 @@ spec:
             envFrom:
               - secretRef:
                   name: ocis
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
         pod:
           securityContext:
             runAsUser: ${CONTAINER_UID}
             runAsGroup: ${CONTAINER_GID}
             runAsNonRoot: true
     service:
-      main:
+      app:
+        controller: ocis
         ports:
           http:
             port: 9200
@@ -82,7 +94,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -92,7 +104,6 @@ spec:
       ocis-config-files:
         type: configMap
         name: ocis
-        namespace: default
         globalMounts:
           - path: /etc/ocis/csp.yaml
             subPath: csp.yaml
@@ -104,8 +115,8 @@ spec:
         accessMode: ReadWriteOnce
         size: 40Gi
         advancedMounts:
-          main:
-            main:
+          ocis:
+            app:
               - path: /data
                 subPath: storage-users
       config:
@@ -115,8 +126,8 @@ spec:
         accessMode: ReadWriteOnce
         size: 1Gi
         advancedMounts:
-          main:
-            main:
+          ocis:
+            app:
               - path: /etc/ocis
                 subPath: config
       data:
@@ -126,7 +137,7 @@ spec:
         accessMode: ReadWriteOnce
         size: 10Gi
         advancedMounts:
-          main:
-            main:
+          ocis:
+            app:
               - path: /var/lib/ocis
                 subPath: data

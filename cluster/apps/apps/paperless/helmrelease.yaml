@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -26,9 +27,9 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      paperless:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/paperless-ngx/paperless-ngx
               tag: 2.18.4
@@ -57,12 +58,12 @@ spec:
               USERMAP_UID: ${CONTAINER_UID}
               USERMAP_GID: ${CONTAINER_GID}
               PAPERLESS_DBENGINE: postgresql
-              PAPERLESS_DBPORT: 
+              PAPERLESS_DBPORT:
                 valueFrom:
                   secretKeyRef:
                     name: default-cluster-pguser-paperless
                     key: port
-              PAPERLESS_DBHOST: 
+              PAPERLESS_DBHOST:
                 valueFrom:
                   secretKeyRef:
                     name: default-cluster-pguser-paperless
@@ -82,22 +83,71 @@ spec:
                   secretKeyRef:
                     name: default-cluster-pguser-paperless
                     key: password
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
               tag: 8.23.1
             env:
               DISABLE_GOOGLE_CHROME: 1
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
           redis:
             image:
               repository: public.ecr.aws/docker/library/redis
               tag: 8.2.1
+            probes:
+              liveness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+              readiness:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+              startup:
+                enabled: true
+                spec:
+                  tcpSocket:
+                    port: 6379
+                  failureThreshold: 30
+                  periodSeconds: 5
           tika:
             image:
               repository: ghcr.io/paperless-ngx/tika
               tag: 2.9.1-full
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: paperless
         ports:
           http:
             port: 8080
@@ -118,7 +168,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -130,16 +180,3 @@ spec:
         existingClaim: paperless-nfs
         globalMounts:
           - path: /library
-    sidecars:
-      gotenburg:
-        image: thecodingmachine/gotenberg:8.23.1
-        imagePullPolicy: IfNotPresent
-        env:
-          - name: DISABLE_GOOGLE_CHROME
-            value: '1'
-      redis:
-        image: public.ecr.aws/docker/library/redis:8.2.1
-        imagePullPolicy: IfNotPresent
-      tika:
-        image: ghcr.io/paperless-ngx/tika:2.9.1-full
-        imagePullPolicy: IfNotPresent

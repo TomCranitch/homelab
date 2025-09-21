@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -32,9 +33,9 @@ spec:
         fsGroup: 100
         fsGroupChangePolicy: Always
     controllers:
-      main:
+      tandoor:
         containers:
-          main:
+          app:
             image:
               repository: docker.io/vabene1111/recipes
               tag: 1.5.35
@@ -47,8 +48,19 @@ spec:
               ENABLE_SIGNUP: 0
               POSTGRES_HOST: ${POSTGRES_RW_URL}
               POSTGRES_PORT: 5432
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: tandoor
         ports:
           http:
             port: 8080
@@ -61,7 +73,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -32,9 +33,9 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
     controllers:
-      main:
+      zigbee2mqtt:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.6.1
@@ -63,8 +64,19 @@ spec:
                 # TODO...
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.169:6638
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: zigbee2mqtt
         ports:
           http:
             port: 8080
@@ -86,7 +98,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
@@ -98,12 +110,9 @@ spec:
         existingClaim: zigbee2mqtt
         globalMounts:
           - path: /config
-    # TODO: this is temporary, remove later
-    volumeMounts:
-      - mountPath: /config
+      z2m-special-config:
+        enabled: true
+        type: configMap
         name: z2m-special-config
-    volumes: 
-      - configMap:
-          name: z2m-special-config
-        name: z2m-special-config
-
+        globalMounts:
+          - path: /config

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -9,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 4.3.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -26,9 +27,9 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      mealie:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.1.2
@@ -43,7 +44,7 @@ spec:
               OIDC_ADMIN_GROUP: service-admins
               OIDC_AUTO_REDIRECT: "True"
               OIDC_PROVIDER_NAME: "Cranitch SSO"
-              POSTGRES_PORT: 
+              POSTGRES_PORT:
                 valueFrom:
                   secretKeyRef:
                     name: default-cluster-pguser-mealie
@@ -68,8 +69,19 @@ spec:
                   secretKeyRef:
                     name: default-cluster-pguser-mealie
                     key: password
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
     service:
-      main:
+      app:
+        controller: mealie
         ports:
           http:
             port: 9000
@@ -84,7 +96,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
