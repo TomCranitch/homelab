@@ -13,7 +13,7 @@ spec:
       class_name: "nginx"
       # Secret filled in by cert manager
       # tlsSecretName: vmauth-external-tls-secret
-      tlsHosts:
+      hosts:
         - vmauth-external.${S_HOMEPROD_DOMAIN}
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
