@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app victoria-metrics-k8s-crds
+  name: &app victoria-metrics-operator-crds
   namespace: flux-system
 spec:
   targetNamespace: monitoring
@@ -35,7 +35,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: victoria-metrics-k8s-crds
+    - name: victoria-metrics-operator-crds
   path: ./cluster/apps/monitoring/victoria-metrics-k8s-stack/app
   prune: true
   sourceRef:
@@ -63,8 +63,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: victoria-metrics-operator-crds
     - name: victoria-metrics-k8s-stack
-    - name: victoria-metrics-k8s-crds
   path: ./cluster/apps/monitoring/victoria-metrics-k8s-stack/resources
   prune: true
   sourceRef:
