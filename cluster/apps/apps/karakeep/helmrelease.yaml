@@ -50,8 +50,11 @@ spec:
               DISABLE_SIGNUPS: true
               MAX_ASSET_SIZE_MB: 128
               MEILI_ADDR: http://karakeep-meilisearch.default.svc.cluster.local:7700
-              NEXTAUTH_URL: https://karakeep.${S_HOMEPROD_DOMAIN}
+              NEXTAUTH_URL: https://reader.${S_HOMEPROD_DOMAIN}
               DISABLE_NEW_RELEASE_CHECK: true
+            envFrom:
+              - secretRef:
+                  name: *app
             probes:
               liveness:
                 enabled: true
