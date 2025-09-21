@@ -74,14 +74,6 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-            volumeMounts:
-              - mountPath: /config
-                name: z2m-special-config
-        pod:
-          volumes:
-            - name: z2m-special-config
-              configMap:
-                name: z2m-special-config
     service:
       app:
         controller: zigbee2mqtt
@@ -116,5 +108,11 @@ spec:
       config:
         enabled: true
         existingClaim: zigbee2mqtt
+        globalMounts:
+          - path: /config
+      z2m-special-config:
+        enabled: true
+        type: configMap
+        name: z2m-special-config
         globalMounts:
           - path: /config
