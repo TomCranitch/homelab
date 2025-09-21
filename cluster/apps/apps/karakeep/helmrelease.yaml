@@ -53,6 +53,9 @@ spec:
               DISABLE_NEW_RELEASE_CHECK: true
               DISABLE_PASSWORD_AUTH: true
               OAUTH_WELLKNOWN_URL: https://sso.${S_HOMEPROD_DOMAIN}/application/o/karakeep/.well-known/openid-configuration
+              OPENAI_BASE_URL: "https://generativelanguage.googleapis.com/v1beta"
+              INFERENCE_TEXT_MODEL: gemini-2.0-flash
+              INFERENCE_IMAGE_MODEL: gemini-2.0-flash
             envFrom:
               - secretRef:
                   name: *app
