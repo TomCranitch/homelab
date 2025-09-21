@@ -135,7 +135,7 @@ spec:
             isDefault: true
             name: VictoriaMetrics
             type: prometheus
-            url: http://vmsingle-victoria-metrics-k8s-stack.monitoring.svc:8429
+            url: http://vmsingle-vm-stack.monitoring.svc:8429
           - access: proxy
             name: VictoriaLogs
             type: victorialogs-datasource
