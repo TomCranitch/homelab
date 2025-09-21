@@ -80,7 +80,7 @@ spec:
     persistence:
       data:
         # Avoid a name change with the app-template v2->v4 migration.
-        suffix: -data
+        suffix: data
         enabled: true
         type: persistentVolumeClaim
         size: 1Gi
