@@ -11,7 +11,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: system-upgrade
-    namespace: system-upgrade
+    namespace: system-upgrade-controller
 ---
 apiVersion: talos.dev/v1alpha1
 kind: ServiceAccount
