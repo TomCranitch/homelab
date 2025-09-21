@@ -75,15 +75,15 @@ spec:
     victoria-metrics-operator:
       operator:
         disable_prometheus_converter: false
-  postRenderers:
-   - kustomize:
-      patches:
-       - patch: |-
-           apiVersion: operator.victoriametrics.com/v1beta1
-           kind: VMAgent
-           metadata:
-             name: victoria-metrics-k8s-stack
-             namespace: monitoring
-           spec:
-             externalLabels:
-               $patch: delete
+ # postRenderers:
+ #  - kustomize:
+ #     patches:
+ #      - patch: |-
+ #          apiVersion: operator.victoriametrics.com/v1beta1
+ #          kind: VMAgent
+ #          metadata:
+ #            name: vm-stack
+ #            namespace: monitoring
+ #          spec:
+ #            externalLabels:
+ #              $patch: delete
