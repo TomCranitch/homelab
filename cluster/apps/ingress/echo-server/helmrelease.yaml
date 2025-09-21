@@ -25,9 +25,9 @@ spec:
     mode: enabled
   values:
     controllers:
-      main:
+      echo-server:
         containers:
-          main:
+          app:
             image:
               repository: docker.io/jmalloc/echo-server
               tag: v0.3.7
@@ -52,7 +52,8 @@ spec:
               startup:
                 enabled: false
     service:
-      main:
+      app:
+        controller: echo-server
         ports:
           http:
             port: 8080
@@ -65,7 +66,7 @@ spec:
               - path: /
                 pathType: Prefix
                 service:
-                  name: main
+                  identifier: app
                   port: http
         tls:
           - hosts:
