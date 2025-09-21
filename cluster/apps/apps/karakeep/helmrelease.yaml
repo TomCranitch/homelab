@@ -51,7 +51,6 @@ spec:
               MEILI_ADDR: http://karakeep-meilisearch.default.svc.cluster.local:7700
               NEXTAUTH_URL: https://reader.${S_HOMEPROD_DOMAIN}
               DISABLE_NEW_RELEASE_CHECK: true
-              DISABLE_SIGNUPS: true
               DISABLE_PASSWORD_AUTH: true
               OAUTH_WELLKNOWN_URL: https://sso.${S_HOMEPROD_DOMAIN}/application/o/karakeep/.well-known/openid-configuration
             envFrom:
