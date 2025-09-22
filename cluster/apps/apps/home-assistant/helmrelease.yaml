@@ -87,6 +87,8 @@ spec:
               - "/config/.vscode"
               - --extensions-dir
               - "/config/.vscode"
+              - --config
+              - "/config/.vscode/config.yaml"
               - --port
               - "8081"
               - "/config"
