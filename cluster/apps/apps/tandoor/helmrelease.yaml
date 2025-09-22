@@ -28,12 +28,20 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 100
-        fsGroup: 100
-        fsGroupChangePolicy: Always
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
       tandoor:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:

@@ -28,13 +28,20 @@ spec:
   values:
     defaultPodOptions:
       securityContext:
-        runAsUser: 987
-        runAsGroup: 987
-        runAsNonRoot: true
-        fsGroup: 987
-        fsGroupChangePolicy: "OnRootMismatch"
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
       karakeep:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:
@@ -70,6 +77,12 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 5
       chrome:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:
@@ -86,13 +99,13 @@ spec:
               - --remote-debugging-address=0.0.0.0
               - --remote-debugging-port=9222
               - --hide-scrollbars
-            securityContext:
-              capabilities:
-                drop:
-                  - ALL
-                add:
-                  - SYS_NICE
       meilisearch:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         pod:
           affinity:
             podAffinity:
