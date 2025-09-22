@@ -37,12 +37,13 @@ spec:
           type: RuntimeDefault
     controllers:
       karakeep:
-        defaultContainerOptions:
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+        # TODO: look at adding this back if possible. currently causes a bunch of S6 errors.
+        # defaultContainerOptions:
+        #   securityContext:
+        #     allowPrivilegeEscalation: false
+        #     capabilities:
+        #       drop:
+        #         - ALL
         containers:
           app:
             image:

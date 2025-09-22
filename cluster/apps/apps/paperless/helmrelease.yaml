@@ -37,12 +37,13 @@ spec:
           type: RuntimeDefault
     controllers:
       paperless:
-        defaultContainerOptions:
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
+        # TODO: add this back (at the very least for all except the main container).
+        # defaultContainerOptions:
+        #   securityContext:
+        #     allowPrivilegeEscalation: false
+        #     capabilities:
+        #       drop:
+        #         - ALL
         containers:
           app:
             image:
