@@ -17,6 +17,6 @@ resources:
   - zigbee2mqtt
   - ntfy
   - linkding
-  - radicale
+#  - radicale
   - travel-tracker
   - karakeep
