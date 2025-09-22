@@ -26,8 +26,22 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
       ntfy:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:

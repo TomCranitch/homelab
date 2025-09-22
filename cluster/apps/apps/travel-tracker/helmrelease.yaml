@@ -27,16 +27,23 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
-      # TODO: lock down container
-      # securityContext:
-      #   runAsUser: 568
-      #   runAsGroup: 568
-      #   fsGroup: 568
-      #   fsGroupChangePolicy: OnRootMismatch
+      securityContext:
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
       imagePullSecrets:
         - name: ghcr-secret
     controllers:
       "travel-tracker":
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:

@@ -26,8 +26,22 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    defaultPodOptions:
+      securityContext:
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     controllers:
       radicale:
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
         containers:
           app:
             image:
@@ -45,16 +59,6 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 5
-        pod:
-          securityContext:
-            # TODO
-            # runAsUser: ${APP_UID}
-            # runAsGroup: ${APP_GID}
-            # fsGroup: ${APP_GID}
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: "OnRootMismatch"
     service:
       app:
         controller: radicale
