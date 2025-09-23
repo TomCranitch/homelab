@@ -20,6 +20,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: e6:8c:ef:28:48:d6
         dhcp: true
+    schematic:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/gvisor
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
@@ -33,6 +37,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: a2:d9:49:eb:d0:cd
         dhcp: true
+    schematic:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/gvisor
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
@@ -47,6 +55,10 @@ nodes:
             - hardwareAddr: a2:d9:49:eb:d0:cd
             - hardwareAddr: A6:4E:F3:1E:9E:4F
         dhcp: true
+    schematic:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/gvisor
 controlPlane:
   patches:
     # cluster.proxy.disabled: true??
@@ -81,3 +93,10 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system-upgrade
+        # For stegel
+        files:
+          - path: /etc/cri/conf.d/20-customization.part
+            op: create
+            content: |
+              [plugins."io.containerd.cri.v1.images"]
+                discard_unpacked_layers = false
