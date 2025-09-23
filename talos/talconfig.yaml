@@ -93,7 +93,7 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system-upgrade
-        # For stegel
+        # For spegel
         files:
           - path: /etc/cri/conf.d/20-customization.part
             op: create
