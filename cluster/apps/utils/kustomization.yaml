@@ -6,3 +6,4 @@ resources:
   - volsync/ks.yaml
   - system-upgrade-controller/ks.yaml
   - node-feature-discovery/ks.yaml
+  - spegel
