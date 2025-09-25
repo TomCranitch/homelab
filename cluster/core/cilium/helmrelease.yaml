@@ -93,10 +93,8 @@ spec:
                 - *host
     ipv6:
       enabled: false
-    bgp:
+    bgpControlPlane:
       enabled: true
-      announce:
-        loadbalancerIP: true
     l7Proxy: true
     cni:
       exclusive: false
