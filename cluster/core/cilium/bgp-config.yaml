@@ -1,17 +1,36 @@
----
-apiVersion: v1
-kind: ConfigMap
+# yaml-language-server: $schema=https://crds.jank.ing/cilium.io/ciliumloadbalancerippool_v2alpha1.json
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
 metadata:
-  name: bgp-config
-  namespace: kube-system
-data:
-  config.yaml: |
+  name: lb-pool-primary
+spec:
+  blocks:
+    - cidr: "192.168.30.100/28"
+
+---
+# yaml-language-server: $schema=https://crds.jank.ing/cilium.io/ciliumbgpclusterconfig_v2alpha1.json
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPClusterConfig
+metadata:
+  name: primary-bgp-config
+spec:
+  bgpInstances:
+  - name: "main-bgp-instance"
+    localASN: 64513
     peers:
-      - peer-address: 192.168.29.1
-        peer-asn: 64512
-        my-asn: 64513
-    address-pools:
-      - name: default
-        protocol: bgp
-        addresses:
-          - 192.168.30.100-192.168.30.200
+    - name: "tor-router-01"
+      peerAddress: "192.168.29.1"
+      peerASN: 64512
+
+---
+# yaml-language-server: $schema=https://crds.jank.ing/cilium.io/ciliumbgpadvertisement_v2alpha1.json
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPAdvertisement
+metadata:
+  name: primary-pool-advertisement
+spec:
+  advertisements:
+  - advertisementType: "LoadBalancerIP"
+    ipPoolSelector:
+      matchLabels:
+        "io.cilium/ip-pool": lb-pool-primary
