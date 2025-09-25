@@ -29,8 +29,8 @@ kind: CiliumBGPAdvertisement
 metadata:
   name: primary-pool-advertisement
 spec:
+  ipPoolSelector:
+    matchLabels:
+      "io.cilium/ip-pool": lb-pool-primary
   advertisements:
   - advertisementType: "LoadBalancerIP"
-    ipPoolSelector:
-      matchLabels:
-        "io.cilium/ip-pool": lb-pool-primary
