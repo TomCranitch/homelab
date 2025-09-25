@@ -118,3 +118,5 @@ spec:
       enabled: true
       annotations:
         grafana_folder: cilium
+    envoy:
+      enabled: false
