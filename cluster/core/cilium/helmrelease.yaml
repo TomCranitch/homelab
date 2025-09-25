@@ -108,7 +108,7 @@ spec:
       dashboards:
         enabled: true
         annotations:
-          grafana_folder: Cilium
+          grafana_folder: cilium
     prometheus:
       enabled: true
       serviceMonitor:
@@ -117,4 +117,4 @@ spec:
     dashboards:
       enabled: true
       annotations:
-        grafana_folder: Cilium
+        grafana_folder: cilium
