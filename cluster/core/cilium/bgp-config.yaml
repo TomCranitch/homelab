@@ -42,6 +42,8 @@ apiVersion: cilium.io/v2
 kind: CiliumBGPAdvertisement
 metadata:
   name: primary-pool-advertisement
+  labels:
+    advertise: bgp
 spec:
   advertisements:
     - advertisementType: Service
