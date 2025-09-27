@@ -2,25 +2,39 @@
 apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
-  name: lb-pool-primary
+  name: pool
 spec:
   blocks:
     - cidr: "192.168.30.100/28"
-
+---
+# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/cilium.io/ciliumbgppeerconfig_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumBGPPeerConfig
+metadata:
+  name: bgp-peer-config
+spec:
+  families:
+    - afi: ipv4
+      safi: unicast
+      advertisements:
+        matchLabels:
+          advertise: bgp
 ---
 # yaml-language-server: $schema=https://crds.jank.ing/cilium.io/ciliumbgpclusterconfig_v2.json
 apiVersion: cilium.io/v2
 kind: CiliumBGPClusterConfig
 metadata:
-  name: primary-bgp-config
+  name: bgp-cluster
 spec:
   bgpInstances:
-  - name: "main-bgp-instance"
+  - name: cilium
     localASN: 64513
     peers:
-    - name: "tor-router-01"
+    - name: home-router
       peerAddress: "192.168.29.1"
       peerASN: 64512
+      peerConfigRef:
+        name: bgp-peer-config
 
 ---
 # yaml-language-server: $schema=https://crds.jank.ing/cilium.io/ciliumbgpadvertisement_v2.json
@@ -29,8 +43,14 @@ kind: CiliumBGPAdvertisement
 metadata:
   name: primary-pool-advertisement
 spec:
-  ipPoolSelector:
-    matchLabels:
-      "io.cilium/ip-pool": lb-pool-primary
   advertisements:
-  - advertisementType: "LoadBalancerIP"
+    - advertisementType: Service
+      service:
+        addresses:
+          - LoadBalancerIP
+      selector:
+        matchExpressions:
+          - key: fakeSelector
+            operator: NotIn
+            values:
+              - will-match-and-announce-all-services
