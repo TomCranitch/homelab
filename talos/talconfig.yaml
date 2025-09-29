@@ -20,10 +20,6 @@ nodes:
           deviceSelectors:
             - hardwareAddr: e6:8c:ef:28:48:d6
         dhcp: true
-    schematic:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/gvisor
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
@@ -37,10 +33,6 @@ nodes:
           deviceSelectors:
             - hardwareAddr: a2:d9:49:eb:d0:cd
         dhcp: true
-    schematic:
-      systemExtensions:
-        officialExtensions:
-          - siderolabs/gvisor
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
@@ -48,18 +40,23 @@ nodes:
     ipAddress: 192.168.29.172
     networkInterfaces:
       # set a predictable interface for multus
-      - interface: bond0
-        bond:
-          mode: active-backup
-          deviceSelectors:
-            - hardwareAddr: a2:d9:49:eb:d0:cd
-            - hardwareAddr: A6:4E:F3:1E:9E:4F
+      # bond0 doesnt seem to get the MAC from proxmox. not sure why it works on the other nodes.
+      # - interface: bond0
+      #   bond:
+      #     mode: active-backup
+      #     deviceSelectors:
+      #       - hardwareAddr: A6:4E:F3:1E:9E:4F
+      #       # - hardwareAddr: 6a:05:24:6d:3f:ec
+      #   dhcp: true
+      - interface: ens18
         dhcp: true
-    schematic:
+controlPlane:
+  schematic:
+    customization:
       systemExtensions:
         officialExtensions:
           - siderolabs/gvisor
-controlPlane:
+          - siderolabs/qemu-guest-agent
   patches:
     # cluster.proxy.disabled: true??
     - |-
@@ -93,6 +90,8 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system-upgrade
+        sysctls:
+          user.max_user_namespaces: "11255"
         # For spegel
         files:
           - path: /etc/cri/conf.d/20-customization.part
