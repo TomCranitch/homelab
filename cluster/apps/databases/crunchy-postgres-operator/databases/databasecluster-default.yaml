@@ -26,6 +26,7 @@ spec:
           labelSelector:
             matchLabels:
               postgres-operator.crunchydata.com/data: postgres
+              postgres-operator.crunchydata.com/cluster: default-cluster
   patroni:
     dynamicConfiguration:
       synchronous_mode: true
