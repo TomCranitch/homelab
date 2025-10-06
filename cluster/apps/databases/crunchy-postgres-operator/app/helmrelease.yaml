@@ -24,3 +24,5 @@ spec:
       retries: 3
   driftDetection:
     mode: enabled
+  values:
+    monitoring: true
