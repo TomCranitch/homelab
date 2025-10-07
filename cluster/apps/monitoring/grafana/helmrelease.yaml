@@ -41,40 +41,25 @@ spec:
           - name: ceph
             disableDeletion: false
             editable: true
-            folder: ""
+            folder: "Ceph"
             options:
-              path: /var/lib/grafana/dashboards/default
-            orgId: 1
-            type: file
-          - name: flux
-            disableDeletion: false
-            editable: true
-            folder: ""
-            options:
-              path: /var/lib/grafana/dashboards/default
+              path: /var/lib/grafana/dashboards/ceph
             orgId: 1
             type: file
           - name: kubernetes
             disableDeletion: false
             editable: true
-            folder: ""
+            folder: "Kubernetes"
             options:
-              path: /var/lib/grafana/dashboards/default
+              path: /var/lib/grafana/dashboards/kubernetes
             orgId: 1
             type: file
     dashboards:
       default:
-        # Ref: https://grafana.com/grafana/dashboards/13307-proxmox-ve/
         proxmoxVM:
           gnetId: 13307
           revision: 6
           datasource: VictoriaMetrics
-                # Ref: https://grafana.com/grafana/dashboards/5342-ceph-pools/
-        cloudnative-pg:
-          # TODO: this is broken by externalLabels from victoriametrics
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/grafana-dashboard.json
-          datasource: 
-            - { name: DS_PROMETHEUS, value: VictoriaMetrics }
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
           datasource: VictoriaMetrics
@@ -82,50 +67,52 @@ spec:
           url: https://raw.githubusercontent.com/binwiederhier/ntfy/main/examples/grafana-dashboard/ntfy-grafana.json
           datasource:
             - { name: DS_PROMETHEUS, value: VictoriaMetrics }
+        volsync:
+          gnetId: 21356
+          revision: 3
+          datasource:
+            - {name: DS_PROMETHEUS, value: VictoriaMetrics }
       ceph:
         ceph-pools:
           gnetId: 5342
           revision: 9
           datasource: VictoriaMetrics
-        # Ref: https://grafana.com/grafana/dashboards/5336-ceph-osd-single/
         ceph-osd:
           gnetId: 5336
           revision: 9
           datasource: VictoriaMetrics
-        # Ref: https://grafana.com/grafana/dashboards/2842-ceph-cluster/
         ceph-cluster:
           gnetId: 2842
           revision: 16
           datasource: VictoriaMetrics
-      flux:
-        # TODO: fix
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/cluster.json
-          datasource: VictoriaMetrics
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/control-plane.json
-          datasource: VictoriaMetrics
-        # flux-logs:
-        #   url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/monitoring-config/dashboards/logs.json
-        #   datasource: VictoriaMetrics
       kubernetes:
         kubernetes-api-server:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+          gnetId: 15761
+          revision: 19
           datasource: VictoriaMetrics
         kubernetes-coredns:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+          gnetId: 15762
+          revision: 21
           datasource: VictoriaMetrics
         kubernetes-global:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+          gnetId: 15757
+          revision: 43
           datasource: VictoriaMetrics
         kubernetes-namespaces:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+          gnetId: 15758
+          revision: 42
           datasource: VictoriaMetrics
         kubernetes-nodes:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+          gnetId: 15759
+          revision: 37
           datasource: VictoriaMetrics
         kubernetes-pods:
-          url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+          gnetId: 15760
+          revision: 36
+          datasource: VictoriaMetrics
+        kubernetes-volumes:
+          gnetId: 11454
+          revision: 14
           datasource: VictoriaMetrics
     datasources:
       datasources.yaml:
@@ -164,9 +151,14 @@ spec:
         name_attribute_path: name
         allow_assign_grafana_admin: false
         role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
-      plugins:
-        - victoriametrics-logs-datasource
-        - victoriametrics-metrics-datasource
+      analytics:
+        check_for_updates: false
+        check_for_plugin_updates: false
+        reporting_enabled: false
+      news:
+        news_feed_enabled: false
+    plugins:
+      - victoriametrics-logs-datasource
     sidecar:
       dashboards:
         enabled: true
