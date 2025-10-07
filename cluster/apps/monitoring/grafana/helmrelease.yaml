@@ -138,8 +138,8 @@ spec:
             url: http://vmsingle-vm-stack.monitoring.svc:8428
           - access: proxy
             name: VictoriaLogs
-            type: victorialogs-datasource
-            url: http://victoria-logs-victoria-logs-single-server.monitoring.svc:9428
+            type: victoriametrics-logs-datasource
+            url: http://victoria-logs-victoria-logs-single-server-0.monitoring.svc:9428
     envFromSecrets:
       - name: grafana-env
     grafana.ini:
@@ -165,7 +165,7 @@ spec:
         allow_assign_grafana_admin: false
         role_attribute_path: contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'
       plugins:
-        - victorialogs-datasource
+        - victoriametrics-logs-datasource
         - victoriametrics-metrics-datasource
     sidecar:
       dashboards:
