@@ -63,7 +63,8 @@ spec:
             k8s.v1.cni.cncf.io/networks: |
               [{
                 "name": "multus-iotlan",
-                "namespace": "networking"
+                "namespace": "networking",
+                "ips": ["192.168.13.10/24"]
               }]
     service:
       app:
