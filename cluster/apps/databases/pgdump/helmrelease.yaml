@@ -72,8 +72,8 @@ spec:
         metadata:
           name: postgres-immich-dump
         spec:
-          # run one hour before volsync
-          schedule: "0 1 * * *"
+          # run both off sync
+          schedule: "0 1 30 * *"
           jobTemplate:
             spec:
               backoffLimit: 0
