@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: pgdump-backup
-  namespace: database
+  namespace: default
 spec:
   interval: 15m
   chart:
@@ -55,12 +55,53 @@ spec:
                         - name: PGUSER
                           valueFrom:
                             secretKeyRef:
-                              name: postgres-superuser
-                              key: username
+                              name: default-cluster-pguser-postgres
+                              key: user
                         - name: PGPASSWORD
                           valueFrom:
                             secretKeyRef:
-                              name: postgres-superuser
+                              name: default-cluster-pguser-postgres
+                              key: password
+                  restartPolicy: Never
+                  volumes:
+                    - name: data
+                      persistentVolumeClaim:
+                        claimName: pgdump
+      - apiVersion: batch/v1
+        kind: CronJob
+        metadata:
+          name: postgres-immich-dump
+        spec:
+          # run one hour before volsync
+          schedule: "0 1 * * *"
+          jobTemplate:
+            spec:
+              backoffLimit: 0
+              template:
+                spec:
+                  containers:
+                    - name: dump
+                      image: postgres:17.6-alpine@sha256:d5f196a551b5cef1c70853c6dd588f456d16ca4ea733e3f31c75bc1ae2f65f3f
+                      volumeMounts:
+                        - name: data
+                          mountPath: /backup
+                      args:
+                        - pg_dumpall
+                        - "-f"
+                        - "/backup/postgres-immich.pgdump"
+                        - "-v"
+                        - "-h"
+                        - "immich-cluster-ha.default.svc"
+                      env:
+                        - name: PGUSER
+                          valueFrom:
+                            secretKeyRef:
+                              name: immich-cluster-pguser-postgres
+                              key: user
+                        - name: PGPASSWORD
+                          valueFrom:
+                            secretKeyRef:
+                              name: immich-cluster-pguser-postgres
                               key: password
                   restartPolicy: Never
                   volumes:
