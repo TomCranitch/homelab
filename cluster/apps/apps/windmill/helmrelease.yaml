@@ -48,17 +48,10 @@ spec:
             limits:
               memory: 1028Mi
               cpu: 1000m
-        - name: native
-          replicas: 2
-          resources:
-            requests:
-              memory: 128Mi
-              cpu: 100m
-            limits:
-              memory: 256Mi
-              cpu: 200m
       lspReplicas: 1
       multiplayerReplicas: 1
+    postgresql:
+      enabled: false
     ingress:
       className: nginx
       tls:
