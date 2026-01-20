@@ -41,6 +41,11 @@ spec:
       workerGroups:
         - name: default
           replicas: 2
+          podSecurityContext:
+            runAsNonRoot: true
+            runAsUser: ${CONTAINER_UID}
+            runAsGroup: ${CONTAINER_GID}
+          privileged: false
           resources:
             requests:
               memory: 256Mi
