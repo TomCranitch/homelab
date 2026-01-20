@@ -10,7 +10,7 @@ spec:
     spec:
       chart: victoria-metrics-operator-crds
       # Version 0.5.0 causes helm upgrade to fail.
-      version: 0.5.1
+      version: 0.6.1
       sourceRef:
         kind: HelmRepository
         name: victoriametrics-charts
