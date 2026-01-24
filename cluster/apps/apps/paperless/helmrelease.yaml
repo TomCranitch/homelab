@@ -112,7 +112,7 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.24.0
+              tag: 8.25.1
             env:
               DISABLE_GOOGLE_CHROME: 1
             probes:
