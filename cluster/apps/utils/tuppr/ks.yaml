@@ -5,7 +5,7 @@ metadata:
   name: &app tuppr
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: tuppr
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
@@ -25,7 +25,7 @@ metadata:
   name: &app tuppr-upgrades
   namespace: flux-system
 spec:
-  targetNamespace: default
+  targetNamespace: tuppr
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
