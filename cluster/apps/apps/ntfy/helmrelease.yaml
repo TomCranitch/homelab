@@ -47,7 +47,7 @@ spec:
           app:
             image:
               repository: docker.io/binwiederhier/ntfy
-              tag: v2.15.0
+              tag: v2.16.0
             env:
               TZ: ${TIMEZONE}
               NTFY_DEBUG: false
