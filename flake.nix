@@ -29,6 +29,7 @@
           sops
           age
           talosctl
+          talhelper
           yq-go
           flux-local
         ];
