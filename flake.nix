@@ -6,8 +6,14 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = import nixpkgs {
           inherit system;
@@ -17,7 +23,12 @@
         python = pkgs.python313;
 
         flux-local = python.pkgs.callPackage ./flux-local.nix {
-          inherit (pkgs) kustomize kubernetes-helm fluxcd git;
+          inherit (pkgs)
+            kustomize
+            kubernetes-helm
+            fluxcd
+            git
+            ;
           inherit (python.pkgs) pytestCheckHook syrupy anyio;
         };
 
@@ -28,6 +39,7 @@
           kubernetes-helm
           sops
           age
+          k9s
           talosctl
           talhelper
           yq-go

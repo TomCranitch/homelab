@@ -52,6 +52,8 @@ spec:
               PLATFORMIO_CORE_DIR: /cache/platformio
               PLATFORMIO_GLOBALLIB_DIR: /cache/platformio/lib
               PLATFORMIO_SETTING_ENABLE_TELEMETRY: No
+              PIP_CACHE_DIR: /cache/pip
+              XDG_CACHE_HOME: /cache
               TZ: ${TZ}
             probes:
               liveness:

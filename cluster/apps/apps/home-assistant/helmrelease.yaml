@@ -49,7 +49,7 @@ spec:
             # Using IOTLan was causing connectivity issues with google home hub/esphome
             k8s.v1.cni.cncf.io/networks: |
               [{
-                "name": "multus-serverlan",
+                "name": "multus-iotlan",
                 "namespace": "networking"
               }]
         containers:
