@@ -69,7 +69,7 @@ spec:
         ssl: false
       cephConfig:
         global:
-          mon_data_avail_warn: 15
+          mon_data_avail_warn: "15"
       mon:
         count: 2
       storage:
