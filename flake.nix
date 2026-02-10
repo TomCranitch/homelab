@@ -44,6 +44,7 @@
           talhelper
           yq-go
           flux-local
+          sops
         ];
       in
       {

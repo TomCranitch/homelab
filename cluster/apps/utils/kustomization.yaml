@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - kyverno
   - volsync/ks.yaml
-  - system-upgrade-controller/ks.yaml
   - node-feature-discovery/ks.yaml
   - spegel
   - tuppr/ks.yaml
