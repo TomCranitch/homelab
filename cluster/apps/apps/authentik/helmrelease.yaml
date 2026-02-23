@@ -49,8 +49,6 @@ spec:
     authentik:
       email:
         from: tom@cranitch.com.au
-    redis:
-      enabled: true
     postgres:
       enabled: false
     server:
