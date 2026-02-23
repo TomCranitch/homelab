@@ -49,6 +49,8 @@ spec:
     authentik:
       email:
         from: tom@cranitch.com.au
+      postgresql:
+        sslmode: require
     postgres:
       enabled: false
     server:
