@@ -91,6 +91,10 @@ controlPlane:
             allowedKubernetesNamespaces:
               - system-upgrade
               - tuppr
+        kubelet:
+          nodeIP:
+            validSubnets:
+              - 192.168.29.0/24
         sysctls:
           user.max_user_namespaces: "11255"
         # For spegel
