@@ -35,8 +35,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
-      # gvisor breaks mdns and other esphome networking stuff.
-      runtimeClassName: "runc"
     controllers:
       esphome:
         defaultContainerOptions:
