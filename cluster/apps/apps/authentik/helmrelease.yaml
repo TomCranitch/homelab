@@ -54,6 +54,7 @@ spec:
     postgres:
       enabled: false
     server:
+      runtimeClassName: gvisor
       ingress:
         enabled: true
         ingressClassName: nginx
@@ -64,6 +65,8 @@ spec:
         tls:
           - hosts:
               - *host
+    worker:
+      runtimeClassName: gvisor
     global:
       volumeMounts:
         - mountPath: /blueprints/custom

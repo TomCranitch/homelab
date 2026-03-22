@@ -27,6 +27,7 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
+      runtimeClassName: gvisor
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}

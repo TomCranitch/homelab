@@ -37,6 +37,14 @@ spec:
           type: RuntimeDefault
     controllers:
       zigbee2mqtt:
+        pod:
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name": "multus-iotlan",
+                "namespace": "networking",
+                "ips": ["192.168.13.12/24"]
+              }]
         defaultContainerOptions:
           securityContext:
             allowPrivilegeEscalation: false

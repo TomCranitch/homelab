@@ -45,12 +45,11 @@ spec:
                 - ALL
         pod:
           annotations:
-            # TODO: switch to IOTLan (to hopefully help with mdns)
-            # Using IOTLan was causing connectivity issues with google home hub/esphome
             k8s.v1.cni.cncf.io/networks: |
               [{
                 "name": "multus-iotlan",
-                "namespace": "networking"
+                "namespace": "networking",
+                "ips": ["192.168.13.11/24"]
               }]
         containers:
           app:

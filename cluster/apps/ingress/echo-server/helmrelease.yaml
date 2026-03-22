@@ -24,6 +24,8 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    defaultPodOptions:
+      runtimeClassName: gvisor
     controllers:
       echo-server:
         containers:

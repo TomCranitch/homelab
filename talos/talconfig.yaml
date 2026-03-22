@@ -20,6 +20,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: e6:8c:ef:28:48:d6
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.103/24
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
@@ -33,6 +37,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: a2:d9:49:eb:d0:cd
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.104/24
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
@@ -50,6 +58,10 @@ nodes:
       #   dhcp: true
       - interface: ens18
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.106/24
 controlPlane:
   schematic:
     customization:
