@@ -5,9 +5,8 @@ resources:
   - vaultwarden
   - immich
   - windmill
-  - paperless
+#  - paperless
   - ocis
-# TODO
 # - tandoor
   - mealie
   - home-assistant

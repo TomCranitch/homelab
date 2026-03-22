@@ -1,8 +1,8 @@
 clusterName: homeprod
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.10.7
+talosVersion: v1.12.4
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: 1.33.4
+kubernetesVersion: 1.34.4
 endpoint: https://cranitch.k8s:6443
 cniConfig:
   name: none
@@ -20,6 +20,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: e6:8c:ef:28:48:d6
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.103/24
   - hostname: homeprod-cw02
     controlPlane: true
     installDiskSelector:
@@ -33,6 +37,10 @@ nodes:
           deviceSelectors:
             - hardwareAddr: a2:d9:49:eb:d0:cd
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.104/24
   - hostname: homeprod-cw03
     controlPlane: true
     installDiskSelector:
@@ -50,6 +58,10 @@ nodes:
       #   dhcp: true
       - interface: ens18
         dhcp: true
+      - interface: ens19
+        dhcp: false
+        addresses:
+          - 192.168.13.106/24
 controlPlane:
   schematic:
     customization:
@@ -90,6 +102,11 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system-upgrade
+              - tuppr
+        kubelet:
+          nodeIP:
+            validSubnets:
+              - 192.168.29.0/24
         sysctls:
           user.max_user_namespaces: "11255"
         # For spegel

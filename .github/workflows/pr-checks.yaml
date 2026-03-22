@@ -14,7 +14,7 @@ jobs:
           - kustomization
     steps:
       - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@v2.5.1
+        uses: fluxcd/flux2/action@v2.7.5
       - uses: allenporter/flux-local/action/diff@7.11.0
         id: diff
         with:

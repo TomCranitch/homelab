@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.4.0
+      version: 4.6.2
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -71,7 +71,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: 'true'
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: mqtt://emqx.default.svc.cluster.local
                 # TODO...
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.169:6638
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.51:6638
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
             probes:
               liveness:
