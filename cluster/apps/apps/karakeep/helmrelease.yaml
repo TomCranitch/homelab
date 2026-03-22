@@ -27,7 +27,8 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
-      runtimeClassName: gvisor
+      # TODO: add back (same error as below)
+      # runtimeClassName: gvisor
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
