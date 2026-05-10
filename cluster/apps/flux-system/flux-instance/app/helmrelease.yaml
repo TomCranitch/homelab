@@ -37,7 +37,7 @@ spec:
         kind: GitRepository
         url: ssh://git@github.com/TomCranitch/homelab.git
         ref: refs/heads/main
-        path: cluster/flux
+        path: cluster
         pullSecret: flux-system
       kustomize:
         patches:
