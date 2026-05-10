@@ -6,10 +6,8 @@ resources:
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
   - bjw-s-charts.yaml
-  - bitnami-charts.yaml
-  - victoriametrics-charts.yaml
   - dysnix-charts.yaml
-  - cloudnative-pg-charts.yaml
+  - victoriametrics-charts.yaml
   - kyverno-charts.yaml
   - csi-driver-nfs-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
