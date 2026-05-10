@@ -6,6 +6,7 @@ resources:
   - ingress-nginx-charts.yaml
   - jetstack-charts.yaml
   - bjw-s-charts.yaml
+  - dysnix-charts.yaml
   - victoriametrics-charts.yaml
   - kyverno-charts.yaml
   - csi-driver-nfs-charts.yaml
