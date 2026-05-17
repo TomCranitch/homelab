@@ -45,6 +45,7 @@
           yq-go
           flux-local
           sops
+          restic
         ];
       in
       {

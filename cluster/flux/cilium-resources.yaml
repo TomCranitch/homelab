@@ -2,22 +2,21 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app flux-operator
+  name: cilium-resources
   namespace: flux-system
 spec:
-  targetNamespace: flux-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: ./cluster/apps/flux-system/flux-operator/app
-  prune: false
+  interval: 10m
+  path: ./cluster/core/cilium/resources
+  prune: true
+  dependsOn:
+    - name: core
   sourceRef:
     kind: GitRepository
     name: flux-system
-  wait: true
-  interval: 1h
-  retryInterval: 1m
-  timeout: 5m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   postBuild:
     substituteFrom:
       - kind: ConfigMap
