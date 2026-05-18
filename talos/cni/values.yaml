@@ -19,6 +19,9 @@ ipam:
 hubble:
   enabled: false
 
+envoy:
+  enabled: false
+
 ipv6:
   enabled: false
 

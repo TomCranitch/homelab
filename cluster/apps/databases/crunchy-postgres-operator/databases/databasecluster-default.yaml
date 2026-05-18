@@ -101,6 +101,8 @@ spec:
       repo:
         name: repo1
         s3: *brrepos3
+      options:
+        - --log-level-console=detail
   
   # TODO: datasource
   # TODO: proxy.pgBouncer
