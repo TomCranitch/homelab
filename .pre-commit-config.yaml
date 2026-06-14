@@ -13,7 +13,8 @@ repos:
   # TODO this doesnt work
   - repo: local
     hooks:
-      - id: flux-local
-        name: flux-local
-        entry: generate-diff.sh
-        language: script
+      - id: flate
+        name: flate
+        entry: flate test all --path cluster/
+        language: system
+        pass_filenames: false
