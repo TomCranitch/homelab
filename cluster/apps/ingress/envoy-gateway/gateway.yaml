@@ -1,0 +1,21 @@
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: envoy-gateway
+  namespace: ingress
+spec:
+  gatewayClassName: envoy-gateway
+  listeners:
+    - name: https
+      port: 443
+      protocol: HTTPS
+      hostname: "*.${S_HOMEPROD_DOMAIN}"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: homeprod-domain-tls
+    - name: http
+      port: 80
+      protocol: HTTP
+      hostname: "*.${S_HOMEPROD_DOMAIN}"
