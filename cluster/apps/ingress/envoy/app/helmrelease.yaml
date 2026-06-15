@@ -9,6 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: envoy-gateway
+    namespace: ingress
   install:
     remediation:
       retries: 3
@@ -17,6 +18,3 @@ spec:
       retries: 3
   driftDetection:
     mode: enabled
-  dependsOn:
-    - name: cert-manager
-      namespace: ingress
