@@ -1,0 +1,19 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: oidc
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: envoy-gateway
+  oidc:
+    provider:
+      issuer: "https://sso.cranit.ch/application/o/gateway/"
+    clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
+    clientSecret:
+      name: envoy-oidc-secret
+    redirectURL: "https://echo.cranit.ch/oauth2/callback"
+    logoutPath: "/oauth2/logout"
+    cookieDomain: "cranit.ch"
