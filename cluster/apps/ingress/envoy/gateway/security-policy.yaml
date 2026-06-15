@@ -10,10 +10,10 @@ spec:
       name: envoy-gateway
   oidc:
     provider:
-      issuer: "https://sso.cranit.ch/application/o/gateway/"
+      issuer: "https://sso.${S_HOMEPROD_DOMAIN}/application/o/gateway/"
     clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
     clientSecret:
       name: envoy-oidc-secret
-    redirectURL: "https://echo.cranit.ch/oauth2/callback"
+    redirectURL: "https://echo.${S_HOMEPROD_DOMAIN}/oauth2/callback"
     logoutPath: "/oauth2/logout"
-    cookieDomain: "cranit.ch"
+    cookieDomain: "${S_HOMEPROD_DOMAIN}"
