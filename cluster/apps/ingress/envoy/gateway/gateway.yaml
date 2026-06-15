@@ -14,7 +14,13 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: homeprod-domain-tls
+      allowedRoutes:
+        namespaces:
+          from: All
     - name: http
       port: 80
       protocol: HTTP
       hostname: "*.${S_HOMEPROD_DOMAIN}"
+      allowedRoutes:
+        namespaces:
+          from: Same
