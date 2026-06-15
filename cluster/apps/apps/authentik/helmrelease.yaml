@@ -55,16 +55,14 @@ spec:
       enabled: false
     server:
       runtimeClassName: gvisor
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - &host "sso.${S_HOMEPROD_DOMAIN}"
-        paths:
-          - /
-        tls:
-          - hosts:
-              - *host
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - "sso.${S_HOMEPROD_DOMAIN}"
+          parentRefs:
+            - name: envoy-gateway
+              namespace: ingress
     worker:
       runtimeClassName: gvisor
     global:
