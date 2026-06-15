@@ -9,12 +9,13 @@ spec:
   # ...
   # provide access to all users
   selectAllByDefault: true
-  ingress:
-      class_name: "nginx"
-      # Secret filled in by cert manager
-      # tlsSecretName: vmauth-external-tls-secret
-      hosts:
+  httpRoute:
+      parentRefs:
+        - name: envoy-gateway
+          namespace: ingress
+      hostnames:
         - vmauth-external.${S_HOMEPROD_DOMAIN}
+  # TODO: manually verify VMAuth HTTPRoute works after migration (requires VM_GATEWAY_API_ENABLED=true on operator)
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMUser

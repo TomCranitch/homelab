@@ -57,8 +57,11 @@ spec:
       multiplayerReplicas: 1
     postgresql:
       enabled: false
-    ingress:
-      className: nginx
-      tls:
-        - hosts:
-            - *host
+    httproute:
+      enabled: true
+      parentRefs:
+        - name: envoy-gateway
+          namespace: ingress
+      appParentRefs:
+        - name: envoy-gateway
+          namespace: ingress

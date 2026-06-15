@@ -95,21 +95,15 @@ spec:
         ports:
           http:
             port: 9200
-    ingress:
+    route:
       main:
         enabled: true
-        hosts:
-          - host: &host files.${S_HOMEPROD_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-        className: nginx
+        kind: HTTPRoute
+        hostnames:
+          - "files.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress
     persistence:
       ocis-config-files:
         type: configMap
