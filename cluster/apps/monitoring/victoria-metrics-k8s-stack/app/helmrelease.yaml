@@ -29,20 +29,13 @@ spec:
     grafana:
       enabled: false
     vmagent:
-      ingress:
+      route:
         enabled: true
-        ingressClassName: "nginx"
-        annotations:
-          nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-          nginx.ingress.kubernetes.io/auth-signin: |-
-            https://vmagent.${S_HOMEPROD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
-          nginx.ingress.kubernetes.io/auth-response-headers: |-
-            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Host $http_host;
-        hosts:
+        hostnames:
           - &vmagent-host "vmagent.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress
     vmsingle:
       spec:
         storage:
@@ -50,25 +43,21 @@ spec:
           resources:
             requests:
               storage: 30Gi
-      ingress:
+      route:
         enabled: true
-        ingressClassName: "nginx"
-        annotations:
-          nginx.ingress.kubernetes.io/auth-url: |-
-            http://ak-outpost-authentik-embedded-outpost.default.svc.cluster.local:9000/outpost.goauthentik.io/auth/nginx
-          nginx.ingress.kubernetes.io/auth-signin: |-
-            https://vmagent.${S_HOMEPROD_DOMAIN}/outpost.goauthentik.io/start?rd=$escaped_request_uri
-          nginx.ingress.kubernetes.io/auth-response-headers: |-
-            Set-Cookie,X-authentik-username,X-authentik-groups,X-authentik-email,X-authentik-name,X-authentik-uid
-          nginx.ingress.kubernetes.io/auth-snippet: |
-            proxy_set_header X-Forwarded-Host $http_host;
-        hosts:
+        hostnames:
           - &vmsingle-host "vmsingle.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress
     prometheus-node-exporter:
       enabled: false
     victoria-metrics-operator:
       operator:
         disable_prometheus_converter: false
+      env:
+        - name: VM_GATEWAY_API_ENABLED
+          value: "true"
  # postRenderers:
  #  - kustomize:
  #     patches:

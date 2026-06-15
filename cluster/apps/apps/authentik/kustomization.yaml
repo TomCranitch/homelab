@@ -5,7 +5,6 @@ namespace: default
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
-  - ingress-outpost.yaml
 configMapGenerator:
   - name: authentik-blueprints
     files:
