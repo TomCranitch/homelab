@@ -6,47 +6,20 @@ metadata:
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: esphome
-      namespace: default
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: zigbee2mqtt
-      namespace: default
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: linkding
-      namespace: default
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: home-assistant-code
-      namespace: default
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: vmagent-vm-stack
-      namespace: monitoring
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: vmsingle-vm-stack
-      namespace: monitoring
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: victoria-logs-victoria-logs-single-server
-      namespace: monitoring
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: hubble
-      namespace: kube-system
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: rook-ceph-dashboard
-      namespace: rook-ceph
+      kind: Gateway
+      name: envoy-gateway
   oidc:
     provider:
       issuer: "https://sso.${S_HOMEPROD_DOMAIN}/application/o/gateway/"
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: authentik-server
+          namespace: default
+          port: 80
     clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
     clientSecret:
       name: envoy-oidc-secret
-    redirectURL: "https://esphome.${S_HOMEPROD_DOMAIN}/oauth2/callback"
+    redirectURL: "https://echo.${S_HOMEPROD_DOMAIN}/oauth2/callback"
     logoutPath: "/oauth2/logout"
     cookieDomain: "${S_HOMEPROD_DOMAIN}"
