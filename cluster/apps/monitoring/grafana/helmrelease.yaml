@@ -167,13 +167,13 @@ spec:
       datasources:
         enabled: true
         searchNamespace: ALL
-    ingress:
-      enabled: true
-      ingressClassName: "nginx"
-      hosts:
-        - &host monitoring.${S_HOMEPROD_DOMAIN}
-      tls:
-        - hosts:
-          - *host
+    route:
+      main:
+        enabled: true
+        hostnames:
+          - "monitoring.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress
     persistence:
       enabled: false
