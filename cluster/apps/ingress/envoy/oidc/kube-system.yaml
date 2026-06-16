@@ -15,6 +15,10 @@ spec:
     clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
     clientSecret:
       name: envoy-oidc-secret
-    redirectURL: "https://zigbee.${S_HOMEPROD_DOMAIN}/oauth2/callback"
+    # OIDC state/CSRF tokens are scoped per SecurityPolicy instance, so the
+    # redirectURL must be a route protected by this same SecurityPolicy (not
+    # one in another namespace). Any protected route in this namespace works
+    # since they all share the same OIDC filter state on the gateway.
+    redirectURL: "https://hubble.${S_HOMEPROD_DOMAIN}/oauth2/callback"
     logoutPath: "/oauth2/logout"
     cookieDomain: "${S_HOMEPROD_DOMAIN}"
