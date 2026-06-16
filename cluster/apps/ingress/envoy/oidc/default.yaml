@@ -21,6 +21,6 @@ spec:
     clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
     clientSecret:
       name: envoy-oidc-secret
-    redirectURL: "https://echo.${S_HOMEPROD_DOMAIN}/oauth2/callback"
+    redirectURL: "https://zigbee.${S_HOMEPROD_DOMAIN}/oauth2/callback"
     logoutPath: "/oauth2/logout"
     cookieDomain: "${S_HOMEPROD_DOMAIN}"
