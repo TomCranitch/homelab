@@ -3,20 +3,21 @@ apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: SecurityPolicy
 metadata:
   name: oidc
+  namespace: monitoring
 spec:
   targetRefs:
     - group: gateway.networking.k8s.io
-      kind: Gateway
-      name: envoy-gateway
+      kind: HTTPRoute
+      name: vmagent-vm-stack
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: vmsingle-vm-stack
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: victoria-logs-victoria-logs-single-server
   oidc:
     provider:
       issuer: "https://sso.${S_HOMEPROD_DOMAIN}/application/o/gateway/"
-      backendRefs:
-        - group: ""
-          kind: Service
-          name: authentik-server
-          namespace: default
-          port: 80
     clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
     clientSecret:
       name: envoy-oidc-secret
