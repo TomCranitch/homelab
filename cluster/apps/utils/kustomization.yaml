@@ -7,3 +7,4 @@ resources:
   - node-feature-discovery/ks.yaml
   - spegel
   - tuppr/ks.yaml
+  - konflate
