@@ -10,3 +10,10 @@ repos:
       - id: check-charts-support-renovate
       - id: check-drift-detection-enabled
       - id: check-secrets-encrypted
+  - repo: local
+    hooks:
+      - id: flate-test
+        name: flate test
+        entry: ./generate-diff.sh
+        language: script
+        pass_filenames: false
