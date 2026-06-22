@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Setup Flux CLI
         uses: fluxcd/flux2/action@v2.7.5
+      # TODO: Remove flux-local after konflate is deployed and tested
       - uses: allenporter/flux-local/action/diff@7.11.0
         id: diff
         with:
@@ -22,7 +23,7 @@ jobs:
           path: cluster
           resource: ${{ matrix.resource }}
       - name: PR Comments
-        uses: mshick/add-pr-comment@v3
+        uses: mshick/add-pr-comment@v2
         if: ${{ steps.diff.outputs.diff != '' }}
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
