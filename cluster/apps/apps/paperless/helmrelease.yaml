@@ -112,7 +112,7 @@ spec:
           gotenburg:
             image:
               repository: thecodingmachine/gotenberg
-              tag: 8.27.0
+              tag: 8.30.1
             env:
               DISABLE_GOOGLE_CHROME: 1
             probes:
@@ -128,7 +128,7 @@ spec:
           redis:
             image:
               repository: public.ecr.aws/docker/library/redis
-              tag: 8.2.5
+              tag: 8.2.7
             probes:
               liveness:
                 enabled: true
