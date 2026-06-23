@@ -46,6 +46,7 @@
           talhelper
           yq-go
           flux-local
+          pkgs.flate
           sops
           restic
         ];
