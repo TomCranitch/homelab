@@ -1,6 +1,8 @@
 {
   description = "Homelab development environment";
 
+  # TODO: Remove flux-local after konflate is deployed and tested
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -44,6 +46,7 @@
           talhelper
           yq-go
           flux-local
+          pkgs.flate
           sops
           restic
         ];
