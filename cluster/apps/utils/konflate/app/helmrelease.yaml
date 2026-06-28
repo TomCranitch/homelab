@@ -4,25 +4,30 @@ metadata:
   name: konflate
   namespace: default
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: konflate
-      version: '0.1.2'
-      sourceRef:
-        kind: HelmRepository
-        name: home-operations
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: konflate
+  interval: 1h
   values:
     config:
       repo: github://TomCranitch/homelab
-      clusterPath: cluster
-      appClientId: "${SECRET_KONFLATE_APP_ID}"
-      installationId: "${SECRET_KONFLATE_INSTALLATION_ID}"
       statusChecks: true
-      strictFailures: true
+      prComments: true
+      mcp: true
     secret:
       existingSecret: konflate-secret
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: envoy-gateway
+          namespace: ingress
+      hostnames:
+        - "konflate.${S_HOMEPROD_DOMAIN}"
     persistence:
       enabled: true
       size: 5Gi
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 50m
