@@ -34,6 +34,10 @@
           inherit (python.pkgs) pytestCheckHook syrupy anyio;
         };
 
+        flate = pkgs.callPackage ./flate.nix {
+          inherit (pkgs) fetchurl stdenvNoCC installShellFiles;
+        };
+
         devShellTools = with pkgs; [
           kubectl
           fluxcd
@@ -46,14 +50,15 @@
           talhelper
           yq-go
           flux-local
-          pkgs.flate
+          flate
           sops
           restic
         ];
       in
       {
         packages.flux-local = flux-local;
-        packages.default = flux-local;
+        packages.flate = flate;
+        packages.default = flate;
 
         devShells.default = pkgs.mkShell {
           buildInputs = devShellTools;

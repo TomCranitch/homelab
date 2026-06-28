@@ -12,6 +12,10 @@ let
     inherit (python.pkgs) pytestCheckHook syrupy anyio;
   };
 
+  flate = pkgs.callPackage ./flate.nix {
+    inherit (pkgs) fetchurl stdenvNoCC installShellFiles;
+  };
+
   tools = with pkgs; [
     kubectl
     fluxcd
@@ -25,6 +29,7 @@ let
     yq-go
     restic
     flux-local
+    flate
   ];
 in
 {
@@ -32,4 +37,6 @@ in
 
   languages.nix.enable = true;
   languages.python.enable = true;
+
+  env.SOPS_AGE_KEY_FILE = "${builtins.getEnv "HOME"}/.config/sops/age/keys.txt";
 }
