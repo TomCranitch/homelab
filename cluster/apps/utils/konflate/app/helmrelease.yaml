@@ -10,6 +10,7 @@ spec:
   interval: 1h
   values:
     config:
+      refreshInterval: 5m
       repo: github://TomCranitch/homelab
       statusChecks: true
       prComments: true
