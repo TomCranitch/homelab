@@ -1,17 +1,6 @@
 { pkgs, lib, ... }:
 
 let
-  python = pkgs.python313;
-  flux-local = python.pkgs.callPackage ./flux-local.nix {
-    inherit (pkgs)
-      kustomize
-      kubernetes-helm
-      fluxcd
-      git
-      ;
-    inherit (python.pkgs) pytestCheckHook syrupy anyio;
-  };
-
   flate = pkgs.callPackage ./flate.nix {
     inherit (pkgs) fetchurl stdenvNoCC installShellFiles;
   };
@@ -28,7 +17,6 @@ let
     talhelper
     yq-go
     restic
-    flux-local
     flate
   ];
 in
