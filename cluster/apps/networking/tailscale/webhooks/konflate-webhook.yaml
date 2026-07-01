@@ -1,0 +1,22 @@
+# TODO: migrate to Gateway API when Tailscale supports it natively
+# https://github.com/tailscale/tailscale/issues/10656
+# would allow us to turn down ingress-nginx
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: konflate-webhook
+  namespace: default
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - path: /hooks
+            pathType: Exact
+            backend:
+              service:
+                name: konflate
+                port:
+                  number: 8080

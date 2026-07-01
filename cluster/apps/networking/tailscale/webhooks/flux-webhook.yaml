@@ -1,0 +1,22 @@
+# TODO: migrate to Gateway API when Tailscale supports it natively
+# https://github.com/tailscale/tailscale/issues/10656
+# would allow us to turn down ingress-nginx
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: flux-webhook
+  namespace: flux-system
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - path: /hook/
+            pathType: Prefix
+            backend:
+              service:
+                name: webhook-receiver
+                port:
+                  number: 80
