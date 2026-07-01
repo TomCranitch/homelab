@@ -68,6 +68,11 @@ spec:
         - windmill
       password: 
         type: AlphaNumeric
+    - name: pgmqtt
+      databases:
+        - pgmqtt
+      password:
+        type: AlphaNumeric
   backups:
     pgbackrest:
       configuration: &brcfg
