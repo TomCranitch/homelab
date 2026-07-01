@@ -2,8 +2,9 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: emqx-charts
+  name: pgmqtt-charts
   namespace: flux-system
 spec:
   interval: 10m
-  url: https://repos.emqx.io/charts
+  type: oci
+  url: oci://ghcr.io/bo0tzz/charts

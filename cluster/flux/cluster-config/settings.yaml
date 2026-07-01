@@ -9,9 +9,6 @@ data:
   TZ: Australia/Sydney
   POSTGRES_RW_URL: postgres-ha.default.svc
 
-  # TODO this is wrong ;(
-  LB_EMQX: 10.10.1.50
-
   CONTAINER_UID: "987"
   CONTAINER_GID: "999"
   CONTAINER_FSGROUP: "1999"
