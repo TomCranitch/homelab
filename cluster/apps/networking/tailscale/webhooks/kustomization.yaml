@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - flux-webhook.yaml
   - konflate-webhook.yaml
+  - flux-receiver.yaml
+  - flux-webhook-secret.sops.yaml

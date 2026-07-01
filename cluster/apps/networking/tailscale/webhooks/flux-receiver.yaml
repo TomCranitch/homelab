@@ -1,0 +1,16 @@
+# TODO: migrate to Gateway API when Tailscale supports it natively
+# https://github.com/tailscale/tailscale/issues/10656
+# would allow us to turn down ingress-nginx
+---
+apiVersion: notification.toolkit.fluxcd.io/v1
+kind: Receiver
+metadata:
+  name: github-webhook
+  namespace: flux-system
+spec:
+  type: github
+  secretRef:
+    name: flux-webhook-token
+  resources:
+    - kind: GitRepository
+      name: flux-system
