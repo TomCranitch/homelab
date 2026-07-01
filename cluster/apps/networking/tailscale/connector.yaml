@@ -1,0 +1,14 @@
+apiVersion: tailscale.com/v1alpha1
+kind: Connector
+metadata:
+  name: cluster
+spec:
+  replicas: 2
+  hostnamePrefix: cluster
+  tags:
+    - tag:k8s
+  proxyClass: spread
+  subnetRouter:
+    advertiseRoutes:
+      - 192.168.29.0/24
+      - 192.168.30.0/24
