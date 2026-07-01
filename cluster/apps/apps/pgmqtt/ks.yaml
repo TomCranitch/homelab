@@ -5,7 +5,6 @@ metadata:
   name: pgmqtt
   namespace: flux-system
 spec:
-  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: pgmqtt
@@ -25,7 +24,6 @@ metadata:
   name: pgmqtt-users
   namespace: flux-system
 spec:
-  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: pgmqtt
