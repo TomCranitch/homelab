@@ -12,7 +12,7 @@ resources:
   - home-assistant
   - esphome
   - authentik
-  - emqx
+#  - emqx
   - zigbee2mqtt
   - ntfy
   - linkding

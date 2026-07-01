@@ -1,0 +1,24 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: SecurityPolicy
+metadata:
+  name: oidc
+  namespace: rook-ceph
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: rook-ceph-dashboard
+  oidc:
+    provider:
+      issuer: "https://sso.${S_HOMEPROD_DOMAIN}/application/o/gateway/"
+    clientID: "8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ"
+    clientSecret:
+      name: envoy-oidc-secret
+    # OIDC state/CSRF tokens are scoped per SecurityPolicy instance, so the
+    # redirectURL must be a route protected by this same SecurityPolicy (not
+    # one in another namespace). Any protected route in this namespace works
+    # since they all share the same OIDC filter state on the gateway.
+    redirectURL: "https://rook.${S_HOMEPROD_DOMAIN}/oauth2/callback"
+    logoutPath: "/oauth2/logout"
+    cookieDomain: "${S_HOMEPROD_DOMAIN}"

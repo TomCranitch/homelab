@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: 2025.12.3
+      version: 2026.5.3
       sourceRef:
         kind: HelmRepository
         name: authentik-charts
@@ -49,21 +49,22 @@ spec:
     authentik:
       email:
         from: tom@cranitch.com.au
-    redis:
-      enabled: true
+      postgresql:
+        sslmode: require
     postgres:
       enabled: false
     server:
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - &host "sso.${S_HOMEPROD_DOMAIN}"
-        paths:
-          - /
-        tls:
-          - hosts:
-              - *host
+      runtimeClassName: gvisor
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - "sso.${S_HOMEPROD_DOMAIN}"
+          parentRefs:
+            - name: envoy-gateway
+              namespace: ingress
+    worker:
+      runtimeClassName: gvisor
     global:
       volumeMounts:
         - mountPath: /blueprints/custom

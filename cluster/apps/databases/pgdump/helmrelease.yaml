@@ -38,9 +38,10 @@ spec:
               backoffLimit: 0
               template:
                 spec:
+                  runtimeClassName: gvisor
                   containers:
                     - name: dump
-                      image: postgres:17.7-alpine@sha256:ff4ccc02b97e0ebb6b328ef9ff92522f95586f83be6801896b615088defc8ad2
+                      image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
                       volumeMounts:
                         - name: data
                           mountPath: /backup
@@ -79,9 +80,10 @@ spec:
               backoffLimit: 0
               template:
                 spec:
+                  runtimeClassName: gvisor
                   containers:
                     - name: dump
-                      image: postgres:17.7-alpine@sha256:ff4ccc02b97e0ebb6b328ef9ff92522f95586f83be6801896b615088defc8ad2
+                      image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
                       volumeMounts:
                         - name: data
                           mountPath: /backup

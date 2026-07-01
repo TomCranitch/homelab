@@ -1,0 +1,12 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - default.yaml
+  - monitoring.yaml
+  - kube-system.yaml
+  - rook-ceph.yaml
+  - secret-default.sops.yaml
+  - secret-monitoring.sops.yaml
+  - secret-kube-system.sops.yaml
+  - secret-rook-ceph.sops.yaml

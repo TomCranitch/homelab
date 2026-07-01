@@ -1,13 +1,13 @@
 ---
 cluster:
   name: "homeprod"
-  id: "1"
+  id: 1
 
 securityContext:
   privileged: true
 
-kubeProxyReplacement: "strict"
-# kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: 192.168.29.170  # TODO
 k8sServicePort: 6443
 
@@ -16,10 +16,10 @@ k8sServicePort: 6443
 ipam:
   mode: "kubernetes"
 
-containerRuntime:
-  integration: containerd
-
 hubble:
+  enabled: false
+
+envoy:
   enabled: false
 
 ipv6:

@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: konflate
+  namespace: default
+spec:
+  chartRef:
+    kind: OCIRepository
+    name: konflate
+  interval: 1h
+  values:
+    config:
+      refreshInterval: 5m
+      repo: github://TomCranitch/homelab
+      statusChecks: true
+      prComments: true
+      mcp: true
+    secret:
+      existingSecret: konflate-secret
+    httpRoute:
+      enabled: true
+      parentRefs:
+        - name: envoy-gateway
+          namespace: ingress
+      hostnames:
+        - "konflate.${S_HOMEPROD_DOMAIN}"
+    persistence:
+      enabled: true
+      size: 5Gi
+    resources:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 50m

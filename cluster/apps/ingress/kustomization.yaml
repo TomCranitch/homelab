@@ -5,5 +5,6 @@ resources:
   - namespace.yaml
   - cert-manager
   - ingress-nginx
+  - envoy/ks.yaml
   - echo-server
 #  - static-routes

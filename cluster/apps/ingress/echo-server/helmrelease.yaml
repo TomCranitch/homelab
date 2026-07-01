@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 4.6.2
+      version: 5.0.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s-charts
@@ -24,10 +24,12 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    defaultPodOptions:
+      runtimeClassName: gvisor
     controllers:
-      echo-server:
+      main:
         containers:
-          app:
+          main:
             image:
               repository: docker.io/jmalloc/echo-server
               tag: v0.3.7
@@ -38,7 +40,7 @@ spec:
               limits:
                 memory: 50Mi
             probes:
-              liveness: &probe
+              liveness:
                 enabled: true
                 custom: true
                 spec:
@@ -48,27 +50,30 @@ spec:
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
-              readiness: *probe
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: 8080
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
               startup:
                 enabled: false
     service:
-      app:
-        controller: echo-server
+      main:
+        controller: main
         ports:
           http:
             port: 8080
-    ingress:
+    route:
       main:
         enabled: true
-        hosts:
-          - host: &host echo.${S_HOMEPROD_DOMAIN}
-            paths:
-              - path: /
-                pathType: Prefix
-                service:
-                  identifier: app
-                  port: http
-        tls:
-          - hosts:
-              - *host
-        className: nginx
+        kind: HTTPRoute
+        hostnames:
+          - "echo.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress

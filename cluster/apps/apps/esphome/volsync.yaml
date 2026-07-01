@@ -54,7 +54,7 @@ spec:
     storageClassName: ceph-block
     accessModes: 
       - ReadWriteOnce
-    capacity: 1Gi  # TODO: keep in sync with pvc
+    capacity: 4Gi  # TODO: keep in sync with pvc
     moverSecurityContext:
       runAsUser: 568
       runAsGroup: 111
