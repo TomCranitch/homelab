@@ -6,4 +6,4 @@ resources:
   - proxyclass.yaml
   - connector.yaml
   - pdb.yaml
-  - secret.yaml
+  - secret.sops.yaml
