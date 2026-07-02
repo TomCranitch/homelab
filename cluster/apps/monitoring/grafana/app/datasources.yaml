@@ -29,3 +29,6 @@ spec:
     type: victoriametrics-logs-datasource
     access: proxy
     url: http://victoria-logs-victoria-logs-single-server.monitoring.svc:9428
+  plugins:
+    - name: victoriametrics-logs-datasource
+      version: 0.29.0

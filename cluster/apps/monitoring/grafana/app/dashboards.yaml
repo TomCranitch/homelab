@@ -5,7 +5,7 @@ metadata:
   name: proxmox-vm
   namespace: monitoring
 spec:
-  folder: "default"
+  folder: ""
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -22,7 +22,7 @@ metadata:
   name: cert-manager
   namespace: monitoring
 spec:
-  folder: "default"
+  folder: ""
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -37,7 +37,7 @@ metadata:
   name: ntfy
   namespace: monitoring
 spec:
-  folder: "default"
+  folder: ""
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
@@ -52,7 +52,7 @@ metadata:
   name: volsync
   namespace: monitoring
 spec:
-  folder: "default"
+  folder: ""
   instanceSelector:
     matchLabels:
       dashboards: "grafana"
