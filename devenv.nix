@@ -1,11 +1,13 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, inputs, ... }:
 
 let
+  pkgs' = pkgs.extend inputs.sofka.overlays.default;
+
   flate = pkgs.callPackage ./flate.nix {
     inherit (pkgs) fetchurl stdenvNoCC installShellFiles;
   };
 
-  tools = with pkgs; [
+  tools = with pkgs'; [
     kubectl
     fluxcd
     kustomize
@@ -18,6 +20,7 @@ let
     yq-go
     restic
     flate
+    sofka
   ];
 in
 {

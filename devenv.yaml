@@ -1,6 +1,11 @@
 inputs:
   nixpkgs:
     url: github:NixOS/nixpkgs/nixos-unstable
+  sofka:
+    url: github:nklmilojevic/sofka
+    inputs:
+      nixpkgs:
+        follows: nixpkgs
 
 allowUnfree: true
 secretspec:
