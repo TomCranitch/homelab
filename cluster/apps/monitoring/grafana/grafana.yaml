@@ -1,0 +1,64 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: Grafana
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    dashboards: "grafana"
+spec:
+  config:
+    log:
+      mode: "console"
+    server:
+      root_url: "https://monitoring.${S_HOMEPROD_DOMAIN}"
+    auth:
+      oauth_auto_login: "true"
+    "auth.basic":
+      disable_login_form: "false"
+    "auth.generic_oauth":
+      enabled: "true"
+      name: cranitchsso
+      scopes: "openid profile email"
+      empty_scopes: "false"
+      auth_url: "https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/authorize/"
+      token_url: "https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/token/"
+      api_url: "https://${SSO_DOMAIN_PREFIX}.${S_BASE_DOMAIN}/application/o/userinfo/"
+      login_attribute_path: preferred_username
+      groups_attribute_path: groups
+      name_attribute_path: name
+      allow_assign_grafana_admin: "false"
+      role_attribute_path: "contains(groups[*], 'service-admins') && 'GrafanaAdmin' || 'Viewer'"
+    analytics:
+      check_for_updates: "false"
+      check_for_plugin_updates: "false"
+      reporting_enabled: "false"
+    news:
+      news_feed_enabled: "false"
+  deployment:
+    spec:
+      template:
+        spec:
+          runtimeClassName: gvisor
+          containers:
+            - name: grafana
+              envFrom:
+                - secretRef:
+                    name: grafana-env
+  ingress:
+    enabled: false
+  route:
+    spec:
+      parentRefs:
+        - name: envoy-gateway
+          namespace: ingress
+      hostnames:
+        - "monitoring.${S_HOMEPROD_DOMAIN}"
+      rules:
+        - matches:
+            - path:
+                type: PathPrefix
+                value: /
+          backendRefs:
+            - name: grafana-service
+              port: 3000

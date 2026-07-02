@@ -15,3 +15,5 @@ generatorOptions:
     kustomize.toolkit.fluxcd.io/substitute: disabled
   labels:
     grafana_dashboard: "true"
+resources:
+  - grafanadashboard.yaml

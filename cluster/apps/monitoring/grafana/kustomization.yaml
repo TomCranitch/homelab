@@ -4,3 +4,6 @@ kind: Kustomization
 resources:
   - helmrelease.yaml
   - secret.sops.yaml
+  - grafana.yaml
+  - datasources.yaml
+  - dashboards.yaml
