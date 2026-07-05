@@ -22,6 +22,7 @@ let
     flate
     helmfile
     just
+    go
     sofka
   ];
 in
