@@ -1,0 +1,36 @@
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: nginx-dashboard
+  namespace: ingress
+spec:
+  folder: "Ingress"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: nginx-dashboard
+    key: nginx-dashboard.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: nginx-request-handling-performance-dashboard
+  namespace: ingress
+spec:
+  folder: "Ingress"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: nginx-request-handling-performance-dashboard
+    key: nginx-request-handling-performance-dashboard.json

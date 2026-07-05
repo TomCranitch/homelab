@@ -26,6 +26,10 @@ spec:
     mode: enabled
   values:
     fullnameOverride: vm-stack
+    defaultDashboards:
+      enabled: true
+      grafanaOperator:
+        enabled: true
     grafana:
       enabled: false
     vmagent:
