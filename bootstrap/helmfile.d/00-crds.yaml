@@ -1,0 +1,40 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/helmfile
+
+# CRDs are extracted from upstream Helm charts via `helmfile template --include-crds`
+# and applied with kubectl. The releases below are never reconciled (helmfile sync);
+# only their CRDs are rendered and piped to the cluster.
+#
+# Installing CRDs out-of-band ensures they exist before Flux begins reconciling
+# workloads that reference them.
+
+helmDefaults:
+  args:
+    - --include-crds
+    - --no-hooks
+
+releases:
+  - name: cert-manager
+    namespace: cert-manager
+    chart: oci://quay.io/jetstack/charts/cert-manager
+    version: v1.20.3
+
+  - name: volsync
+    namespace: volsync
+    chart: oci://ghcr.io/home-operations/charts-mirror/volsync
+    version: 0.16.0
+
+  - name: kube-prometheus-stack
+    namespace: monitoring
+    chart: oci://ghcr.io/prometheus-community/charts/kube-prometheus-stack
+    version: 87.3.0
+
+  - name: grafana-operator
+    namespace: monitoring
+    chart: oci://ghcr.io/grafana/helm-charts/grafana-operator
+    version: 5.24.0
+
+  - name: victoria-metrics-operator-crds
+    namespace: monitoring
+    chart: oci://ghcr.io/victoriametrics/helm-charts/victoria-metrics-operator-crds
+    version: 0.12.0

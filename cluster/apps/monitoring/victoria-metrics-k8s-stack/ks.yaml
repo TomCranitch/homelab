@@ -2,32 +2,6 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app victoria-metrics-operator-crds
-  namespace: flux-system
-spec:
-  targetNamespace: monitoring
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *app
-  path: ./cluster/apps/monitoring/victoria-metrics-k8s-stack/crds
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-  wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: cluster-settings
-      - kind: Secret
-        name: cluster-secrets
----
-apiVersion: kustomize.toolkit.fluxcd.io/v1
-kind: Kustomization
-metadata:
   name: &app victoria-metrics-k8s-stack
   namespace: flux-system
 spec:
@@ -36,7 +10,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: victoria-metrics-operator-crds
     - name: grafana-operator
     - name: grafana-resources
   path: ./cluster/apps/monitoring/victoria-metrics-k8s-stack/app
@@ -66,7 +39,6 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: victoria-metrics-operator-crds
     - name: victoria-metrics-k8s-stack
   path: ./cluster/apps/monitoring/victoria-metrics-k8s-stack/resources
   prune: true

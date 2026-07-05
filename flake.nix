@@ -36,6 +36,8 @@
           talhelper
           yq-go
           flate
+          helmfile
+          just
           restic
         ];
       in

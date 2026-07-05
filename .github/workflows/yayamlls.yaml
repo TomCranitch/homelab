@@ -1,0 +1,24 @@
+---
+name: Validate YAML
+
+on:
+  pull_request:
+    paths:
+      - "**.yaml"
+      - "**.yml"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v6.5
+        with:
+          go-version: "1.24"
+
+      - name: Install yayamlls
+        run: go install github.com/home-operations/yayamlls/cmd/yayamlls@latest
+
+      - name: Validate source manifests
+        run: yayamlls validate .

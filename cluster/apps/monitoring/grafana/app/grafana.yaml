@@ -7,8 +7,6 @@ metadata:
   labels:
     dashboards: "grafana"
 spec:
-  plugins:
-    - victoriametrics-logs-datasource
   config:
     log:
       mode: "console"
@@ -44,18 +42,19 @@ spec:
           runtimeClassName: gvisor
           containers:
             - name: grafana
+              env:
+                - name: GF_INSTALL_PLUGINS
+                  value: victoriametrics-logs-datasource
               envFrom:
                 - secretRef:
                     name: grafana-env
-  ingress:
-    enabled: false
   httpRoute:
     spec:
       parentRefs:
         - name: envoy-gateway
           namespace: ingress
       hostnames:
-        - "monitoring.${S_HOMEPROD_DOMAIN}"
+        - "monitoring.${S_HOMEPROD_DOMAIN}"  # yayamlls-disable-line
       rules:
         - matches:
             - path:
