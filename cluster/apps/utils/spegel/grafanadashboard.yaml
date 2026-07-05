@@ -14,5 +14,5 @@ spec:
     - datasourceName: VictoriaMetrics
       inputName: DS_PROMETHEUS
   configMapRef:
-    name: spegel-grafana-dashboard
+    name: spegel-dashboard
     key: spegel-dashboard.json

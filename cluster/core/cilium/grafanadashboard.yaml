@@ -20,24 +20,6 @@ spec:
 apiVersion: grafana.integreatly.org/v1beta1
 kind: GrafanaDashboard
 metadata:
-  name: cilium-agent
-  namespace: kube-system
-spec:
-  folder: "cilium"
-  allowCrossNamespaceImport: true
-  instanceSelector:
-    matchLabels:
-      dashboards: "grafana"
-  datasources:
-    - datasourceName: VictoriaMetrics
-      inputName: DS_PROMETHEUS
-  configMapRef:
-    name: cilium-agent-dashboard
-    key: cilium-agent-dashboard.json
----
-apiVersion: grafana.integreatly.org/v1beta1
-kind: GrafanaDashboard
-metadata:
   name: cilium-operator
   namespace: kube-system
 spec:
@@ -52,3 +34,75 @@ spec:
   configMapRef:
     name: cilium-operator-dashboard
     key: cilium-operator-dashboard.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: hubble-dashboard
+  namespace: kube-system
+spec:
+  folder: "cilium"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: hubble-dashboard
+    key: hubble-dashboard.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: hubble-dns-namespace
+  namespace: kube-system
+spec:
+  folder: "cilium"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: hubble-dns-namespace
+    key: hubble-dns-namespace.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: hubble-l7-http-metrics-by-workload
+  namespace: kube-system
+spec:
+  folder: "cilium"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: hubble-l7-http-metrics-by-workload
+    key: hubble-l7-http-metrics-by-workload.json
+---
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: hubble-network-overview-namespace
+  namespace: kube-system
+spec:
+  folder: "cilium"
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      dashboards: "grafana"
+  datasources:
+    - datasourceName: VictoriaMetrics
+      inputName: DS_PROMETHEUS
+  configMapRef:
+    name: hubble-network-overview-namespace
+    key: hubble-network-overview-namespace.json
