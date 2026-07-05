@@ -20,6 +20,9 @@ let
     yq-go
     restic
     flate
+    helmfile
+    just
+    go
     sofka
   ];
 in

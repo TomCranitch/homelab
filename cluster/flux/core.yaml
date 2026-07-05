@@ -12,7 +12,6 @@ spec:
     kind: GitRepository
     name: flux-system
   dependsOn:
-    - name: crds
     - name: charts
     - name: cluster-config
   decryption:
