@@ -35,6 +35,14 @@ spec:
       reporting_enabled: "false"
     news:
       news_feed_enabled: "false"
+  persistentVolumeClaim:
+    spec:
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: ceph-block
   deployment:
     spec:
       template:
@@ -48,6 +56,10 @@ spec:
               envFrom:
                 - secretRef:
                     name: grafana-env
+          volumes:
+            - name: grafana-data
+              persistentVolumeClaim:
+                claimName: grafana-pvc
   httpRoute:
     spec:
       parentRefs:
