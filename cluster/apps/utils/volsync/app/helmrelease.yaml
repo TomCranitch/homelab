@@ -25,7 +25,7 @@ spec:
   driftDetection:
     mode: enabled
   values:
-    manageCRDs: false
+    manageCRDs: true
     # TODO get monitoring working
     metrics:
       disableAuth: true
