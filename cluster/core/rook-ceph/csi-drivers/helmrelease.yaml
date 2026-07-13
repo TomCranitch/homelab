@@ -1,0 +1,40 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ceph-csi-drivers
+  namespace: rook-ceph
+spec:
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: ceph-csi-drivers
+  dependsOn:
+    - name: rook-ceph-operator
+      namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    operatorConfig:
+      namespace: rook-ceph
+      driverSpecDefaults:
+        clusterName: rook-ceph
+        imageSet:
+          name: rook-csi-operator-image-set-configmap
+    drivers:
+      rbd:
+        enabled: true
+        name: rook-ceph.rbd.csi.ceph.com
+        snapshotPolicy: volumeSnapshot
+      cephfs:
+        enabled: false
+      nfs:
+        enabled: false
+      nvmeof:
+        enabled: false
