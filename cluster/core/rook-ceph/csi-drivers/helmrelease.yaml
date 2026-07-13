@@ -27,22 +27,14 @@ spec:
         clusterName: rook-ceph
         imageSet:
           name: rook-csi-operator-image-set-configmap
-        nodePlugin:
-          priorityClassName: system-node-critical
-        controllerPlugin:
-          priorityClassName: system-cluster-critical
     drivers:
       rbd:
         enabled: true
         name: rook-ceph.rbd.csi.ceph.com
         snapshotPolicy: volumeSnapshot
       cephfs:
-        enabled: true
-        name: rook-ceph.cephfs.csi.ceph.com
-        snapshotPolicy: volumeGroupSnapshot
+        enabled: false
       nfs:
         enabled: false
-        name: rook-ceph.nfs.csi.ceph.com
       nvmeof:
         enabled: false
-        name: rook-ceph.nvmeof.csi.ceph.com
