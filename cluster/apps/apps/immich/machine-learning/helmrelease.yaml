@@ -52,6 +52,12 @@ spec:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v3.0.2
             env:
+              - name: HOME
+                value: /cache
+              - name: XDG_CACHE_HOME
+                value: /cache/.cache
+              - name: XDG_CONFIG_HOME
+                value: /cache/.config
               - name: DB_URL
                 valueFrom:
                   secretKeyRef:
