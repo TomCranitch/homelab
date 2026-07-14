@@ -7,7 +7,6 @@ metadata:
 data:
   SSO_DOMAIN_PREFIX: sso
   TZ: Australia/Sydney
-  POSTGRES_RW_URL: postgres-ha.default.svc
 
   CONTAINER_UID: "987"
   CONTAINER_GID: "999"

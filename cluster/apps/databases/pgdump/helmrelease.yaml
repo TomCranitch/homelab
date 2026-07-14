@@ -31,8 +31,9 @@ spec:
         metadata:
           name: postgres-dump
         spec:
-          # run one hour before volsync
+          # Dump both PostgreSQL clusters one hour before VolSync snapshots the PVC.
           schedule: "0 1 * * *"
+          concurrencyPolicy: Forbid
           jobTemplate:
             spec:
               backoffLimit: 0
@@ -50,39 +51,14 @@ spec:
                         - "-f"
                         - "/backup/postgres.pgdump"
                         - "-v"
-                        - "-h"
-                        - ${POSTGRES_RW_URL}
+                        - "--dbname=$(DATABASE_URL)"
                       env:
-                        - name: PGUSER
+                        - name: DATABASE_URL
                           valueFrom:
                             secretKeyRef:
                               name: default-cluster-pguser-postgres
-                              key: user
-                        - name: PGPASSWORD
-                          valueFrom:
-                            secretKeyRef:
-                              name: default-cluster-pguser-postgres
-                              key: password
-                  restartPolicy: Never
-                  volumes:
-                    - name: data
-                      persistentVolumeClaim:
-                        claimName: pgdump
-      - apiVersion: batch/v1
-        kind: CronJob
-        metadata:
-          name: postgres-immich-dump
-        spec:
-          # run both off sync
-          schedule: "0 1 30 * *"
-          jobTemplate:
-            spec:
-              backoffLimit: 0
-              template:
-                spec:
-                  runtimeClassName: gvisor
-                  containers:
-                    - name: dump
+                              key: uri
+                    - name: dump-immich
                       image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
                       volumeMounts:
                         - name: data
@@ -92,19 +68,13 @@ spec:
                         - "-f"
                         - "/backup/postgres-immich.pgdump"
                         - "-v"
-                        - "-h"
-                        - "immich-cluster-ha.default.svc"
+                        - "--dbname=$(DATABASE_URL)"
                       env:
-                        - name: PGUSER
+                        - name: DATABASE_URL
                           valueFrom:
                             secretKeyRef:
                               name: immich-cluster-pguser-postgres
-                              key: user
-                        - name: PGPASSWORD
-                          valueFrom:
-                            secretKeyRef:
-                              name: immich-cluster-pguser-postgres
-                              key: password
+                              key: uri
                   restartPolicy: Never
                   volumes:
                     - name: data

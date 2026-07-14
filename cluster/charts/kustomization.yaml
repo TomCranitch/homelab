@@ -8,7 +8,6 @@ resources:
   - bjw-s-charts.yaml
   - dysnix-charts.yaml
   - victoriametrics-charts.yaml
-  - kyverno-charts.yaml
   - csi-driver-nfs-charts.yaml
   - nfs-subdir-external-provisioner-charts.yaml
   - windmill-labs-charts.yaml
