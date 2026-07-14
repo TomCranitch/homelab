@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: pgdump-restic
-  namespace: database
+  namespace: default
 type: Opaque
 stringData:
   RESTIC_REPOSITORY: ${S_VOLSYNC_B2_REPO}-pgdump
@@ -15,7 +15,7 @@ apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
   name: pgdump-restic
-  namespace: database
+  namespace: default
 spec:
   sourcePVC: pgdump
   trigger:

@@ -31,8 +31,9 @@ spec:
         metadata:
           name: postgres-dump
         spec:
-          # run one hour before volsync
+          # Dump both PostgreSQL clusters one hour before VolSync snapshots the PVC.
           schedule: "0 1 * * *"
+          concurrencyPolicy: Forbid
           jobTemplate:
             spec:
               backoffLimit: 0
@@ -51,7 +52,7 @@ spec:
                         - "/backup/postgres.pgdump"
                         - "-v"
                         - "-h"
-                        - ${POSTGRES_RW_URL}
+                        - "default-cluster-ha.default.svc"
                       env:
                         - name: PGUSER
                           valueFrom:
@@ -63,26 +64,7 @@ spec:
                             secretKeyRef:
                               name: default-cluster-pguser-postgres
                               key: password
-                  restartPolicy: Never
-                  volumes:
-                    - name: data
-                      persistentVolumeClaim:
-                        claimName: pgdump
-      - apiVersion: batch/v1
-        kind: CronJob
-        metadata:
-          name: postgres-immich-dump
-        spec:
-          # run both off sync
-          schedule: "0 1 30 * *"
-          jobTemplate:
-            spec:
-              backoffLimit: 0
-              template:
-                spec:
-                  runtimeClassName: gvisor
-                  containers:
-                    - name: dump
+                    - name: dump-immich
                       image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
                       volumeMounts:
                         - name: data
