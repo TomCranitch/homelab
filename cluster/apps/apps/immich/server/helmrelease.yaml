@@ -48,7 +48,7 @@ spec:
           app:
             image:
               repository: ghcr.io/immich-app/immich-server
-              tag: v3.0.2
+              tag: v3.0.3
             env:
               - name: DB_URL
                 valueFrom:
