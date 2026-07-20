@@ -42,7 +42,7 @@ spec:
                   runtimeClassName: gvisor
                   containers:
                     - name: dump
-                      image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
+                      image: postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
                       volumeMounts:
                         - name: data
                           mountPath: /backup
@@ -59,7 +59,7 @@ spec:
                               name: default-cluster-pguser-postgres
                               key: uri
                     - name: dump-immich
-                      image: postgres:18.4-alpine@sha256:1b1689b20d16a014a3d195653381cf2caa75a41a92d93b255a9d6ea29fd353aa
+                      image: postgres:18.4-alpine@sha256:9a8afca54e7861fd90fab5fdf4c42477a6b1cb7d293595148e674e0a3181de15
                       volumeMounts:
                         - name: data
                           mountPath: /backup
