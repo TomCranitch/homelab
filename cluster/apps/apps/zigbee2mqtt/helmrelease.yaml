@@ -61,6 +61,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: 'false'
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+              ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: '20'
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: 'false'
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: 'true'
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: 'true'
@@ -80,8 +81,9 @@ spec:
                   secretKeyRef:
                     name: zigbee2mqtt-mqtt-credentials
                     key: password
-              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.51:6638
               ZIGBEE2MQTT_CONFIG_SERIAL_ADAPTER: ember
+              ZIGBEE2MQTT_CONFIG_SERIAL_BAUDRATE: '115200'
+              ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.2.177:6638
             probes:
               liveness:
                 enabled: true
