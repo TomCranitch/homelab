@@ -128,7 +128,7 @@ spec:
           redis:
             image:
               repository: public.ecr.aws/docker/library/redis
-              tag: 8.2.7
+              tag: 8.2.8
             probes:
               liveness:
                 enabled: true
