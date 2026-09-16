@@ -1,0 +1,49 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kguardian-health
+spec:
+  groups:
+    - name: kguardian.health
+      rules:
+        - alert: KguardianMetricsMissing
+          expr: absent(broker_uptime_seconds)
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: KGuardian broker metrics are missing
+            description: VictoriaMetrics has not received KGuardian broker metrics for 10 minutes.
+        - alert: KguardianDatabaseSchemaNotReady
+          expr: broker_db_schema_ready == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: KGuardian database schema is not ready
+            description: The KGuardian broker cannot use its expected database schema.
+        - alert: KguardianDatabaseUnreachable
+          expr: broker_db_reachable == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: KGuardian database is unreachable
+            description: The KGuardian broker has been unable to reach PostgreSQL for two minutes.
+        - alert: KguardianAuditPipelineSaturated
+          expr: broker_audit_inflight_available == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: KGuardian audit evaluator is saturated
+            description: All KGuardian audit-evaluation permits have remained in use for 10 minutes.
+        - alert: KguardianDatabasePoolExhausted
+          expr: broker_db_pool_idle == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: KGuardian database pool is exhausted
+            description: The KGuardian broker has had no idle database connections for 10 minutes.
