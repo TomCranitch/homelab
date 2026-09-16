@@ -7,6 +7,5 @@ resources:
   - helmrelease.yaml
   - httproutes.yaml
   - securitypolicy.yaml
-  - prometheusrule.yaml
   - mcp-secret.sops.yaml
   - oidc-secret.sops.yaml
