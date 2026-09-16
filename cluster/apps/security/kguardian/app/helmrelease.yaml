@@ -41,9 +41,12 @@ spec:
         enabled: true
         intervalSeconds: 10
 
-    # Keep this deployment focused on network and syscall security telemetry.
+    # Collect cgroup usage, pressure, throttling, and reclaim signals. Keep the
+    # scheduler eBPF contention probe off until its node overhead is measured.
     compute:
-      enabled: false
+      enabled: true
+      contention:
+        enabled: false
 
     broker:
       resources:
