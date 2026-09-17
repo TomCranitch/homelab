@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kguardian
+spec:
+  interval: 15m
+  url: oci://ghcr.io/kguardian-dev/charts/kguardian
+  ref:
+    # renovate: datasource=docker depName=ghcr.io/kguardian-dev/charts/kguardian
+    tag: 1.24.0
