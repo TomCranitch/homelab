@@ -1,0 +1,84 @@
+---
+# Keep the bootstrap-managed Flux instance under GitOps without allowing its
+# parent Kustomization to prune the control plane if this manifest is moved.
+apiVersion: fluxcd.controlplane.io/v1
+kind: FluxInstance
+metadata:
+  name: flux
+  namespace: flux-system
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: Disabled
+spec:
+  distribution:
+    version: 2.7.5
+    registry: ghcr.io/fluxcd
+  components:
+    - source-controller
+    - kustomize-controller
+    - helm-controller
+    - notification-controller
+  cluster:
+    type: kubernetes
+    multitenant: false
+    networkPolicy: true
+    domain: cluster.local
+  sync:
+    kind: GitRepository
+    url: https://github.com/TomCranitch/homelab.git
+    ref: refs/heads/main
+    path: cluster
+    pullSecret: flux-system
+  kustomize:
+    patches:
+      - target:
+          kind: Kustomization
+        patch: |
+          - op: add
+            path: /spec/decryption
+            value:
+              provider: sops
+              secretRef:
+                name: sops-age
+      - target:
+          kind: Kustomization
+          name: flux-system
+        patch: |
+          apiVersion: kustomize.toolkit.fluxcd.io/v1
+          kind: Kustomization
+          metadata:
+            name: flux-system
+            namespace: flux-system
+          spec:
+            postBuild:
+              substituteFrom:
+                - kind: ConfigMap
+                  name: cluster-settings
+                - kind: Secret
+                  name: cluster-secrets
+      - target:
+          kind: NetworkPolicy
+          name: allow-webhooks
+        patch: |
+          apiVersion: networking.k8s.io/v1
+          kind: NetworkPolicy
+          metadata:
+            name: allow-webhooks
+            namespace: flux-system
+            annotations:
+              kustomize.toolkit.fluxcd.io/prune: Enabled
+          spec:
+            ingress:
+              - from:
+                  - namespaceSelector:
+                      matchLabels:
+                        kubernetes.io/metadata.name: networking
+                    podSelector:
+                      matchLabels:
+                        app.kubernetes.io/component: tailscale-connector
+                        tailscale.com/managed: "true"
+                        tailscale.com/parent-resource-type: ingress
+                        tailscale.com/parent-resource-ns: flux-system
+                        tailscale.com/parent-resource: flux-webhook
+                ports:
+                  - port: 9292
+                    protocol: TCP

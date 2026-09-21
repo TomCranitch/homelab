@@ -28,6 +28,8 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -82,3 +84,43 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: travel-tracker
+        description: Allow Envoy ingress and HTTPS access to the map provider
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: ingress
+                  k8s:app.kubernetes.io/name: envoy
+                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
+                rules:
+                  http:
+                    - {}
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: kube-system
+                  k8s:k8s-app: kube-dns
+            toPorts:
+              - ports:
+                  - port: "53"
+                    protocol: ANY
+                rules:
+                  dns:
+                    - matchPattern: "*"
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: travel-tracker

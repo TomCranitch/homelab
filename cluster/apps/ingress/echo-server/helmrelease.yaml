@@ -26,6 +26,8 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
     controllers:
       main:
         containers:
@@ -77,3 +79,25 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: main
+        description: Allow HTTP ingress from the Envoy Gateway only
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  k8s:io.kubernetes.pod.namespace: ingress
+                  k8s:app.kubernetes.io/name: envoy
+                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+            toPorts:
+              - ports:
+                  - port: "8080"
+                    protocol: TCP
+                rules:
+                  http:
+                    - {}
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: echo-server

@@ -1,0 +1,57 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: konflate-ingress
+  namespace: default
+spec:
+  description: Allow Envoy, the Tailscale webhook proxy, and metrics scraping
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: konflate
+      app.kubernetes.io/name: konflate
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress
+            k8s:app.kubernetes.io/name: envoy
+            k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - {}
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: networking
+            k8s:app.kubernetes.io/component: tailscale-connector
+            k8s:tailscale.com/managed: "true"
+            k8s:tailscale.com/parent-resource-type: ingress
+            k8s:tailscale.com/parent-resource-ns: default
+            k8s:tailscale.com/parent-resource: konflate-webhook
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - method: POST
+                path: "^/hooks$"
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            k8s:app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "8081"
+              protocol: TCP
+          rules:
+            http:
+              - method: GET
+                path: "^/metrics$"
+  enableDefaultDeny:
+    ingress: true
+    egress: false
+  log:
+    value: konflate-ingress
