@@ -28,6 +28,8 @@ spec:
   values:
     defaultPodOptions:
       labels:
+        networking.home.arpa/egress-kube-dns: "true"
+        networking.home.arpa/egress-sso: "true"
         networking.home.arpa/ingress-envoy: "true"
       securityContext:
         runAsNonRoot: true
@@ -50,6 +52,10 @@ spec:
             image:
               repository: docker.io/owncloud/ocis
               tag: 7.3.2
+            ports:
+              - name: http
+                containerPort: 9200
+                protocol: TCP
             command: [/bin/sh]
             args: ["-c", "ocis init || true; ocis server"]
             env:
@@ -110,38 +116,9 @@ spec:
       app:
         type: cilium
         controller: ocis
-        description: Allow Envoy ingress and Authentik OIDC discovery
-        ingress:
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: ingress
-                  k8s:app.kubernetes.io/name: envoy
-                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-            toPorts:
-              - ports:
-                  - port: "9200"
-                    protocol: TCP
-                rules:
-                  http:
-                    - {}
-        egress:
-          - toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: kube-system
-                  k8s:k8s-app: kube-dns
-            toPorts:
-              - ports:
-                  - port: "53"
-                    protocol: ANY
-                rules:
-                  dns:
-                    - matchPattern: "*"
-          - toFQDNs:
-              - matchName: "sso.${S_HOMEPROD_DOMAIN}"
-            toPorts:
-              - ports:
-                  - port: "443"
-                    protocol: TCP
+        description: Default-deny boundary; shared labels allow Envoy, DNS, and SSO
+        ingress: []
+        egress: []
         enableDefaultDeny:
           ingress: true
           egress: true

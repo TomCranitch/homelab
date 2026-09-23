@@ -29,7 +29,9 @@ spec:
     defaultPodOptions:
       runtimeClassName: gvisor
       labels:
+        networking.home.arpa/egress-kube-dns: "true"
         networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/metrics: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -51,6 +53,13 @@ spec:
             image:
               repository: docker.io/binwiederhier/ntfy
               tag: v2.28.0
+            ports:
+              - name: http
+                containerPort: 80
+                protocol: TCP
+              - name: metrics
+                containerPort: 9090
+                protocol: TCP
             env:
               TZ: ${TIMEZONE}
               NTFY_DEBUG: false
@@ -90,44 +99,8 @@ spec:
       app:
         type: cilium
         controller: ntfy
-        description: Allow Envoy ingress, metrics scraping, DNS, and HTTPS push traffic
-        ingress:
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: ingress
-                  k8s:app.kubernetes.io/name: envoy
-                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-            toPorts:
-              - ports:
-                  - port: "80"
-                    protocol: TCP
-                rules:
-                  http:
-                    - {}
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: monitoring
-                  k8s:app.kubernetes.io/name: vmagent
-            toPorts:
-              - ports:
-                  - port: "9090"
-                    protocol: TCP
-                rules:
-                  http:
-                    - method: GET
-                      path: "^/metrics$"
+        description: Allow only the app-specific HTTPS push traffic
         egress:
-          - toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: kube-system
-                  k8s:k8s-app: kube-dns
-            toPorts:
-              - ports:
-                  - port: "53"
-                    protocol: ANY
-                rules:
-                  dns:
-                    - matchPattern: "*"
           - toEntities:
               - world
             toPorts:
@@ -146,12 +119,3 @@ spec:
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /var/cache/ntfy
-    serviceMonitor:
-      app:
-        enabled: true
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s

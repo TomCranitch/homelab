@@ -1,0 +1,128 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-kube-dns
+spec:
+  description: Allow labelled workloads to resolve any DNS name through CoreDNS
+  endpointSelector:
+    matchLabels:
+      networking.home.arpa/egress-kube-dns: "true"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: TCP
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-envoy-ingress
+spec:
+  description: Allow Envoy Gateway to reach labelled HTTP workloads
+  endpointSelector:
+    matchLabels:
+      networking.home.arpa/ingress-envoy: "true"
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress
+            k8s:app.kubernetes.io/name: envoy
+            k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+      toPorts:
+        - ports:
+            - port: http
+              protocol: TCP
+          rules:
+            http:
+              - {}
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-default-postgres-egress
+spec:
+  description: Allow labelled workloads to reach the default PostgreSQL cluster
+  endpointSelector:
+    matchLabels:
+      networking.home.arpa/postgres-default-client: "true"
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: default
+            k8s:postgres-operator.crunchydata.com/cluster: default-cluster
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-sso-egress
+spec:
+  description: Allow labelled workloads to perform OIDC requests through Envoy
+  endpointSelector:
+    matchLabels:
+      networking.home.arpa/egress-sso: "true"
+  egress:
+    - toServices:
+        - k8sServiceSelector:
+            namespace: ingress
+            selector:
+              matchLabels:
+                app.kubernetes.io/name: envoy
+                gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+          serverNames:
+            - "sso.${S_HOMEPROD_DOMAIN}"
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+---
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-metrics-ingress
+spec:
+  description: Allow VictoriaMetrics to scrape labelled workloads
+  endpointSelector:
+    matchLabels:
+      networking.home.arpa/metrics: "true"
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            k8s:app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: metrics
+              protocol: TCP
+          rules:
+            http:
+              - method: GET
+                path: "^/metrics$"
+  enableDefaultDeny:
+    ingress: false
+    egress: false

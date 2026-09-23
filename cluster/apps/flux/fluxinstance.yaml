@@ -7,7 +7,7 @@ metadata:
   name: flux
   namespace: flux-system
   annotations:
-    kustomize.toolkit.fluxcd.io/prune: Disabled
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   distribution:
     version: 2.7.5
@@ -26,7 +26,7 @@ spec:
     kind: GitRepository
     url: https://github.com/TomCranitch/homelab.git
     ref: refs/heads/main
-    path: cluster
+    path: cluster/flux
     pullSecret: flux-system
   kustomize:
     patches:
@@ -49,6 +49,10 @@ spec:
             name: flux-system
             namespace: flux-system
           spec:
+            # Keep the root inventory non-pruning so a bootstrap mistake cannot
+            # cascade-delete the child Kustomizations or their workloads. Each
+            # child Kustomization retains its own explicit pruning policy.
+            prune: false
             postBuild:
               substituteFrom:
                 - kind: ConfigMap
@@ -64,8 +68,6 @@ spec:
           metadata:
             name: allow-webhooks
             namespace: flux-system
-            annotations:
-              kustomize.toolkit.fluxcd.io/prune: Enabled
           spec:
             ingress:
               - from:

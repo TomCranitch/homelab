@@ -29,6 +29,8 @@ spec:
     defaultPodOptions:
       runtimeClassName: gvisor
       labels:
+        networking.home.arpa/egress-kube-dns: "true"
+        networking.home.arpa/egress-sso: "true"
         networking.home.arpa/ingress-envoy: "true"
         networking.home.arpa/postgres-default-client: "true"
       securityContext:
@@ -52,6 +54,10 @@ spec:
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.3.2
+            ports:
+              - name: http
+                containerPort: 9000
+                protocol: TCP
             env:
               TZ: ${TZ}
               API_URL: "http://mealie-backend.default.svc.cluster.local:9000"
@@ -117,52 +123,14 @@ spec:
       app:
         type: cilium
         controller: mealie
-        description: Allow Envoy ingress and only the services mealie needs
-        ingress:
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: ingress
-                  k8s:app.kubernetes.io/name: envoy
-                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-            toPorts:
-              - ports:
-                  - port: "9000"
-                    protocol: TCP
-                rules:
-                  http:
-                    - {}
+        description: Default-deny mealie with application-specific internet egress
         egress:
-          - toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: kube-system
-                  k8s:k8s-app: kube-dns
-            toPorts:
-              - ports:
-                  - port: "53"
-                    protocol: ANY
-                rules:
-                  dns:
-                    - matchPattern: "*"
-          - toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: default
-                  k8s:postgres-operator.crunchydata.com/cluster: default-cluster
-            toPorts:
-              - ports:
-                  - port: "5432"
-                    protocol: TCP
           - toEntities:
               - world
             toPorts:
               - ports:
                   - port: "80"
                     protocol: TCP
-                  - port: "443"
-                    protocol: TCP
-          - toFQDNs:
-              - matchName: sso.cranit.ch
-            toPorts:
-              - ports:
                   - port: "443"
                     protocol: TCP
         enableDefaultDeny:

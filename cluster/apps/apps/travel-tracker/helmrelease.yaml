@@ -29,6 +29,7 @@ spec:
     defaultPodOptions:
       runtimeClassName: gvisor
       labels:
+        networking.home.arpa/egress-kube-dns: "true"
         networking.home.arpa/ingress-envoy: "true"
       securityContext:
         runAsNonRoot: true
@@ -53,6 +54,10 @@ spec:
             image:
               repository: ghcr.io/tomcranitch/travel-tracker
               tag: latest  # TODO
+            ports:
+              - name: http
+                containerPort: 8080
+                protocol: TCP
             env:
               STADIA_API_KEY:
                 valueFrom:
@@ -88,32 +93,8 @@ spec:
       app:
         type: cilium
         controller: travel-tracker
-        description: Allow Envoy ingress and HTTPS access to the map provider
-        ingress:
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: ingress
-                  k8s:app.kubernetes.io/name: envoy
-                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-            toPorts:
-              - ports:
-                  - port: "8080"
-                    protocol: TCP
-                rules:
-                  http:
-                    - {}
+        description: Allow only the app-specific HTTPS map-provider traffic
         egress:
-          - toEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: kube-system
-                  k8s:k8s-app: kube-dns
-            toPorts:
-              - ports:
-                  - port: "53"
-                    protocol: ANY
-                rules:
-                  dns:
-                    - matchPattern: "*"
           - toEntities:
               - world
             toPorts:

@@ -35,6 +35,10 @@ spec:
             image:
               repository: docker.io/jmalloc/echo-server
               tag: v0.3.7
+            ports:
+              - name: http
+                containerPort: 8080
+                protocol: TCP
             resources:
               requests:
                 cpu: 5m
@@ -83,20 +87,9 @@ spec:
       app:
         type: cilium
         controller: main
-        description: Allow HTTP ingress from the Envoy Gateway only
-        ingress:
-          - fromEndpoints:
-              - matchLabels:
-                  k8s:io.kubernetes.pod.namespace: ingress
-                  k8s:app.kubernetes.io/name: envoy
-                  k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-            toPorts:
-              - ports:
-                  - port: "8080"
-                    protocol: TCP
-                rules:
-                  http:
-                    - {}
+        description: Default-deny boundary; shared label allows Envoy ingress
+        ingress: []
+        egress: []
         enableDefaultDeny:
           ingress: true
           egress: true
