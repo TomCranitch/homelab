@@ -63,6 +63,13 @@ spec:
       cephConfig:
         global:
           mon_data_avail_warn: "15"
+      security:
+        cephx:
+          daemon:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+          csi:
+            keyType: aes
       mon:
         count: 3
       storage:
