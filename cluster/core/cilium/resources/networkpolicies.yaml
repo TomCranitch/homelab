@@ -4,10 +4,8 @@ kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: allow-kube-dns
 spec:
-  description: Allow labelled workloads to resolve any DNS name through CoreDNS
-  endpointSelector:
-    matchLabels:
-      networking.home.arpa/egress-kube-dns: "true"
+  description: Allow Cilium-managed workloads to resolve any DNS name through CoreDNS
+  endpointSelector: {}
   egress:
     - toEndpoints:
         - matchLabels:

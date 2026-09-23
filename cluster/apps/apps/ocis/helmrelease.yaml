@@ -28,7 +28,6 @@ spec:
   values:
     defaultPodOptions:
       labels:
-        networking.home.arpa/egress-kube-dns: "true"
         networking.home.arpa/egress-sso: "true"
         networking.home.arpa/ingress-envoy: "true"
       securityContext:
