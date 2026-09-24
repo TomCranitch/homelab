@@ -24,6 +24,10 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    # Roll agents when rendered Cilium config changes so datapath settings do
+    # not remain stale until the DaemonSet is restarted manually.
+    rollOutCiliumPods: true
+
     cluster:
       name: "homeprod"
       id: 1
@@ -45,6 +49,14 @@ spec:
           - NET_ADMIN
           - SYS_ADMIN
           - SYS_RESOURCE
+
+    # Talos already mounts cgroup v2 on the host; reuse it instead of having
+    # Cilium manage a separate cgroup mount.
+    cgroup:
+      autoMount:
+        enabled: false
+      hostRoot: /sys/fs/cgroup
+
     kubeProxyReplacement: true
     # Keep socket-level service translation in the host namespace so gVisor/Kata
     # workloads use Cilium's tc datapath for Kubernetes Service handling.
@@ -89,6 +101,7 @@ spec:
     cni:
       exclusive: false
     operator:
+      rollOutPods: true
       prometheus:
         enabled: true
         serviceMonitor:
