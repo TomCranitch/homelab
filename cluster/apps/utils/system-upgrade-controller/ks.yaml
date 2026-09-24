@@ -46,4 +46,4 @@ spec:
       # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
       TALOS_VERSION: v1.12.12
       # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-      KUBERNETES_VERSION: v1.35.8
+      KUBERNETES_VERSION: v1.35.9
