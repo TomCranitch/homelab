@@ -46,6 +46,11 @@ spec:
           - SYS_ADMIN
           - SYS_RESOURCE
     kubeProxyReplacement: true
+    # Keep socket-level service translation in the host namespace so gVisor/Kata
+    # workloads use Cilium's tc datapath for Kubernetes Service handling.
+    socketLB:
+      enabled: true
+      hostNamespaceOnly: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     k8sServiceHost: cranitch.k8s
     k8sServicePort: 6443
