@@ -9,6 +9,13 @@ spec:
     name: konflate
   interval: 1h
   values:
+    podLabels:
+      networking.home.arpa/ingress-envoy: "true"
+      networking.home.arpa/metrics: "true"
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8081"
+      prometheus.io/path: /metrics
     config:
       repo: github://TomCranitch/homelab
       statusChecks: true

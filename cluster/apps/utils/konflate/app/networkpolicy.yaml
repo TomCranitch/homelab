@@ -4,24 +4,12 @@ metadata:
   name: konflate-ingress
   namespace: default
 spec:
-  description: Allow Envoy, the Tailscale webhook proxy, and metrics scraping
+  description: Allow the Tailscale webhook proxy to POST to Konflate
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: konflate
       app.kubernetes.io/name: konflate
   ingress:
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: ingress
-            k8s:app.kubernetes.io/name: envoy
-            k8s:gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-      toPorts:
-        - ports:
-            - port: "8080"
-              protocol: TCP
-          rules:
-            http:
-              - {}
     - fromEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: networking
@@ -38,18 +26,6 @@ spec:
             http:
               - method: POST
                 path: "^/hooks$"
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: monitoring
-            k8s:app.kubernetes.io/name: vmagent
-      toPorts:
-        - ports:
-            - port: "8081"
-              protocol: TCP
-          rules:
-            http:
-              - method: GET
-                path: "^/metrics$"
   enableDefaultDeny:
     ingress: true
     egress: false
