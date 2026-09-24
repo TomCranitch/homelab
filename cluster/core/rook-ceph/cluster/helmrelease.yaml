@@ -70,6 +70,16 @@ spec:
             keyGeneration: 2
           csi:
             keyType: aes
+      # Linux 6.18 cannot use AES256K keys for CSI mounts. Keep only the
+      # expected client/cipher warnings muted until the nodes run Linux 7.0+.
+      healthCheck:
+        muteHealthWarning:
+          AUTH_INSECURE_CLIENT_KEY_TYPE:
+            policy: mute
+          AUTH_INSECURE_KEYS_ALLOWED:
+            policy: mute
+          AUTH_INSECURE_KEYS_CREATABLE:
+            policy: mute
       mon:
         count: 3
       storage:
