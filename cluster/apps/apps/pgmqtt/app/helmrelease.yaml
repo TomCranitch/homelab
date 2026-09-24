@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: pgmqtt
-      version: 0.1.17
+      version: 0.1.18
       sourceRef:
         kind: HelmRepository
         name: pgmqtt-charts
