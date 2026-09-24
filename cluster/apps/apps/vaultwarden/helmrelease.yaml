@@ -28,6 +28,9 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/postgres-default-client: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -49,6 +52,10 @@ spec:
             image:
               repository: docker.io/vaultwarden/server
               tag: 1.37.3
+            ports:
+              - name: http
+                containerPort: 80
+                protocol: TCP
             env:
               TZ: ${TZ}
               DOMAIN: https://passwords.${S_HOMEPROD_DOMAIN}
@@ -87,6 +94,24 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: vaultwarden
+        description: Allow only the app-specific external HTTP and HTTPS traffic
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: vaultwarden
     persistence:
       data:
         # Avoid a name change with the app-template v2->v4 migration.

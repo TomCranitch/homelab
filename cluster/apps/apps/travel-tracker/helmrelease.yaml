@@ -28,6 +28,8 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -51,6 +53,10 @@ spec:
             image:
               repository: ghcr.io/tomcranitch/travel-tracker
               tag: latest  # TODO
+            ports:
+              - name: http
+                containerPort: 8080
+                protocol: TCP
             env:
               STADIA_API_KEY:
                 valueFrom:
@@ -82,3 +88,19 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: travel-tracker
+        description: Allow only the app-specific HTTPS map-provider traffic
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: travel-tracker

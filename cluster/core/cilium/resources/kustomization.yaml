@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - bgp-config.yaml
   - hubble-httproute.yaml
+  - networkpolicies.yaml

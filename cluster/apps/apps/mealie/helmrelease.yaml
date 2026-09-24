@@ -28,6 +28,10 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/egress-sso: "true"
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/postgres-default-client: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -49,6 +53,10 @@ spec:
             image:
               repository: ghcr.io/mealie-recipes/mealie
               tag: v3.3.2
+            ports:
+              - name: http
+                containerPort: 9000
+                protocol: TCP
             env:
               TZ: ${TZ}
               API_URL: "http://mealie-backend.default.svc.cluster.local:9000"
@@ -110,6 +118,24 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: mealie
+        description: Default-deny mealie with application-specific internet egress
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: mealie
     persistence:
       config:
         enabled: true

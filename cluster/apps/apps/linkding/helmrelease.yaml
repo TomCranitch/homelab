@@ -28,6 +28,9 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/postgres-default-client: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -49,6 +52,10 @@ spec:
             image:
               repository: docker.io/sissbruecker/linkding
               tag: 1.47.0
+            ports:
+              - name: http
+                containerPort: 9090
+                protocol: TCP
             env:
               LD_SUPERUSER_NAME: tom
               LD_ENABLE_AUTH_PROXY: "True"
@@ -101,6 +108,24 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: linkding
+        description: Default-deny linkding with application-specific internet egress
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: linkding
     persistence:
       data:
         enabled: true

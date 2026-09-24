@@ -28,6 +28,9 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/metrics: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -49,6 +52,13 @@ spec:
             image:
               repository: docker.io/binwiederhier/ntfy
               tag: v2.28.0
+            ports:
+              - name: http
+                containerPort: 80
+                protocol: TCP
+              - name: metrics
+                containerPort: 9090
+                protocol: TCP
             env:
               TZ: ${TIMEZONE}
               NTFY_DEBUG: false
@@ -84,6 +94,22 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: ntfy
+        description: Allow only the app-specific HTTPS push traffic
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: ntfy
     persistence:
       cache:
         enabled: true
@@ -92,12 +118,3 @@ spec:
         accessMode: ReadWriteOnce
         globalMounts:
           - path: /var/cache/ntfy
-    serviceMonitor:
-      app:
-        enabled: true
-        endpoints:
-          - port: metrics
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s

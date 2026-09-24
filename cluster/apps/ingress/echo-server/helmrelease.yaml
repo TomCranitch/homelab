@@ -26,6 +26,8 @@ spec:
   values:
     defaultPodOptions:
       runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
     controllers:
       main:
         containers:
@@ -33,6 +35,10 @@ spec:
             image:
               repository: docker.io/jmalloc/echo-server
               tag: v0.3.7
+            ports:
+              - name: http
+                containerPort: 8080
+                protocol: TCP
             resources:
               requests:
                 cpu: 5m
@@ -77,3 +83,14 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: main
+        description: Default-deny boundary; shared label allows Envoy ingress
+        ingress: []
+        egress: []
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: echo-server
