@@ -20,6 +20,18 @@ spec:
       kind: CephCluster
       expr: |-
         status.ceph.health in ['HEALTH_OK']
+    - apiVersion: postgres-operator.crunchydata.com/v1beta1
+      kind: PostgresCluster
+      name: default-cluster
+      namespace: default
+      expr: |-
+        object.spec.instances.all(w, status.instances.exists(i, i.name == w.name && i.readyReplicas == w.replicas))
+    - apiVersion: postgres-operator.crunchydata.com/v1beta1
+      kind: PostgresCluster
+      name: immich-cluster
+      namespace: default
+      expr: |-
+        object.spec.instances.all(w, status.instances.exists(i, i.name == w.name && i.readyReplicas == w.replicas))
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/tuppr.home-operations.com/kubernetesupgrade_v1alpha1.json
 apiVersion: tuppr.home-operations.com/v1alpha1
@@ -40,3 +52,15 @@ spec:
       kind: CephCluster
       expr: |-
         status.ceph.health in ['HEALTH_OK']
+    - apiVersion: postgres-operator.crunchydata.com/v1beta1
+      kind: PostgresCluster
+      name: default-cluster
+      namespace: default
+      expr: |-
+        object.spec.instances.all(w, status.instances.exists(i, i.name == w.name && i.readyReplicas == w.replicas))
+    - apiVersion: postgres-operator.crunchydata.com/v1beta1
+      kind: PostgresCluster
+      name: immich-cluster
+      namespace: default
+      expr: |-
+        object.spec.instances.all(w, status.instances.exists(i, i.name == w.name && i.readyReplicas == w.replicas))
