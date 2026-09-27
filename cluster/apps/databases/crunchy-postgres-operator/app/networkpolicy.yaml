@@ -1,0 +1,32 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres-operator
+  namespace: database
+spec:
+  description: Allow PostgreSQL operator API access and metrics
+  endpointSelector:
+    matchLabels:
+      postgres-operator.crunchydata.com/control-plane: pgo
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: postgres-operator

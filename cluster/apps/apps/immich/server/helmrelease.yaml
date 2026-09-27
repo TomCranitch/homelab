@@ -27,6 +27,9 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/egress-sso: "true"
       # TODO: setup gvisor. currently erroring.
       securityContext:
         runAsNonRoot: true
@@ -49,6 +52,10 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v3.2.2
+            ports:
+              - name: http
+                containerPort: 2283
+                protocol: TCP
             env:
               - name: DB_URL
                 valueFrom:
@@ -85,6 +92,45 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: immich-server
+        description: Default-deny Immich server with database, Valkey, ML and web egress
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  postgres-operator.crunchydata.com/cluster: immich-cluster
+            toPorts:
+              - ports:
+                  - port: "5432"
+                    protocol: TCP
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: immich-valkey
+            toPorts:
+              - ports:
+                  - port: "6379"
+                    protocol: TCP
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: immich-machine-learning
+            toPorts:
+              - ports:
+                  - port: "3003"
+                    protocol: TCP
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: immich-server
     persistence:
       data:
         enabled: true

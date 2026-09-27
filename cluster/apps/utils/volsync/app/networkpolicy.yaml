@@ -1,0 +1,33 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: volsync-controller
+  namespace: volsync
+spec:
+  description: Allow Kubernetes API access and VictoriaMetrics scraping
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: volsync
+      control-plane: volsync-controller
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "8443"
+              protocol: TCP
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: volsync-controller

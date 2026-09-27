@@ -39,6 +39,10 @@ spec:
           type: RuntimeDefault
     controllers:
       karakeep:
+        pod:
+          labels:
+            networking.home.arpa/ingress-envoy: "true"
+            networking.home.arpa/egress-sso: "true"
         # TODO: look at adding this back if possible. currently causes a bunch of S6 errors.
         # defaultContainerOptions:
         #   securityContext:
@@ -51,6 +55,10 @@ spec:
             image:
               repository: ghcr.io/karakeep-app/karakeep
               tag: 0.27.1
+            ports:
+              - name: http
+                containerPort: 3000
+                protocol: TCP
             env:
               BROWSER_WEB_URL: http://karakeep-chrome.default.svc.cluster.local:9222
               CRAWLER_DOWNLOAD_BANNER_IMAGE: true
@@ -165,6 +173,83 @@ spec:
           - backendRefs:
               - identifier: app
                 port: http
+    networkpolicies:
+      app:
+        type: cilium
+        controller: karakeep
+        description: Default-deny Karakeep with browser, search and web egress
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: karakeep
+                  app.kubernetes.io/controller: chrome
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: karakeep
+                  app.kubernetes.io/controller: meilisearch
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: karakeep
+      chrome:
+        type: cilium
+        controller: chrome
+        description: Allow only Karakeep browser requests and web egress
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: karakeep
+                  app.kubernetes.io/controller: karakeep
+            toPorts:
+              - ports:
+                  - port: "9222"
+                    protocol: TCP
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: chrome
+      meilisearch:
+        type: cilium
+        controller: meilisearch
+        description: Allow only Karakeep to access search
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: karakeep
+                  app.kubernetes.io/controller: karakeep
+            toPorts:
+              - ports:
+                  - port: "7700"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: meilisearch
     persistence:
       data:
         existingClaim: *app
