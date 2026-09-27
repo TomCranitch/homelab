@@ -5,38 +5,12 @@ metadata:
   name: authentik-server
   namespace: default
 spec:
-  description: Allow Authentik database, HTTPS, metrics and component-specific traffic
+  description: Default-deny Authentik with HTTPS egress; pod labels grant shared access
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: authentik
       app.kubernetes.io/component: server
-  ingress:
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: monitoring
-            app.kubernetes.io/name: vmagent
-      toPorts:
-        - ports:
-            - port: "9300"
-              protocol: TCP
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: ingress
-            app.kubernetes.io/name: envoy
-            gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
-      toPorts:
-        - ports:
-            - port: "9000"
-              protocol: TCP
   egress:
-    - toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
-            postgres-operator.crunchydata.com/cluster: default-cluster
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
     - toEntities:
         - world
       toPorts:
@@ -55,29 +29,12 @@ metadata:
   name: authentik-worker
   namespace: default
 spec:
-  description: Allow Authentik database, HTTPS, metrics and component-specific traffic
+  description: Default-deny Authentik with HTTPS egress; pod labels grant shared access
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: authentik
       app.kubernetes.io/component: worker
-  ingress:
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: monitoring
-            app.kubernetes.io/name: vmagent
-      toPorts:
-        - ports:
-            - port: "9300"
-              protocol: TCP
   egress:
-    - toEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
-            postgres-operator.crunchydata.com/cluster: default-cluster
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
     - toEntities:
         - world
       toPorts:

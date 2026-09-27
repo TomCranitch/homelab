@@ -5,7 +5,7 @@ metadata:
   name: pgmqtt
   namespace: default
 spec:
-  description: Allow MQTT clients, metrics, PostgreSQL and API leader election
+  description: Allow MQTT clients and Kubernetes API; pod labels grant database and metrics access
   endpointSelector:
     matchLabels:
       app.kubernetes.io/instance: pgmqtt
@@ -19,22 +19,7 @@ spec:
         - ports:
             - port: "1883"
               protocol: TCP
-    - fromEndpoints:
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: monitoring
-            app.kubernetes.io/name: vmagent
-      toPorts:
-        - ports:
-            - port: "9090"
-              protocol: TCP
   egress:
-    - toEndpoints:
-        - matchLabels:
-            postgres-operator.crunchydata.com/cluster: default-cluster
-      toPorts:
-        - ports:
-            - port: "5432"
-              protocol: TCP
     - toEntities:
         - kube-apiserver
       toPorts:

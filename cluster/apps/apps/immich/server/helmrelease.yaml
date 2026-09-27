@@ -96,7 +96,7 @@ spec:
       app:
         type: cilium
         controller: immich-server
-        description: Default-deny Immich server with database, Valkey, ML and web egress
+        description: Default-deny Immich server with database, Valkey, ML and version-check egress
         egress:
           - toEndpoints:
               - matchLabels:
@@ -119,12 +119,12 @@ spec:
               - ports:
                   - port: "3003"
                     protocol: TCP
-          - toEntities:
-              - world
+          # The server checks this endpoint for available releases.
+          # OIDC uses the shared egress-sso policy; model downloads belong to ML.
+          - toFQDNs:
+              - matchName: version.immich.cloud
             toPorts:
               - ports:
-                  - port: "80"
-                    protocol: TCP
                   - port: "443"
                     protocol: TCP
         enableDefaultDeny:

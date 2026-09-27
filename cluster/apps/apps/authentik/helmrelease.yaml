@@ -54,6 +54,8 @@ spec:
     postgres:
       enabled: false
     server:
+      podLabels:
+        networking.home.arpa/ingress-envoy: "true"
       runtimeClassName: gvisor
       route:
         main:
@@ -66,6 +68,9 @@ spec:
     worker:
       runtimeClassName: gvisor
     global:
+      podLabels:
+        networking.home.arpa/postgres-default-client: "true"
+        networking.home.arpa/metrics: "true"
       volumeMounts:
         - mountPath: /blueprints/custom
           name: authentik-blueprints
