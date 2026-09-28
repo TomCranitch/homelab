@@ -53,11 +53,6 @@ spec:
         - mealie
       password: 
         type: AlphaNumeric
-    - name: paperless
-      databases:
-        - paperless
-      password: 
-        type: AlphaNumeric
     - name: vaultwarden
       databases:
         - vaultwarden
