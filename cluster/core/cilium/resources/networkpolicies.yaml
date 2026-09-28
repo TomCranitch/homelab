@@ -29,7 +29,7 @@ kind: CiliumClusterwideNetworkPolicy
 metadata:
   name: allow-envoy-ingress
 spec:
-  description: Allow Envoy Gateway to reach labelled HTTP workloads at L4
+  description: Allow Envoy Gateway to reach labelled HTTP workloads
   endpointSelector:
     matchLabels:
       networking.home.arpa/ingress-envoy: "true"
@@ -43,8 +43,6 @@ spec:
         - ports:
             - port: http
               protocol: TCP
-          # Keep generic Gateway ingress L4-only. Adding HTTP rules here
-          # inserts Cilium's L7 Envoy proxy as a second HTTP proxy hop.
   enableDefaultDeny:
     ingress: false
     egress: false
