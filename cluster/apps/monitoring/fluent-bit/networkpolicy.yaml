@@ -1,0 +1,40 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: fluent-bit
+  namespace: fluent-bit
+spec:
+  description: Allow log shipping, Kubernetes metadata lookup and metrics
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: fluent-bit
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "2020"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/instance: victoria-logs
+      toPorts:
+        - ports:
+            - port: "9428"
+              protocol: TCP
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: fluent-bit

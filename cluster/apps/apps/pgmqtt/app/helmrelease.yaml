@@ -25,6 +25,9 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    podLabels:
+      networking.home.arpa/postgres-default-client: "true"
+      networking.home.arpa/metrics: "true"
     replicaCount: 2
     database:
       existingSecret: default-cluster-pguser-pgmqtt

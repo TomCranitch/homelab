@@ -69,6 +69,23 @@ spec:
                     port: 6379
                   failureThreshold: 30
                   periodSeconds: 5
+    networkpolicies:
+      app:
+        type: cilium
+        controller: immich-valkey
+        description: Allow only Immich server to access Valkey
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: immich-server
+            toPorts:
+              - ports:
+                  - port: "6379"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: immich-valkey
     service:
       app:
         controller: "immich-valkey"

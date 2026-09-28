@@ -1,0 +1,80 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: cert-manager
+  namespace: ingress
+specs:
+  - description: Default-deny cert-manager components with shared API and metrics access
+    endpointSelector:
+      matchLabels:
+        app.kubernetes.io/instance: cert-manager
+      matchExpressions:
+        - key: app.kubernetes.io/component
+          operator: In
+          values:
+            - controller
+            - cainjector
+            - webhook
+    ingress:
+      - fromEndpoints:
+          - matchLabels:
+              k8s:io.kubernetes.pod.namespace: monitoring
+              app.kubernetes.io/name: vmagent
+        toPorts:
+          - ports:
+              - port: "9402"
+                protocol: TCP
+    egress:
+      - toEntities:
+          - kube-apiserver
+        toPorts:
+          - ports:
+              - port: "6443"
+                protocol: TCP
+    enableDefaultDeny:
+      ingress: true
+      egress: true
+    log:
+      value: cert-manager
+  - description: 'Controller only: ACME/provider HTTPS and configured recursive DNS'
+    endpointSelector:
+      matchLabels:
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: controller
+    enableDefaultDeny:
+      ingress: false
+      egress: false
+    egress:
+      - toEntities:
+          - world
+        toPorts:
+          - ports:
+              - port: "443"
+                protocol: TCP
+      - toCIDR:
+          - 1.1.1.1/32
+          - 9.9.9.9/32
+        toPorts:
+          - ports:
+              - port: "53"
+                protocol: UDP
+              - port: "53"
+                protocol: TCP
+  - description: 'Webhook only: admission requests from cluster nodes'
+    endpointSelector:
+      matchLabels:
+        app.kubernetes.io/instance: cert-manager
+        app.kubernetes.io/component: webhook
+    enableDefaultDeny:
+      ingress: false
+      egress: false
+    ingress:
+      - fromEntities:
+          - kube-apiserver
+          - host
+          - remote-node
+        toPorts:
+          - ports:
+              - port: "10250"
+                protocol: TCP

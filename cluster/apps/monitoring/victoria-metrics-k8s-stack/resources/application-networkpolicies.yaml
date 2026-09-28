@@ -1,0 +1,85 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: vmsingle
+  namespace: monitoring
+spec:
+  description: Allow metrics writes, queries, rule evaluation, scraping and Envoy access
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: vmsingle
+      app.kubernetes.io/instance: vm-stack
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+        - matchLabels:
+            app.kubernetes.io/name: vmalert
+        - matchLabels:
+            app.kubernetes.io/name: vmauth
+        - matchLabels:
+            app: grafana
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress
+            app.kubernetes.io/name: envoy
+            gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+      toPorts:
+        - ports:
+            - port: "8428"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: vmsingle
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: vmalert
+  namespace: monitoring
+spec:
+  description: Allow rule evaluation, alert delivery, reloader API access and scraping
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: vmalert
+      app.kubernetes.io/instance: vm-stack
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+            - port: "8435"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: vmsingle
+      toPorts:
+        - ports:
+            - port: "8428"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: vmalertmanager
+      toPorts:
+        - ports:
+            - port: "9093"
+              protocol: TCP
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: vmalert

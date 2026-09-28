@@ -1,0 +1,70 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  description: Allow dashboards, operator configuration, datasources, SSO and plugin downloads
+  endpointSelector:
+    matchLabels:
+      app: grafana
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: ingress
+            app.kubernetes.io/name: envoy
+            gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/instance: grafana-operator
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "3000"
+              protocol: TCP
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: vmsingle
+            app.kubernetes.io/instance: vm-stack
+      toPorts:
+        - ports:
+            - port: "8428"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/instance: victoria-logs
+      toPorts:
+        - ports:
+            - port: "9428"
+              protocol: TCP
+    - toServices:
+        - k8sServiceSelector:
+            namespace: ingress
+            selector:
+              matchLabels:
+                app.kubernetes.io/name: envoy
+                gateway.envoyproxy.io/owning-gateway-name: envoy-gateway
+      toPorts:
+        - ports:
+            - port: "10443"
+              protocol: TCP
+          serverNames:
+            - sso.${S_HOMEPROD_DOMAIN}
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+            - port: "443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: grafana

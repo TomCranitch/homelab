@@ -84,6 +84,32 @@ spec:
         ports:
           http:
             port: 3003
+    networkpolicies:
+      app:
+        type: cilium
+        controller: immich-machine-learning
+        description: Allow only Immich server requests and model downloads
+        ingress:
+          - fromEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: immich-server
+            toPorts:
+              - ports:
+                  - port: "3003"
+                    protocol: TCP
+        egress:
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: immich-machine-learning
     persistence:
       data:
         enabled: true

@@ -1,0 +1,26 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres-dump
+  namespace: default
+spec:
+  description: Allow database dumps to reach only the two PostgreSQL clusters
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: postgres-dump
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            postgres-operator.crunchydata.com/cluster: default-cluster
+        - matchLabels:
+            postgres-operator.crunchydata.com/cluster: immich-cluster
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: postgres-dump

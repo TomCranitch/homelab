@@ -27,6 +27,8 @@ spec:
     mode: enabled
   values:
     defaultPodOptions:
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -48,6 +50,10 @@ spec:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
               tag: 2.14.1
+            ports:
+              - name: http
+                containerPort: 8080
+                protocol: TCP
             env:
               TZ: ${TZ}
               ZIGBEE2MQTT_DATA: /config
@@ -109,6 +115,37 @@ spec:
         parentRefs:
           - name: envoy-gateway
             namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: zigbee2mqtt
+        description: Default-deny Zigbee2MQTT with MQTT, coordinator and OTA download egress
+        egress:
+          - toEndpoints:
+              - matchLabels:
+                  app.kubernetes.io/instance: pgmqtt
+            toPorts:
+              - ports:
+                  - port: "1883"
+                    protocol: TCP
+          - toCIDR:
+              - 192.168.2.177/32
+            toPorts:
+              - ports:
+                  - port: "6638"
+                    protocol: TCP
+          - toEntities:
+              - world
+            toPorts:
+              - ports:
+                  - port: "80"
+                    protocol: TCP
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: zigbee2mqtt
     persistence:
       config:
         enabled: true

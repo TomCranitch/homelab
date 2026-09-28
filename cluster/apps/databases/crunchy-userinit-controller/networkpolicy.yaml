@@ -1,0 +1,23 @@
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: crunchy-userinit-controller
+  namespace: database
+spec:
+  description: Allow user initialization controller Kubernetes API access
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: crunchy-userinit-controller
+  egress:
+    - toEntities:
+        - kube-apiserver
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true
+  log:
+    value: crunchy-userinit-controller
