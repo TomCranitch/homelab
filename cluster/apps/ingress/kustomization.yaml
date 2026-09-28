@@ -7,4 +7,3 @@ resources:
   - ingress-nginx
   - envoy/ks.yaml
   - echo-server
-#  - static-routes
