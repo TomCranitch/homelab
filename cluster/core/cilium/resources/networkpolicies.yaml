@@ -43,9 +43,6 @@ spec:
         - ports:
             - port: http
               protocol: TCP
-          rules:
-            http:
-              - {}
   enableDefaultDeny:
     ingress: false
     egress: false
