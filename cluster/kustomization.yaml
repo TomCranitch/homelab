@@ -1,0 +1,9 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - flux/cluster-config.yaml
+  - flux/charts.yaml
+  - flux/core.yaml
+  - flux/cilium-resources.yaml
+  - flux/apps.yaml
