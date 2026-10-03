@@ -29,9 +29,15 @@ spec:
               postgres-operator.crunchydata.com/cluster: default-cluster
   patroni:
     dynamicConfiguration:
+      member_slots_ttl: 12h
       synchronous_mode: true
+      synchronous_mode_strict: false
       postgresql:
         synchronous_commit: "on"
+        use_slots: true
+        parameters:
+          max_slot_wal_keep_size: 4GB
+          wal_keep_size: 1GB
   users:
     - name: postgres
       databases:
