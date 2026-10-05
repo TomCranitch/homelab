@@ -79,6 +79,8 @@ spec:
       configuration: &brcfg
         - secret:
             name: crunchy-backup-secret
+        - configMap:
+            name: default-cluster-pgbackrest-recovery
       repos:
         - name: repo1
           s3: &brrepos3

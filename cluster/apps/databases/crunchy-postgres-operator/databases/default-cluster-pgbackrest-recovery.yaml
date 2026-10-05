@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: default-cluster-pgbackrest-recovery
+  namespace: default
+data:
+  archive-recovery.conf: |
+    [global:archive-get]
+    # Safely empty the stanza's recovery spool before enabling this option.
+    # Let PostgreSQL switch to streaming when archived WAL is exhausted.
+    archive-missing-retry=n
+    # Parallelise recovery fetches without increasing backup/restore workers.
+    process-max=2
