@@ -7,8 +7,8 @@ metadata:
 data:
   archive-recovery.conf: |
     [global:archive-get]
-    # Safely empty the stanza's recovery spool before enabling this option.
-    # Let PostgreSQL switch to streaming when archived WAL is exhausted.
+    # Prefer the local NFS-backed archive for routine standby recovery.
+    # Once local archived WAL is exhausted, let PostgreSQL fall through
+    # to streaming replication rather than chasing the remote B2 archive.
+    repo=2
     archive-missing-retry=n
-    # Parallelise recovery fetches without increasing backup/restore workers.
-    process-max=2
