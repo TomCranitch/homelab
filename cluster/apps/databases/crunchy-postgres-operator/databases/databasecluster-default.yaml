@@ -42,32 +42,32 @@ spec:
     - name: postgres
       databases:
         - postgres
-      password: 
+      password:
         type: AlphaNumeric
     - name: authentik
       databases:
         - authentik
-      password: 
+      password:
         type: AlphaNumeric
     - name: linkding
       databases:
         - linkding
-      password: 
+      password:
         type: AlphaNumeric
     - name: mealie
       databases:
         - mealie
-      password: 
+      password:
         type: AlphaNumeric
     - name: vaultwarden
       databases:
         - vaultwarden
-      password: 
+      password:
         type: AlphaNumeric
     - name: windmill
       databases:
         - windmill
-      password: 
+      password:
         type: AlphaNumeric
     - name: pgmqtt
       databases:
@@ -76,7 +76,7 @@ spec:
         type: AlphaNumeric
   backups:
     pgbackrest:
-      configuration: &brcfg
+      configuration:
         - secret:
             name: crunchy-backup-secret
         - configMap:
@@ -91,11 +91,28 @@ spec:
             full: "15 3 * * 2"
             differential: "15 4 * * *"
             incremental: "0 * * * *"
-      global: &brgflags
+        - name: repo2
+          volume:
+            volumeClaimSpec:
+              storageClassName: nfs-slow
+              accessModes:
+                - ReadWriteMany
+              resources:
+                requests:
+                  storage: 100Gi
+          schedules:
+            full: "30 5 * * 0"
+            differential: "30 5 * * 1-6"
+      global:
         repo1-retention-diff: "10"
         repo1-retention-full: "120"
         repo1-retention-full-type: time
         repo1-path: /default/
+        # Keep the local NFS repository as a short-lived recovery cache.
+        repo2-retention-archive: "3"
+        repo2-retention-archive-type: diff
+        repo2-retention-diff: "7"
+        repo2-retention-full: "2"
         # TODO: repo1-bundle=y
       manual:
         repoName: repo1
@@ -104,7 +121,10 @@ spec:
   dataSource:
     pgbackrest:
       stanza: db
-      configuration: *brcfg     
+      # Disaster recovery remains pinned to the durable B2 repository.
+      configuration:
+        - secret:
+            name: crunchy-backup-secret
       global:
         repo1-retention-diff: "10"
         repo1-retention-full: "120"
@@ -116,6 +136,6 @@ spec:
         s3: *brrepos3
       options:
         - --log-level-console=detail
-  
+
   # TODO: datasource
   # TODO: proxy.pgBouncer
