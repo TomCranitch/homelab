@@ -94,7 +94,7 @@ spec:
         - name: repo2
           volume:
             volumeClaimSpec:
-              storageClassName: nfs-slow
+              storageClassName: nfs-client
               accessModes:
                 - ReadWriteMany
               resources:
