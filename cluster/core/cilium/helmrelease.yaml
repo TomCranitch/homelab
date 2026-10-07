@@ -27,6 +27,11 @@ spec:
     # Roll agents when rendered Cilium config changes so datapath settings do
     # not remain stale until the DaemonSet is restarted manually.
     rollOutCiliumPods: true
+    # Keep agent updates sequential on this three-node cluster.
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     cluster:
       name: "homeprod"
@@ -64,8 +69,10 @@ spec:
       enabled: true
       hostNamespaceOnly: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    k8sServiceHost: cranitch.k8s
-    k8sServicePort: 6443
+    # Use Talos's node-local API load balancer so Cilium does not depend on
+    # external DNS or the availability of a single control-plane endpoint.
+    k8sServiceHost: localhost
+    k8sServicePort: 7445
     # ipv4NativeRoutingCIDR: 10.10.0.0/116
     ipam:
       mode: "kubernetes"
