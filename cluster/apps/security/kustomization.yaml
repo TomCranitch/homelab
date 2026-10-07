@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - kguardian/ks.yaml
+  - reader-lowpriv
