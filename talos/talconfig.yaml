@@ -91,7 +91,10 @@ controlPlane:
         allowSchedulingOnMasters: true
         etcd:
           advertisedSubnets:
-            - 192.168.29.0/24
+            # Only permanent control-plane addresses may identify etcd members.
+            - 192.168.29.170/32
+            - 192.168.29.171/32
+            - 192.168.29.172/32
         apiServer:
           auditPolicy:
             apiVersion: audit.k8s.io/v1
