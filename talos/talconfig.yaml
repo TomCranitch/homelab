@@ -4,6 +4,9 @@ talosVersion: v1.13.11
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: 1.35.9
 endpoint: https://cranitch.k8s:6443
+# Allow direct API checks against the VIP before changing cranitch.k8s DNS.
+additionalApiServerCertSans:
+  - 192.168.29.169
 cniConfig:
   name: none
 nodes:
@@ -12,6 +15,12 @@ nodes:
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.170
+    patches:
+      - |-
+        apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.29.169
+        link: bond0
     networkInterfaces:
       # set a predictable interface for multus
       - interface: bond0
@@ -27,6 +36,12 @@ nodes:
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.171
+    patches:
+      - |-
+        apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.29.169
+        link: bond0
     networkInterfaces:
       # set a predictable interface for multus
       - interface: bond0
@@ -42,6 +57,12 @@ nodes:
     installDiskSelector:
       size: '<= 100GB'
     ipAddress: 192.168.29.172
+    patches:
+      - |-
+        apiVersion: v1alpha1
+        kind: Layer2VIPConfig
+        name: 192.168.29.169
+        link: ens18
     networkInterfaces:
       # set a predictable interface for multus
       # bond0 doesnt seem to get the MAC from proxmox. not sure why it works on the other nodes.
