@@ -1,0 +1,132 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: reader-lowpriv
+  namespace: default
+automountServiceAccountToken: false
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: reader-lowpriv
+rules:
+  # Core API resources are enumerated so Secret objects and active/proxy
+  # subresources are never granted by a wildcard.
+  - apiGroups:
+      - ""
+    resources:
+      - bindings
+      - componentstatuses
+      - configmaps
+      - endpoints
+      - events
+      - limitranges
+      - namespaces
+      - nodes
+      - persistentvolumeclaims
+      - persistentvolumes
+      - pods
+      - podtemplates
+      - replicationcontrollers
+      - resourcequotas
+      - serviceaccounts
+      - services
+    verbs:
+      - get
+      - list
+      - watch
+
+  # Logs are intentionally readable cluster-wide.
+  - apiGroups:
+      - ""
+    resources:
+      - pods/log
+    verbs:
+      - get
+
+  # Built-in and aggregated API groups. Read verbs only: no
+  # create/update/patch/delete and therefore no exec, attach, port-forward,
+  # token creation, or approval actions.
+  - apiGroups:
+      - admissionregistration.k8s.io
+      - apiextensions.k8s.io
+      - apiregistration.k8s.io
+      - apiserverinternal.k8s.io
+      - apps
+      - authentication.k8s.io
+      - authorization.k8s.io
+      - autoscaling
+      - batch
+      - certificates.k8s.io
+      - coordination.k8s.io
+      - custom.metrics.k8s.io
+      - discovery.k8s.io
+      - events.k8s.io
+      - external.metrics.k8s.io
+      - flowcontrol.apiserver.k8s.io
+      - internal.apiserver.k8s.io
+      - metrics.k8s.io
+      - networking.k8s.io
+      - node.k8s.io
+      - policy
+      - rbac.authorization.k8s.io
+      - resource.k8s.io
+      - scheduling.k8s.io
+      - storage.k8s.io
+      - storagemigration.k8s.io
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+
+  # API groups provided by operators/CRDs used by this cluster. Kubernetes
+  # RBAC has no deny rule, so these groups must be explicit rather than using
+  # apiGroups: ["*"], which would also grant reads of core Secret objects.
+  - apiGroups:
+      - acme.cert-manager.io
+      - cert-manager.io
+      - ceph.rook.io
+      - cilium.io
+      - csiaddons.openshift.io
+      - fluxcd.controlplane.io
+      - gateway.envoyproxy.io
+      - gateway.networking.k8s.io
+      - grafana.integreatly.org
+      - helm.toolkit.fluxcd.io
+      - image.toolkit.fluxcd.io
+      - k8s.cni.cncf.io
+      - kustomize.toolkit.fluxcd.io
+      - monitoring.coreos.com
+      - nfd.k8s-sigs.io
+      - notification.toolkit.fluxcd.io
+      - objectbucket.io
+      - operator.victoriametrics.com
+      - postgres-operator.crunchydata.com
+      - snapshot.storage.k8s.io
+      - source.toolkit.fluxcd.io
+      - tailscale.com
+      - tuppr.home-operations.com
+      - upgrade.cattle.io
+      - volsync.backube
+    resources:
+      - "*"
+    verbs:
+      - get
+      - list
+      - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: reader-lowpriv
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: reader-lowpriv
+subjects:
+  - kind: ServiceAccount
+    name: reader-lowpriv
+    namespace: default
