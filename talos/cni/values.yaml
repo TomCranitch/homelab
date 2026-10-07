@@ -8,8 +8,15 @@ securityContext:
 
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-k8sServiceHost: 192.168.29.170  # TODO
-k8sServicePort: 6443
+# Match the Flux-managed configuration: use Talos's node-local API load balancer.
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+# Match the Flux-managed agent rollout strategy.
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 1
 
 # ipv4NativeRoutingCIDR: 10.10.0.0/116
 
