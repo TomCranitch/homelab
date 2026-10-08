@@ -157,7 +157,10 @@ spec:
         spec:
           failureDomain: host
           replicated:
-            size: 2
+            size: 3
+          parameters:
+            # Require two available copies before acknowledging writes.
+            min_size: "2"
         storageClass:
           enabled: true
           name: ceph-block
