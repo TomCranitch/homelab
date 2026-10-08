@@ -30,7 +30,6 @@ spec:
       baseProtocol: "https"
       databaseUrlSecretName: default-cluster-pguser-windmill
       databaseUrlSecretKey: uri
-      appReplicas: 2
       app:
         topologySpreadConstraints:
           - maxSkew: 1
