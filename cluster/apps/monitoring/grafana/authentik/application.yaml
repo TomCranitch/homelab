@@ -42,8 +42,6 @@ spec:
       accessTokenValidity: minutes=5
       signingKey:
         name: authentik Self-signed Certificate
-  # Live inventory found no application access bindings. Preserve that state;
-  # OIDC login and the provider's flows still apply.
   access:
     public: true
     prune: true
