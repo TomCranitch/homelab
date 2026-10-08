@@ -29,6 +29,15 @@ spec:
       networking.home.arpa/postgres-default-client: "true"
       networking.home.arpa/metrics: "true"
     replicaCount: 2
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchLabels:
+                app.kubernetes.io/name: pgmqtt
+                app.kubernetes.io/instance: pgmqtt
+                app.kubernetes.io/component: broker
     database:
       existingSecret: default-cluster-pguser-pgmqtt
       existingSecretKey: uri
@@ -40,3 +49,19 @@ spec:
       enabled: true
     logging:
       format: text
+  # The chart fixes maxUnavailable at zero; allow upgrades on two eligible hosts.
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: pgmqtt
+            patch: |-
+              - op: replace
+                path: /spec/strategy/rollingUpdate/maxSurge
+                value: 0
+              - op: replace
+                path: /spec/strategy/rollingUpdate/maxUnavailable
+                value: 1

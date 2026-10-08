@@ -18,3 +18,22 @@ spec:
       retries: 3
   driftDetection:
     mode: enabled
+  values:
+    deployment:
+      replicas: 2
+      envoyGateway:
+        strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxSurge: 0
+            maxUnavailable: 1
+      pod:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    control-plane: envoy-gateway
+    podDisruptionBudget:
+      minAvailable: 1

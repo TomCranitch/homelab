@@ -1,0 +1,25 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: windmill-app
+  namespace: default
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: windmill-app
+      release: windmill
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: windmill-workers-default
+  namespace: default
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: windmill-workers
+      workerGroup: default
+      release: windmill

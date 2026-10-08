@@ -1,14 +1,20 @@
 apiVersion: tailscale.com/v1alpha1
 kind: ProxyClass
 metadata:
-  name: spread
+  name: connector-spread
 spec:
   statefulSet:
     pod:
+      labels:
+        app.kubernetes.io/component: tailscale-connector
       topologySpreadConstraints:
         - maxSkew: 1
+          minDomains: 2
           topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: ScheduleAnyway
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: tailscale-connector
       tailscaleContainer:
         resources:
           requests:

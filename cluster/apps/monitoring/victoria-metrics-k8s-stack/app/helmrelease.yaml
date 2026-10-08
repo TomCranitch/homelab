@@ -33,6 +33,24 @@ spec:
     grafana:
       enabled: false
     vmagent:
+      spec:
+        replicaCount: 2
+        # Both replicas scrape all targets with identical external labels.
+        scrapeInterval: 20s
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: vmagent
+                    app.kubernetes.io/instance: vm-stack
+        podDisruptionBudget:
+          minAvailable: 1
+        updateStrategy: RollingUpdate
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
       route:
         enabled: true
         hostnames:
@@ -42,6 +60,9 @@ spec:
             namespace: ingress
     vmsingle:
       spec:
+        replicaCount: 1
+        extraArgs:
+          dedup.minScrapeInterval: 20s
         storage:
           storageClassName: "ceph-block"
           resources:
