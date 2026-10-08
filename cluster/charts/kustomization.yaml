@@ -16,6 +16,7 @@ resources:
   - piraeus-charts.yaml
   - angelnu-charts.yaml
   - authentik-charts.yaml
+  - authentik-operator-charts.yaml
   - fluent-charts.yaml
   - crunchy-charts.yaml
   - crunchy-userinit-controller-charts.yaml

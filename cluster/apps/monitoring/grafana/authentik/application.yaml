@@ -1,0 +1,47 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  slug: grafana
+  name: Grafana
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: Grafana
+    flows:
+      authorization:
+        slug: default-provider-authorization-explicit-consent
+      invalidation:
+        slug: default-provider-invalidation-flow
+      authentication:
+        slug: authentication-flow
+    oauth2:
+      clientType: Confidential
+      redirectURIs:
+        - url: https://monitoring.${S_HOMEPROD_DOMAIN}/login/generic_oauth
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      credentials:
+        secretRef:
+          name: grafana-env
+          clientIDKey: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+          clientSecretKey: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      grantTypes:
+        - AuthorizationCode
+        - Hybrid
+        - Implicit
+        - ClientCredentials
+        - Password
+        - DeviceCode
+        - RefreshToken
+      accessTokenValidity: minutes=5
+      signingKey:
+        name: authentik Self-signed Certificate
+  access:
+    public: true
+    prune: true

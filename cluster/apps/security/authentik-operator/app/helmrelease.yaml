@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authentik-operator
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: authentik-operator
+      version: 2026.8.1
+      sourceRef:
+        kind: HelmRepository
+        name: authentik-operator-charts
+        namespace: flux-system
+      interval: 1h
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    clusterName: homelab
+    authentik:
+      url: http://authentik-server.default.svc.cluster.local
+      token:
+        secretName: authentik-operator-token
+    metrics:
+      enabled: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              group: apps
+              version: v1
+              kind: Deployment
+              name: authentik-operator-controller-manager
+            patch: |-
+              - op: add
+                path: /spec/template/spec/runtimeClassName
+                value: gvisor
+          - target:
+              group: rbac.authorization.k8s.io
+              version: v1
+              kind: ClusterRole
+              name: authentik-operator-manager-role
+            patch: |-
+              # Fail rendering if a chart upgrade changes the Secret-rule layout.
+              - op: test
+                path: /rules/0/apiGroups
+                value: [""]
+              - op: test
+                path: /rules/0/resources
+                value: [secrets]
+              - op: replace
+                path: /rules/0/verbs
+                value: [get, list, watch]
