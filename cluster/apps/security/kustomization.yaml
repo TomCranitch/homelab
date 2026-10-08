@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - kguardian/ks.yaml
   - reader-lowpriv
+  - authentik-operator/ks.yaml

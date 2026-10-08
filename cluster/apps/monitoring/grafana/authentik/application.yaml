@@ -1,0 +1,67 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  slug: grafana
+  name: Grafana
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: Grafana
+    flows:
+      authorization:
+        uuid: 721f8a25-61ec-4756-8201-096d39875bd6
+      invalidation:
+        uuid: 6afecf42-be65-4cc8-a9b3-2bd6a73b9cde
+      authentication:
+        uuid: 0af5f43d-902b-4145-a8d8-152077e65e05
+    oauth2:
+      clientType: Confidential
+      redirectURIs:
+        - url: https://monitoring.${S_HOMEPROD_DOMAIN}/login/generic_oauth
+          matchingMode: Strict
+          type: Authorization
+      scopes:
+        - uuid: 0b6e635a-00f6-4521-aa6c-ab1e8424aeae
+        - uuid: 81415639-e6ad-4e88-b2c9-e30dd1adedf3
+        - uuid: 3cea1ed1-1aa8-4600-aac4-f76969dad0de
+      credentials:
+        secretRef:
+          name: grafana-env
+          clientIDKey: GF_AUTH_GENERIC_OAUTH_CLIENT_ID
+          clientSecretKey: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
+      subjectMode: HashedUserID
+      issuerMode: PerProvider
+      logoutMethod: BackChannel
+      grantTypes:
+        - AuthorizationCode
+        - Hybrid
+        - Implicit
+        - ClientCredentials
+        - Password
+        - DeviceCode
+        - RefreshToken
+      includeClaimsInIDToken: true
+      accessCodeValidity: minutes=1
+      accessTokenValidity: minutes=5
+      refreshTokenValidity: days=30
+      refreshTokenThreshold: seconds=0
+      logoutURI: ""
+      signingKey:
+        uuid: 50a015fc-1125-41a2-bf12-89cd229ba84e
+  # Live inventory found no application access bindings. Preserve that state;
+  # OIDC login and the provider's flows still apply.
+  access:
+    mode: Any
+    public: true
+    prune: true
+  launchURL: ""
+  icon: ""
+  description: ""
+  publisher: ""
+  group: ""
+  openInNewTab: false
+  hideFromApplicationDashboard: false
