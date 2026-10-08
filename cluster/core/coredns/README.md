@@ -23,8 +23,9 @@ the Deployment selector and containers. Talos must create CoreDNS first. Talos
 1.13.11 skips bootstrap manifests already in its inventory or already present
 in Kubernetes; it does not continuously overwrite this overlay.
 
-Before rollout, verify the existing Deployment labels and run a server-side dry
-run against the target cluster:
+Flux performs server-side validation during reconciliation. An optional manual
+preflight can verify the existing Deployment labels and dry-run the partial
+manifest against the target cluster:
 
 ```sh
 kubectl -n kube-system get deployment coredns -o yaml
