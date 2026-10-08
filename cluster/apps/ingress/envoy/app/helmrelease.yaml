@@ -18,3 +18,20 @@ spec:
       retries: 3
   driftDetection:
     mode: enabled
+  values:
+    deployment:
+      replicas: 2
+      pod:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            minDomains: 2
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            nodeTaintsPolicy: Honor
+            matchLabelKeys:
+              - pod-template-hash
+            labelSelector:
+              matchLabels:
+                control-plane: envoy-gateway
+    podDisruptionBudget:
+      minAvailable: 1

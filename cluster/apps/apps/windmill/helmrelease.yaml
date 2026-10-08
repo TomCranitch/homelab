@@ -31,6 +31,18 @@ spec:
       databaseUrlSecretName: default-cluster-pguser-windmill
       databaseUrlSecretKey: uri
       app:
+        topologySpreadConstraints:
+          - maxSkew: 1
+            minDomains: 2
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            nodeTaintsPolicy: Honor
+            matchLabelKeys:
+              - pod-template-hash
+            labelSelector:
+              matchLabels:
+                app: windmill-app
+                release: windmill
         resources:
             requests:
               memory: 256Mi
@@ -41,6 +53,19 @@ spec:
       workerGroups:
         - name: default
           replicas: 2
+          topologySpreadConstraints:
+            - maxSkew: 1
+              minDomains: 2
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              nodeTaintsPolicy: Honor
+              matchLabelKeys:
+                - pod-template-hash
+              labelSelector:
+                matchLabels:
+                  app: windmill-workers
+                  workerGroup: default
+                  release: windmill
           podSecurityContext:
             runAsNonRoot: true
             runAsUser: ${CONTAINER_UID}

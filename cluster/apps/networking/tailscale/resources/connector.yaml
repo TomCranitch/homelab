@@ -7,7 +7,7 @@ spec:
   hostnamePrefix: cluster
   tags:
     - tag:k8s
-  proxyClass: spread
+  proxyClass: connector-spread
   subnetRouter:
     advertiseRoutes:
       - 192.168.29.0/24

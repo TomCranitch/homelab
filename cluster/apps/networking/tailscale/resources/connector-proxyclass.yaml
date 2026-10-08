@@ -1,0 +1,30 @@
+apiVersion: tailscale.com/v1alpha1
+kind: ProxyClass
+metadata:
+  name: connector-spread
+spec:
+  statefulSet:
+    pod:
+      labels:
+        app.kubernetes.io/component: tailscale-connector
+        networking.home.arpa/tailscale-connector: "true"
+      topologySpreadConstraints:
+        - maxSkew: 1
+          minDomains: 2
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          nodeTaintsPolicy: Honor
+          labelSelector:
+            matchLabels:
+              networking.home.arpa/tailscale-connector: "true"
+      tailscaleContainer:
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            memory: 128Mi
+  metrics:
+    enable: true
+    serviceMonitor:
+      enable: true

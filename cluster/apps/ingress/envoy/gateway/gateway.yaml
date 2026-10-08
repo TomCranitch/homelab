@@ -5,6 +5,11 @@ metadata:
   name: envoy-gateway
 spec:
   gatewayClassName: envoy-gateway
+  infrastructure:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: envoy-gateway
   listeners:
     - name: https
       port: 443
