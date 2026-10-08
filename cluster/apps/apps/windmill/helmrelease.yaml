@@ -32,14 +32,18 @@ spec:
       databaseUrlSecretKey: uri
       appReplicas: 2
       app:
-        affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    app: windmill-app
-                    release: windmill
+        topologySpreadConstraints:
+          - maxSkew: 1
+            minDomains: 2
+            topologyKey: kubernetes.io/hostname
+            whenUnsatisfiable: DoNotSchedule
+            nodeTaintsPolicy: Honor
+            matchLabelKeys:
+              - pod-template-hash
+            labelSelector:
+              matchLabels:
+                app: windmill-app
+                release: windmill
         resources:
             requests:
               memory: 256Mi
@@ -50,15 +54,19 @@ spec:
       workerGroups:
         - name: default
           replicas: 2
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - topologyKey: kubernetes.io/hostname
-                  labelSelector:
-                    matchLabels:
-                      app: windmill-workers
-                      workerGroup: default
-                      release: windmill
+          topologySpreadConstraints:
+            - maxSkew: 1
+              minDomains: 2
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              nodeTaintsPolicy: Honor
+              matchLabelKeys:
+                - pod-template-hash
+              labelSelector:
+                matchLabels:
+                  app: windmill-workers
+                  workerGroup: default
+                  release: windmill
           podSecurityContext:
             runAsNonRoot: true
             runAsUser: ${CONTAINER_UID}
@@ -83,31 +91,3 @@ spec:
       appParentRefs:
         - name: envoy-gateway
           namespace: ingress
-  # These chart deployments require a surge by default; replace one pod at a time.
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: apps
-              version: v1
-              kind: Deployment
-              name: windmill-app
-            patch: |-
-              - op: replace
-                path: /spec/strategy/rollingUpdate/maxSurge
-                value: 0
-              - op: replace
-                path: /spec/strategy/rollingUpdate/maxUnavailable
-                value: 1
-          - target:
-              group: apps
-              version: v1
-              kind: Deployment
-              name: windmill-workers-default
-            patch: |-
-              - op: replace
-                path: /spec/strategy/rollingUpdate/maxSurge
-                value: 0
-              - op: replace
-                path: /spec/strategy/rollingUpdate/maxUnavailable
-                value: 1

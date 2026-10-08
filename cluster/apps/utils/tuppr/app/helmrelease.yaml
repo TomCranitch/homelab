@@ -29,20 +29,3 @@ spec:
     monitoring:
       serviceMonitor:
         enabled: true
-  # The chart leaves the Deployment strategy at its Kubernetes default.
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: apps
-              version: v1
-              kind: Deployment
-              name: tuppr
-            patch: |-
-              - op: add
-                path: /spec/strategy
-                value:
-                  type: RollingUpdate
-                  rollingUpdate:
-                    maxSurge: 0
-                    maxUnavailable: 1

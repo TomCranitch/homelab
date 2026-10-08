@@ -7,14 +7,16 @@ spec:
     pod:
       labels:
         app.kubernetes.io/component: tailscale-connector
+        networking.home.arpa/tailscale-connector: "true"
       topologySpreadConstraints:
         - maxSkew: 1
           minDomains: 2
           topologyKey: kubernetes.io/hostname
           whenUnsatisfiable: DoNotSchedule
+          nodeTaintsPolicy: Honor
           labelSelector:
             matchLabels:
-              app.kubernetes.io/component: tailscale-connector
+              networking.home.arpa/tailscale-connector: "true"
       tailscaleContainer:
         resources:
           requests:

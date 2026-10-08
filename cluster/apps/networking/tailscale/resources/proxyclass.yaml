@@ -5,6 +5,8 @@ metadata:
 spec:
   statefulSet:
     pod:
+      labels:
+        app.kubernetes.io/component: tailscale-connector
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: kubernetes.io/hostname
