@@ -29,25 +29,7 @@ spec:
       url: http://authentik-server.default.svc.cluster.local
       token:
         secretName: authentik-operator-token
-        key: token
-    resyncInterval: 10m
-    markerGC: true
-    manager:
-      replicas: 1
-      args:
-        - --leader-elect
-    rbac:
-      namespaced: false
-      helpers:
-        enabled: false
-    crd:
-      enabled: true
-      keep: true
     metrics:
-      enabled: false
-    prometheus:
-      enabled: false
-    networkPolicy:
       enabled: false
   postRenderers:
     - kustomize:

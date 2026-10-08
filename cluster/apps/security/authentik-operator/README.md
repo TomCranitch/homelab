@@ -95,6 +95,14 @@ access bindings, so `public: true` preserves the current absence of group/user
 restrictions; provider login flows still apply. All existing OAuth grant types,
 scope mappings, flows and redirect URIs are preserved without hardening changes.
 
+Flows use readable slugs, scopes use `scopeName`, and the signing certificate
+uses its name. Live lookup confirmed the scope names resolve uniquely. Empty
+display fields and default-valued options are omitted; optional omitted fields
+are left unmanaged on existing objects. The five-minute access-token lifetime
+and existing grant types remain explicit because they differ from server
+creation defaults. Helm values likewise rely on the pinned chart's defaults
+for replicas, leader election, resync, RBAC scope and CRD retention.
+
 `IfMatch` is the initial adoption check, not a dry run of access rules. Once
 adoption succeeds the operator enforces the declared fields, adopts matching
 bindings, and prunes undeclared ones. Read all adoption differences before
