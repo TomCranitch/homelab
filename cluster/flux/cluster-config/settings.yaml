@@ -8,7 +8,7 @@ data:
   SSO_DOMAIN_PREFIX: sso
   TZ: Australia/Sydney
 
-  # Migration gates: stage.py enables these only after credentials/rehearsal.
+  # Stage CNPG without switching application credentials.
   CNPG_CLUSTER_SUSPENDED: "true"
   # Ignore database/role resources until both imports have been validated.
   CNPG_DATABASE_APPLY_POLICY: Ignore

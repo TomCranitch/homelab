@@ -211,7 +211,7 @@ spec:
   connectionLimit: -1
   inRoles: []
 ---
-# No replacement password: preserve these retained roles' imported password hashes.
+# Omitting passwordSecret preserves the existing passwords.
 apiVersion: postgresql.cnpg.io/v1
 kind: DatabaseRole
 metadata:

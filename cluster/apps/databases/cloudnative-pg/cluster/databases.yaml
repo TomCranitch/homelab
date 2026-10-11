@@ -107,7 +107,6 @@ spec:
     - name: earthdistance
       ensure: present
 ---
-# Retained databases discovered in the live cluster, absent from current app manifests.
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
