@@ -215,28 +215,6 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: DatabaseRole
 metadata:
-  name: postgres-hass
-  namespace: default
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
-spec:
-  name: hass
-  cluster:
-    name: postgres
-  login: true
-  superuser: false
-  databaseRoleReclaimPolicy: retain
-  createdb: false
-  createrole: false
-  replication: false
-  bypassrls: false
-  inherit: true
-  connectionLimit: -1
-  inRoles: []
----
-apiVersion: postgresql.cnpg.io/v1
-kind: DatabaseRole
-metadata:
   name: postgres-paperless
   namespace: default
   annotations:

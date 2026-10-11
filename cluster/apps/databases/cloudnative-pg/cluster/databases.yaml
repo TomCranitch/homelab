@@ -110,20 +110,6 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: postgres-hass
-  namespace: default
-  annotations:
-    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
-spec:
-  name: hass
-  owner: hass
-  databaseReclaimPolicy: retain
-  cluster:
-    name: postgres
----
-apiVersion: postgresql.cnpg.io/v1
-kind: Database
-metadata:
   name: postgres-paperless
   namespace: default
   annotations:

@@ -5,8 +5,9 @@ and separate app databases/roles. The standard image preserves the source
 `en_US.utf-8` locale; pgvector, VectorChord and pgAudit overlays are pinned.
 
 This PR installs the operators and nine permanent SOPS-encrypted Secrets.
-Apps retain their PGO Secret prefixes. `hass` and `paperless` are retained with
-their imported password hashes; `pgmqtt` retains its current `postgres` owner.
+Apps retain their PGO Secret prefixes. `paperless` retains its imported password
+hash; `pgmqtt` retains its current `postgres` owner. The empty `hass` database
+is excluded from the migration.
 
 ## Rollout gates
 
@@ -38,7 +39,7 @@ Both known B2 hostname forms are allowed by the network policy.
 The nightly SQL dump remains VolSync-protected; its PVC is 8Gi for combined dumps
 and atomic temporary copies.
 
-After validating nine databases, app permissions, Immich search and recovery,
+After validating eight databases, app permissions, Immich search and recovery,
 switch both app Secret prefixes to `postgres`, both dump Secrets to
 `postgres-admin`, and upgrade health checks to CNPG readiness in the cutover PR.
 Before new writes, rollback can use unchanged PGO connections. After new writes,

@@ -66,7 +66,6 @@ spec:
           - vaultwarden
           - windmill
           - pgmqtt
-          - hass
           - paperless
         roles:
           - authentik
@@ -75,7 +74,6 @@ spec:
           - vaultwarden
           - windmill
           - pgmqtt
-          - hass
           - paperless
           - windmill_admin
           - windmill_user
