@@ -1,0 +1,41 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: immich
+  namespace: default
+spec:
+  slug: immich
+  name: Immich
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: Provider for Immich
+    flows:
+      authorization:
+        slug: default-provider-authorization-explicit-consent
+      invalidation:
+        slug: default-provider-invalidation-flow
+    oauth2:
+      clientType: Confidential
+      redirectURIs:
+        - url: https://photos.${S_HOMEPROD_DOMAIN}/auth/login
+        - url: app.immich:///oauth-callback
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      grantTypes:
+        - AuthorizationCode
+        - Hybrid
+        - Implicit
+        - ClientCredentials
+        - Password
+        - DeviceCode
+        - RefreshToken
+      accessTokenValidity: minutes=5
+      signingKey:
+        name: authentik Self-signed Certificate
+  access:
+    public: true
+    prune: true
