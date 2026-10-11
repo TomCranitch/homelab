@@ -71,27 +71,27 @@ spec:
               POSTGRES_PORT:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-mealie
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-mealie
                     key: port
               POSTGRES_SERVER:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-mealie
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-mealie
                     key: host
               POSTGRES_DB:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-mealie
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-mealie
                     key: dbname
               POSTGRES_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-mealie
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-mealie
                     key: user
               POSTGRES_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-mealie
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-mealie
                     key: password
             probes:
               liveness:

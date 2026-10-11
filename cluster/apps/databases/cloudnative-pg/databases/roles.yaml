@@ -1,0 +1,235 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill-admin
+  namespace: default
+spec:
+  name: windmill_admin
+  cluster:
+    name: postgres
+  login: false
+  bypassrls: true
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  inherit: true
+  connectionLimit: -1
+  inRoles:
+    - windmill_user
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill-user
+  namespace: default
+spec:
+  name: windmill_user
+  cluster:
+    name: postgres
+  login: false
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-authentik
+  namespace: default
+spec:
+  name: authentik
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-authentik
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-linkding
+  namespace: default
+spec:
+  name: linkding
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-linkding
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-mealie
+  namespace: default
+spec:
+  name: mealie
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-mealie
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-vaultwarden
+  namespace: default
+spec:
+  name: vaultwarden
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-vaultwarden
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill
+  namespace: default
+spec:
+  name: windmill
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-windmill
+  inRoles:
+    - windmill_admin
+    - windmill_user
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-pgmqtt
+  namespace: default
+spec:
+  name: pgmqtt
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-pgmqtt
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-immich
+  namespace: default
+spec:
+  name: immich
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-immich
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+# No replacement password: preserve these retained roles' imported password hashes.
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-hass
+  namespace: default
+spec:
+  name: hass
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-paperless
+  namespace: default
+spec:
+  name: paperless
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []

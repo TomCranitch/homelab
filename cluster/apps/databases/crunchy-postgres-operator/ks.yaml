@@ -9,7 +9,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   path: ./cluster/apps/databases/crunchy-postgres-operator/app
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -31,7 +31,7 @@ spec:
   dependsOn:
     - name: crunchy-postgres-operator
   path: ./cluster/apps/databases/crunchy-postgres-operator/databases
-  prune: true
+  prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system

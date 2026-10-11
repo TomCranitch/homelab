@@ -31,7 +31,7 @@ spec:
         metadata:
           name: postgres-dump
         spec:
-          # Dump both PostgreSQL clusters one hour before VolSync snapshots the PVC.
+          # During staging dump both PGO sources; after cutover dump CNPG once.
           schedule: "0 1 * * *"
           concurrencyPolicy: Forbid
           jobTemplate:
@@ -49,46 +49,35 @@ spec:
                       volumeMounts:
                         - name: data
                           mountPath: /backup
+                      command: ["/bin/sh", "-ec"]
                       args:
-                        - pg_dumpall
-                        - "-f"
-                        - "/backup/postgres.pgdump"
-                        - "-v"
-                        - "--no-password"
-                        - "--dbname=$(DATABASE_URL)"
+                        - |
+                          pg_dumpall --no-password --dbname="$DATABASE_URL" -f /backup/postgres.pgdump.tmp
+                          mv /backup/postgres.pgdump.tmp /backup/postgres.pgdump
+                          if [ "$DATABASE_URL" != "$IMMICH_DATABASE_URL" ]; then
+                            PGPASSWORD="$IMMICH_PASSWORD" pg_dumpall --no-password --dbname="$IMMICH_DATABASE_URL" -f /backup/postgres-immich.pgdump.tmp
+                            mv /backup/postgres-immich.pgdump.tmp /backup/postgres-immich.pgdump
+                          fi
                       env:
                         - name: DATABASE_URL
                           valueFrom:
                             secretKeyRef:
-                              name: default-cluster-pguser-postgres
+                              name: ${POSTGRES_DUMP_SECRET}
                               key: uri
                         - name: PGPASSWORD
                           valueFrom:
                             secretKeyRef:
-                              name: default-cluster-pguser-postgres
+                              name: ${POSTGRES_DUMP_SECRET}
                               key: password
-                    - name: dump-immich
-                      image: postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
-                      volumeMounts:
-                        - name: data
-                          mountPath: /backup
-                      args:
-                        - pg_dumpall
-                        - "-f"
-                        - "/backup/postgres-immich.pgdump"
-                        - "-v"
-                        - "--no-password"
-                        - "--dbname=$(DATABASE_URL)"
-                      env:
-                        - name: DATABASE_URL
+                        - name: IMMICH_DATABASE_URL
                           valueFrom:
                             secretKeyRef:
-                              name: immich-cluster-pguser-postgres
+                              name: ${POSTGRES_IMMICH_DUMP_SECRET}
                               key: uri
-                        - name: PGPASSWORD
+                        - name: IMMICH_PASSWORD
                           valueFrom:
                             secretKeyRef:
-                              name: immich-cluster-pguser-postgres
+                              name: ${POSTGRES_IMMICH_DUMP_SECRET}
                               key: password
                   restartPolicy: Never
                   volumes:

@@ -1,0 +1,97 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: postgres-import-immich
+  namespace: default
+spec:
+  backoffLimit: 0
+  activeDeadlineSeconds: 14400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: postgres-migration
+    spec:
+      restartPolicy: Never
+      automountServiceAccountToken: false
+      containers:
+        - name: import
+          image: postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+          command: ["/bin/sh", "-ec"]
+          args:
+            - |
+              # Never overwrite a previous import, including a partial failed one.
+              existing=$(psql "$TARGET_URI" -XAt -v ON_ERROR_STOP=1 -c "SELECT count(*) FROM pg_database WHERE datname = 'immich'")
+              if [ "$existing" != 0 ]; then
+                echo "Destination immich database already exists; refusing to overwrite it" >&2
+                exit 1
+              fi
+              writers=$(psql "$SOURCE_URI" -XAt -v ON_ERROR_STOP=1 -c "SELECT count(*) FROM pg_stat_activity WHERE usename = 'immich' AND backend_type = 'client backend'")
+              if [ "$writers" != 0 ]; then
+                echo "Immich still has database sessions; stop its writers before importing" >&2
+                exit 1
+              fi
+              dependencies=$(psql "$SOURCE_URI" -XAt -v ON_ERROR_STOP=1 -f /sql/vector-dependencies.sql)
+              if [ "$dependencies" != '[]' ]; then
+                echo "Immich still depends on legacy pgvecto.rs; refusing to exclude it" >&2
+                exit 1
+              fi
+              # Exclude the unused legacy extension only in the export; source stays intact.
+              pg_dump --dbname="$SOURCE_URI" --exclude-extension=vectors --format=custom --file=/work/immich.dump
+              psql "$TARGET_URI" -X -v ON_ERROR_STOP=1 <<'SQL'
+              \getenv app_password IMMICH_PASSWORD
+              SELECT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'immich') AS role_exists \gset
+              \if :role_exists
+              ALTER ROLE immich LOGIN PASSWORD :'app_password';
+              \else
+              CREATE ROLE immich LOGIN PASSWORD :'app_password';
+              \endif
+              SQL
+              pg_restore --dbname="$TARGET_URI" --create --exit-on-error --jobs=2 /work/immich.dump
+              psql "$TARGET_URI" -X -v ON_ERROR_STOP=1 <<'SQL'
+              \connect immich
+              ALTER DATABASE immich OWNER TO immich;
+              ANALYZE;
+              SELECT extname, extversion FROM pg_extension ORDER BY extname;
+              SQL
+              echo "Immich import complete; validate embeddings and search before cutover"
+          env:
+            - name: SOURCE_URI
+              valueFrom:
+                secretKeyRef:
+                  name: pgo-immich-migration
+                  key: uri
+            - name: TARGET_URI
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-admin
+                  key: uri
+            - name: IMMICH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-immich
+                  key: password
+          volumeMounts:
+            - name: work
+              mountPath: /work
+            - name: sql
+              mountPath: /sql
+              readOnly: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 2Gi
+      volumes:
+        - name: sql
+          configMap:
+            name: postgres-migration-sql
+        - name: work
+          ephemeral:
+            volumeClaimTemplate:
+              spec:
+                accessModes: [ReadWriteOnce]
+                storageClassName: ceph-block
+                resources:
+                  requests:
+                    storage: 5Gi

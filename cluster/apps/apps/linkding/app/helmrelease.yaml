@@ -66,22 +66,22 @@ spec:
               LD_DB_HOST:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-linkding
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-linkding
                     key: host
               LD_DB_DATABASE:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-linkding
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-linkding
                     key: dbname
               LD_DB_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-linkding
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-linkding
                     key: user
               LD_DB_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-linkding
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-linkding
                     key: password
             probes:
               liveness:

@@ -30,19 +30,19 @@ spec:
       targetPath: authentik.secret_key
       valuesKey: secret_key
     - kind: Secret
-      name: default-cluster-pguser-authentik
+      name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-authentik
       targetPath: authentik.postgresql.name
       valuesKey: dbname
     - kind: Secret
-      name: default-cluster-pguser-authentik
+      name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-authentik
       targetPath: authentik.postgresql.user
       valuesKey: user
     - kind: Secret
-      name: default-cluster-pguser-authentik
+      name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-authentik
       targetPath: authentik.postgresql.password
       valuesKey: password
     - kind: Secret
-      name: default-cluster-pguser-authentik
+      name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-authentik
       targetPath: authentik.postgresql.host
       valuesKey: host
   values:

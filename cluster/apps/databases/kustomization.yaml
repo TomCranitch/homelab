@@ -6,3 +6,4 @@ resources:
   - pgdump
   - crunchy-postgres-operator/ks.yaml
   - crunchy-userinit-controller
+  - cloudnative-pg/ks.yaml

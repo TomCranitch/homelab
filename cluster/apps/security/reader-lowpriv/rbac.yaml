@@ -509,6 +509,32 @@ rules:
       - list
       - watch
   - apiGroups:
+      - "postgresql.cnpg.io"
+    resources:
+      - backups
+      - clusters
+      - clusterimagecatalogs
+      - databaseroles
+      - databases
+      - failoverquorums
+      - imagecatalogs
+      - poolers
+      - publications
+      - scheduledbackups
+      - subscriptions
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - "barmancloud.cnpg.io"
+    resources:
+      - objectstores
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
       - "rbac.authorization.k8s.io"
     resources:
       - clusterrolebindings

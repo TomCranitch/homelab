@@ -5,7 +5,7 @@ metadata:
   name: postgres-dump
   namespace: default
 spec:
-  description: Allow database dumps to reach only the two PostgreSQL clusters
+  description: Allow dumps to reach PGO during migration and the consolidated CNPG cluster
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: postgres-dump
@@ -15,6 +15,8 @@ spec:
             postgres-operator.crunchydata.com/cluster: default-cluster
         - matchLabels:
             postgres-operator.crunchydata.com/cluster: immich-cluster
+        - matchLabels:
+            cnpg.io/cluster: postgres
       toPorts:
         - ports:
             - port: "5432"

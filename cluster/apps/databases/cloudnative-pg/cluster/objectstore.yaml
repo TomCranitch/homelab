@@ -1,0 +1,33 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: postgres-b2
+  namespace: default
+spec:
+  retentionPolicy: "120d"
+  configuration:
+    destinationPath: s3://homeprod-crunchy/cnpg/
+    endpointURL: https://s3.us-east-005.backblazeb2.com
+    s3Credentials:
+      accessKeyId:
+        name: postgres-b2
+        key: ACCESS_KEY_ID
+      secretAccessKey:
+        name: postgres-b2
+        key: ACCESS_SECRET_KEY
+      region:
+        name: postgres-b2
+        key: REGION
+    wal:
+      compression: gzip
+      maxParallel: 4
+    data:
+      compression: gzip
+      jobs: 2
+  instanceSidecarConfiguration:
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
+      limits:
+        memory: 1Gi

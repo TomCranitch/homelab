@@ -1,0 +1,119 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-authentik
+  namespace: default
+spec:
+  name: authentik
+  owner: authentik
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-linkding
+  namespace: default
+spec:
+  name: linkding
+  owner: linkding
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-mealie
+  namespace: default
+spec:
+  name: mealie
+  owner: mealie
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-vaultwarden
+  namespace: default
+spec:
+  name: vaultwarden
+  owner: vaultwarden
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-windmill
+  namespace: default
+spec:
+  name: windmill
+  owner: windmill
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-pgmqtt
+  namespace: default
+spec:
+  name: pgmqtt
+  owner: pgmqtt
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-immich
+  namespace: default
+spec:
+  name: immich
+  owner: immich
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+  extensions:
+    - name: vector
+      version: "0.8.2"
+      ensure: present
+    - name: vchord
+      version: "1.1.1"
+      ensure: present
+    - name: cube
+      ensure: present
+    - name: earthdistance
+      ensure: present
+---
+# Retained databases discovered in the live cluster, absent from current app manifests.
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-hass
+  namespace: default
+spec:
+  name: hass
+  owner: hass
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-paperless
+  namespace: default
+spec:
+  name: paperless
+  owner: paperless
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres

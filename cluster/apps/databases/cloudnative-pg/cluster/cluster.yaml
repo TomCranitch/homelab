@@ -1,0 +1,103 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  instances: 3
+  # standard supplies the source en_US.utf-8 locale; overlays stay explicitly pinned.
+  imageName: ghcr.io/cloudnative-pg/postgresql:18.6-standard-trixie@sha256:79be0d10e78b7ac4520cf6c5db199a8bb7f6de53b3229f47e90cab5865528a0d
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  enableSuperuserAccess: true
+  superuserSecret:
+    name: postgres-admin
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: required
+    topologyKey: kubernetes.io/hostname
+  storage:
+    storageClass: ceph-block
+    # Inventory: ~1.4Gi across all nine databases; preserve growth/WAL headroom.
+    # Recheck usage and free Ceph space before enabling reconciliation.
+    size: 35Gi
+  resources:
+    requests:
+      cpu: 250m
+      memory: 1Gi
+    limits:
+      memory: 4Gi
+  postgresql:
+    parameters:
+      max_connections: "300"
+      max_slot_wal_keep_size: 4GB
+      wal_keep_size: 1GB
+      archive_timeout: 5min
+    synchronous:
+      method: any
+      number: 1
+      dataDurability: preferred
+    shared_preload_libraries:
+      - vchord.so
+      - pgaudit
+    extensions:
+      # Crunchy can install pgaudit in source databases; imports must resolve it.
+      - name: pgaudit
+        image:
+          reference: ghcr.io/cloudnative-pg/pgaudit:18.0-18-trixie@sha256:5d026ee79a35baecf5d00a760f20599dfc06a4b8a1cce71a4f4972deb202cd08
+      - name: pgvector
+        image:
+          reference: ghcr.io/cloudnative-pg/pgvector:0.8.2-18-trixie@sha256:79fc129f885e2143bf6eb656a6b181ea449d1ef1a58c40fe5860986ed99bafcb
+      - name: vchord
+        image:
+          reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3
+        dynamic_library_path:
+          - /usr/lib/postgresql/18/lib
+        extension_control_path:
+          - /usr/share/postgresql/18/
+  bootstrap:
+    initdb:
+      localeCollate: en_US.utf-8
+      localeCType: en_US.utf-8
+      import:
+        type: monolith
+        databases:
+          - authentik
+          - linkding
+          - mealie
+          - vaultwarden
+          - windmill
+          - pgmqtt
+          - hass
+          - paperless
+        # prepare.py records the source role attributes; review before adoption.
+        roles:
+          - authentik
+          - linkding
+          - mealie
+          - vaultwarden
+          - windmill
+          - pgmqtt
+          - hass
+          - paperless
+          - windmill_admin
+          - windmill_user
+        source:
+          externalCluster: pgo-default
+  externalClusters:
+    - name: pgo-default
+      connectionParameters:
+        host: default-cluster-primary.default.svc.cluster.local
+        user: postgres
+        dbname: postgres
+        sslmode: require
+      password:
+        name: pgo-default-migration
+        key: password
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: postgres-b2

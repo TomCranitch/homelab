@@ -43,7 +43,7 @@ spec:
             app.kubernetes.io/instance: pgmqtt
             app.kubernetes.io/component: broker
     database:
-      existingSecret: default-cluster-pguser-pgmqtt
+      existingSecret: ${POSTGRES_DEFAULT_SECRET_PREFIX}-pgmqtt
       existingSecretKey: uri
     auth:
       allowAnonymous: false

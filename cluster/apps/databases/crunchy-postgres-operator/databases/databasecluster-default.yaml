@@ -4,6 +4,8 @@ kind: PostgresCluster
 metadata:
   name: default-cluster
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
   labels:
     crunchy-userinit.ramblurr.github.com/enabled: "true"
     crunchy-userinit.ramblurr.github.com/superuser: "postgres"
