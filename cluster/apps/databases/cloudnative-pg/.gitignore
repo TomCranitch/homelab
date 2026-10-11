@@ -1,0 +1,6 @@
+__pycache__/
+# One-time tooling and source credentials stay in this local worktree.
+migration/
+recovery/
+credentials/pgo-default-migration.sops.yaml
+credentials/pgo-immich-migration.sops.yaml

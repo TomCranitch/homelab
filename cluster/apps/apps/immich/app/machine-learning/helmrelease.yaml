@@ -58,11 +58,6 @@ spec:
                 value: /cache/.cache
               - name: XDG_CONFIG_HOME
                 value: /cache/.config
-              - name: DB_URL
-                valueFrom:
-                  secretKeyRef:
-                    name: immich-cluster-pguser-immich
-                    key: uri
             envFrom:
               - secretRef:
                   name: immich

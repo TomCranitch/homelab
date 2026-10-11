@@ -8,6 +8,15 @@ data:
   SSO_DOMAIN_PREFIX: sso
   TZ: Australia/Sydney
 
+  # Stage CNPG without switching application credentials.
+  CNPG_CLUSTER_SUSPENDED: "true"
+  # Ignore database/role resources until both imports have been validated.
+  CNPG_DATABASE_APPLY_POLICY: Ignore
+  POSTGRES_DEFAULT_SECRET_PREFIX: default-cluster-pguser
+  POSTGRES_IMMICH_SECRET_PREFIX: immich-cluster-pguser
+  POSTGRES_DUMP_SECRET: default-cluster-pguser-postgres
+  POSTGRES_IMMICH_DUMP_SECRET: immich-cluster-pguser-postgres
+
   CONTAINER_UID: "987"
   CONTAINER_GID: "999"
   CONTAINER_FSGROUP: "1999"

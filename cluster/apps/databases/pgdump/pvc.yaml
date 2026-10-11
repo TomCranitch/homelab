@@ -9,4 +9,5 @@ spec:
   storageClassName: ceph-block
   resources:
     requests:
-      storage: 1Gi
+      # Combined dumps plus an atomic temporary copy and the retained Immich dump.
+      storage: 8Gi

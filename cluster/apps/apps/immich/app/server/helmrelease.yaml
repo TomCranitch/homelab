@@ -60,7 +60,7 @@ spec:
               - name: DB_URL
                 valueFrom:
                   secretKeyRef:
-                    name: immich-cluster-pguser-immich
+                    name: ${POSTGRES_IMMICH_SECRET_PREFIX}-immich
                     key: uri
             envFrom:
               - secretRef:
@@ -101,6 +101,8 @@ spec:
           - toEndpoints:
               - matchLabels:
                   postgres-operator.crunchydata.com/cluster: immich-cluster
+              - matchLabels:
+                  cnpg.io/cluster: postgres
             toPorts:
               - ports:
                   - port: "5432"

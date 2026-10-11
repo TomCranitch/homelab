@@ -28,7 +28,7 @@ spec:
     windmill:
       baseDomain: &host "windmill.${S_HOMEPROD_DOMAIN}"
       baseProtocol: "https"
-      databaseUrlSecretName: default-cluster-pguser-windmill
+      databaseUrlSecretName: ${POSTGRES_DEFAULT_SECRET_PREFIX}-windmill
       databaseUrlSecretKey: uri
       app:
         topologySpreadConstraints:

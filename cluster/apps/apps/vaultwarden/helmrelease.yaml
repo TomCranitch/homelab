@@ -67,7 +67,7 @@ spec:
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
-                    name: default-cluster-pguser-vaultwarden
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-vaultwarden
                     key: uri
             probes:
               liveness:

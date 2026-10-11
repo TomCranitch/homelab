@@ -1,0 +1,54 @@
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMPodScrape
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      cnpg.io/cluster: postgres
+  podMetricsEndpoints:
+    - port: metrics
+      relabelConfigs:
+        - sourceLabels: [__meta_kubernetes_pod_label_cnpg_io_cluster]
+          targetLabel: cluster
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMRule
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  groups:
+    - name: postgres-backups
+      rules:
+        - alert: PostgresWALArchivingFailing
+          expr: increase(cnpg_pg_stat_archiver_failed_count{namespace="default",cluster="postgres"}[15m]) > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: PostgreSQL WAL uploads to B2 are failing
+        - alert: PostgresBaseBackupStale
+          expr: |
+            (time() - max by (namespace, cluster) (
+              barman_cloud_cloudnative_pg_io_last_available_backup_timestamp{namespace="default",cluster="postgres"}
+            ) > 8 * 24 * 3600)
+            or absent(barman_cloud_cloudnative_pg_io_last_available_backup_timestamp{namespace="default",cluster="postgres"})
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: PostgreSQL has no recent physical base backup
+        - alert: PostgresBaseBackupFailed
+          expr: |
+            max by (namespace, cluster) (
+              barman_cloud_cloudnative_pg_io_last_failed_backup_timestamp{namespace="default",cluster="postgres"}
+            ) > max by (namespace, cluster) (
+              barman_cloud_cloudnative_pg_io_last_available_backup_timestamp{namespace="default",cluster="postgres"}
+            )
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: PostgreSQL backup failed after its last successful backup

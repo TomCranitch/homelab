@@ -1,0 +1,122 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-authentik
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: authentik
+  owner: authentik
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-linkding
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: linkding
+  owner: linkding
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-mealie
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: mealie
+  owner: mealie
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-vaultwarden
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: vaultwarden
+  owner: vaultwarden
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-windmill
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: windmill
+  owner: windmill
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-pgmqtt
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: pgmqtt
+  owner: postgres
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-immich
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: immich
+  owner: immich
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+  extensions:
+    - name: vector
+      version: "0.8.2"
+      ensure: present
+    - name: vchord
+      version: "1.1.1"
+      ensure: present
+    - name: cube
+      ensure: present
+    - name: earthdistance
+      ensure: present
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-paperless
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: paperless
+  owner: paperless
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres

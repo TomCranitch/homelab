@@ -1,0 +1,72 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: postgres
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      cnpg.io/cluster: postgres
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            networking.home.arpa/postgres-default-client: "true"
+        - matchLabels:
+            app.kubernetes.io/instance: immich-server
+        - matchLabels:
+            release: windmill
+            app: windmill-app
+        - matchLabels:
+            release: windmill
+            app: windmill-workers
+        - matchLabels:
+            app.kubernetes.io/name: postgres-dump
+        - matchLabels:
+            app.kubernetes.io/name: postgres-migration
+        - matchLabels:
+            cnpg.io/cluster: postgres
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: database
+            app.kubernetes.io/name: cloudnative-pg
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: monitoring
+            app.kubernetes.io/name: vmagent
+      toPorts:
+        - ports:
+            - port: "9187"
+              protocol: TCP
+  egress:
+    - toEntities: [kube-apiserver]
+      toPorts:
+        - ports:
+            - port: "6443"
+              protocol: TCP
+    - toEndpoints:
+        - matchLabels:
+            cnpg.io/cluster: postgres
+        - matchLabels:
+            postgres-operator.crunchydata.com/cluster: default-cluster
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
+    - toFQDNs:
+        - matchName: s3.us-east-005.backblazeb2.com
+        - matchName: homeprod-crunchy.s3.us-east-005.backblazeb2.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+  enableDefaultDeny:
+    ingress: true
+    egress: true

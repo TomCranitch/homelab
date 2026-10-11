@@ -1,0 +1,235 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill-admin
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: windmill_admin
+  cluster:
+    name: postgres
+  login: false
+  bypassrls: true
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  inherit: true
+  connectionLimit: -1
+  inRoles:
+    - windmill_user
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill-user
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: windmill_user
+  cluster:
+    name: postgres
+  login: false
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-authentik
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: authentik
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-authentik
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-linkding
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: linkding
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-linkding
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-mealie
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: mealie
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-mealie
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-vaultwarden
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: vaultwarden
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-vaultwarden
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-windmill
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: windmill
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-windmill
+  inRoles:
+    - windmill_admin
+    - windmill_user
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-pgmqtt
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: pgmqtt
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-pgmqtt
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-immich
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: immich
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-immich
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
+---
+# Omitting passwordSecret preserves the existing passwords.
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-paperless
+  namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
+spec:
+  name: paperless
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
