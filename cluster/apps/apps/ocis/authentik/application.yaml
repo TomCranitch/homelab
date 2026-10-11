@@ -1,0 +1,43 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: owncloud
+  namespace: default
+spec:
+  slug: owncloud
+  name: Owncloud
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: OCIS
+    flows:
+      authorization:
+        slug: default-provider-authorization-explicit-consent
+      invalidation:
+        slug: default-provider-invalidation-flow
+      authentication:
+        slug: authentication-flow
+    oauth2:
+      clientType: Public
+      redirectURIs:
+        - url: https://files.${S_HOMEPROD_DOMAIN}/oidc-callback.html
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+        - scopeName: ocis_role
+      grantTypes:
+        - AuthorizationCode
+        - Hybrid
+        - Implicit
+        - ClientCredentials
+        - Password
+        - DeviceCode
+        - RefreshToken
+      accessTokenValidity: minutes=5
+      signingKey:
+        name: authentik Self-signed Certificate
+  access:
+    public: true
+    prune: true

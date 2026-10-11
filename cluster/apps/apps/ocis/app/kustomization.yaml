@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default
+resources:
+  - helmrelease.yaml
+  - secret.sops.yaml
+    # TODO: - volsync.yaml
+configMapGenerator:
+  - name: ocis
+    files:
+      - csp.yaml=./csp.yaml
+generatorOptions:
+  disableNameSuffixHash: true

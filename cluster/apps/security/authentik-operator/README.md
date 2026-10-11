@@ -13,7 +13,7 @@ The operator still writes application/provider configuration in Authentik.
 Cilium policies allow Kubernetes API access, direct access to the Authentik
 server's HTTP port, and node health probes. The existing cluster-wide DNS policy
 provides DNS access. The matching Authentik server ingress allowance is in its
-existing network policy. Metrics are disabled for the pilot.
+existing network policy. Metrics are disabled.
 
 The Kubernetes API allowance is required because this pod's egress is denied by
 default and no shared policy grants it API access. The pod uses the ordinary
@@ -25,12 +25,10 @@ Check the live Kubernetes Service endpoints when validating connectivity.
 
 ## Rollout
 
-Both Flux Kustomizations are enabled. The account's API token is stored in the
-SOPS-managed Secret. Grafana's CR was generated from live inventory, including
-verification that the existing SOPS credentials match its provider. Operator
-permissions, network connectivity, adoption and login still need checking after
-rollout. Grafana's configuration and existing SOPS-managed
-`monitoring/grafana-env` Secret are unchanged.
+The Flux Kustomizations are enabled. The account's API token is stored in the
+SOPS-managed Secret. Application manifests preserve the live provider settings
+and use `IfMatch` to refuse adoption if their declared fields differ. Existing
+workload configuration and credential Secrets are unchanged.
 
 1. Use the configured read-only kubeconfig for cluster verification, and
    authorized Authentik API access and a SOPS decryption identity for inventory.
@@ -113,6 +111,71 @@ application, provider and bindings. The independent SOPS-managed Secret is not
 owned by the CR and stays while its manifest remains in Git. For rollback,
 release ownership deliberately; do not simply delete the CR. Remove managed
 CRs and let their finalizers complete before uninstalling the operator.
+
+## Other deployed applications
+
+Each application uses the existing `ks.yaml`, `app/` and `authentik/` pattern,
+including Echo, Gateway, Home Assistant, Immich, Karakeep, Linkding, Mealie,
+ownCloud and Windmill. Root `ks.yaml` defines separate workload and
+`<slug>-authentik` Flux Kustomizations. Workload Kustomizations decrypt their
+existing SOPS files and use the same cluster substitutions as their former
+parent. Authentik Kustomizations depend on the operator; Karakeep also depends
+on `karakeep`, and Gateway on `envoy`, to ensure their credential Secrets exist.
+Workloads do not depend on Authentik adoption. All application health checks
+require current-generation readiness.
+
+Gateway's CR is in `ingress` to reference the existing `envoy-oidc-secret`.
+Karakeep's CR is in `default` and references the existing `karakeep` Secret's
+`OAUTH_CLIENT_ID` and `OAUTH_CLIENT_SECRET` keys. Both credential pairs were
+compared against the live providers without printing their values.
+
+Immich, Windmill, Mealie and ownCloud omit `credentials`. The operator therefore
+does not read, create, export or rotate their client credentials. They remain
+under their existing manual/application configuration. This does not provide
+credential recovery: if a provider is deleted and recreated, its newly generated
+credentials must be restored manually before its existing client can log in.
+
+Provider differences are intentional: Gateway and Windmill use implicit consent;
+the other applications use explicit consent. Gateway has a regex redirect URI.
+Mealie and ownCloud are public clients, with `offline_access` and `ocis_role`
+scope mappings respectively. Echo, Home Assistant and Linkding use single-host
+forward-auth providers already attached to the embedded outpost; their additional
+proxy scope mappings are outside the operator's supported managed fields.
+No reverse-proxy authentication configuration is changed here.
+
+All nine applications have no application access bindings. Their manifests use
+`public: true` and `prune: true`, preserving that state. Login flows still apply.
+Ownership and deletion use the same semantics as Grafana.
+
+Paperless, Radicale, the legacy VMAgent proxy and Domain authorization remain
+manual cleanup candidates. The VMAgent route now uses the shared Gateway OIDC
+provider; no deployed route references the domain forward-auth provider.
+ownCloud Desktop also remains manual: it is a companion client, not a separate
+deployed server, and should only be deleted if no desktop clients use it.
+The unattached Owncloud Android provider is another client to review, not an
+application manifest to adopt. Nothing in this change deletes these objects.
+
+## Flux ownership handoff
+
+The eight newly separated workload Kustomizations take ownership from
+`flux-system/apps`. Existing resource names, namespaces and rendered workload
+configuration remain unchanged. Envoy and Grafana already have child
+Kustomizations and do not need a workload ownership transfer.
+
+1. Merge [the prune-protection PR](https://github.com/TomCranitch/homelab/pull/1906)
+   separately and confirm `flux-system/apps.spec.prune` is `false` in-cluster.
+2. Merge the layout/adoption migration only after that protection is live.
+3. Verify each child Kustomization has reconciled the migration revision, has
+   inventoried its workload resources, and those resources carry the child's
+   `kustomize.toolkit.fluxcd.io/name` and namespace labels. Confirm the parent
+   `apps` inventory no longer contains the transferred resources. Investigate
+   existing workload readiness failures separately from the ownership check.
+4. Restore `apps.spec.prune: true` in a follow-up after those checks pass.
+
+Do not combine protection and transfer into one first rollout: both controllers
+watch the source, so the parent could process the new tree before its pruning
+setting is updated. This follows the
+[Flux migration procedure](https://fluxcd.io/flux/faq/#how-can-i-safely-move-resources-from-one-dir-to-another).
 
 ## Validation
 

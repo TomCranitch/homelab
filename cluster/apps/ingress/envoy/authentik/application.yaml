@@ -1,0 +1,45 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: gateway
+  namespace: ingress
+spec:
+  slug: gateway
+  name: Gateway
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: Provider for Gateway
+    flows:
+      authorization:
+        slug: default-provider-authorization-implicit-consent
+      invalidation:
+        slug: default-provider-invalidation-flow
+    oauth2:
+      clientType: Confidential
+      redirectURIs:
+        - url: 'https://.*\.cranit\.ch/oauth2/callback'
+          matchingMode: Regex
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      credentials:
+        clientID: 8lRVJAKvaAvnGZVcrSVtFbMkmpLBQoauOi0fOuAZ
+        secretRef:
+          name: envoy-oidc-secret
+      grantTypes:
+        - AuthorizationCode
+        - Hybrid
+        - Implicit
+        - ClientCredentials
+        - Password
+        - DeviceCode
+        - RefreshToken
+      accessTokenValidity: minutes=5
+      signingKey:
+        name: authentik Self-signed Certificate
+  access:
+    public: true
+    prune: true
