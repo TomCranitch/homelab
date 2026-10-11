@@ -51,7 +51,7 @@ spec:
           app:
             image:
               repository: docker.io/vaultwarden/server
-              tag: 1.37.3
+              tag: 1.37.4
             ports:
               - name: http
                 containerPort: 80
