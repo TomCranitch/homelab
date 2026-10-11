@@ -3,6 +3,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-windmill-admin
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: windmill_admin
   cluster:
@@ -23,6 +25,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-windmill-user
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: windmill_user
   cluster:
@@ -42,6 +46,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-authentik
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: authentik
   cluster:
@@ -64,6 +70,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-linkding
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: linkding
   cluster:
@@ -86,6 +94,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-mealie
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: mealie
   cluster:
@@ -108,6 +118,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-vaultwarden
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: vaultwarden
   cluster:
@@ -130,6 +142,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-windmill
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: windmill
   cluster:
@@ -154,6 +168,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-pgmqtt
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: pgmqtt
   cluster:
@@ -176,6 +192,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-immich
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: immich
   cluster:
@@ -199,6 +217,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-hass
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: hass
   cluster:
@@ -219,6 +239,8 @@ kind: DatabaseRole
 metadata:
   name: postgres-paperless
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: paperless
   cluster:

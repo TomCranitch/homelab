@@ -6,3 +6,5 @@ resources:
   - scheduledbackup.yaml
   - networkpolicy.yaml
   - monitoring.yaml
+  - databases.yaml
+  - roles.yaml

@@ -3,6 +3,8 @@ kind: Database
 metadata:
   name: postgres-authentik
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: authentik
   owner: authentik
@@ -15,6 +17,8 @@ kind: Database
 metadata:
   name: postgres-linkding
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: linkding
   owner: linkding
@@ -27,6 +31,8 @@ kind: Database
 metadata:
   name: postgres-mealie
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: mealie
   owner: mealie
@@ -39,6 +45,8 @@ kind: Database
 metadata:
   name: postgres-vaultwarden
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: vaultwarden
   owner: vaultwarden
@@ -51,6 +59,8 @@ kind: Database
 metadata:
   name: postgres-windmill
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: windmill
   owner: windmill
@@ -63,9 +73,11 @@ kind: Database
 metadata:
   name: postgres-pgmqtt
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: pgmqtt
-  owner: pgmqtt
+  owner: postgres
   databaseReclaimPolicy: retain
   cluster:
     name: postgres
@@ -75,6 +87,8 @@ kind: Database
 metadata:
   name: postgres-immich
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: immich
   owner: immich
@@ -99,6 +113,8 @@ kind: Database
 metadata:
   name: postgres-hass
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: hass
   owner: hass
@@ -111,6 +127,8 @@ kind: Database
 metadata:
   name: postgres-paperless
   namespace: default
+  annotations:
+    kustomize.toolkit.fluxcd.io/ssa: ${CNPG_DATABASE_APPLY_POLICY}
 spec:
   name: paperless
   owner: paperless

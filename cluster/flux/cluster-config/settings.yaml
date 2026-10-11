@@ -10,7 +10,8 @@ data:
 
   # Migration gates: stage.py enables these only after credentials/rehearsal.
   CNPG_CLUSTER_SUSPENDED: "true"
-  CNPG_DATABASES_SUSPENDED: "true"
+  # Ignore database/role resources until both imports have been validated.
+  CNPG_DATABASE_APPLY_POLICY: Ignore
   POSTGRES_DEFAULT_SECRET_PREFIX: default-cluster-pguser
   POSTGRES_IMMICH_SECRET_PREFIX: immich-cluster-pguser
   POSTGRES_DUMP_SECRET: default-cluster-pguser-postgres
