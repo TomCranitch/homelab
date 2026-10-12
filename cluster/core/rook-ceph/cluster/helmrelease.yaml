@@ -47,10 +47,6 @@ spec:
         tls:
          - hosts:
             - "rook.${S_HOMEPROD_DOMAIN}"
-    configOverride: |
-      [global]
-      bdev_enable_discard = true
-      bdev_async_discard = true
     cephClusterSpec:
       network:
         provider: host
@@ -63,6 +59,9 @@ spec:
       cephConfig:
         global:
           mon_data_avail_warn: "15"
+        osd:
+          bdev_enable_discard: "true"
+          bdev_async_discard_threads: "1"
       security:
         cephx:
           daemon:
@@ -157,10 +156,10 @@ spec:
         spec:
           failureDomain: host
           replicated:
-            size: 3
+            size: 2
           parameters:
-            # Require two available copies before acknowledging writes.
-            min_size: "2"
+            # Keep the pool writable when one of the two copies is unavailable.
+            min_size: "1"
         storageClass:
           enabled: true
           name: ceph-block
