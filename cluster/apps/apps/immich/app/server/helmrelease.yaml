@@ -102,8 +102,6 @@ spec:
         egress:
           - toEndpoints:
               - matchLabels:
-                  postgres-operator.crunchydata.com/cluster: immich-cluster
-              - matchLabels:
                   cnpg.io/cluster: postgres
             toPorts:
               - ports:

@@ -4,6 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - pgdump
-  - crunchy-postgres-operator/ks.yaml
-  - crunchy-userinit-controller
   - cloudnative-pg/ks.yaml

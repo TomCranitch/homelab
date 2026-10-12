@@ -52,38 +52,6 @@ spec:
     initdb:
       localeCollate: en_US.utf-8
       localeCType: en_US.utf-8
-      import:
-        type: monolith
-        databases:
-          - authentik
-          - linkding
-          - mealie
-          - vaultwarden
-          - windmill
-          - pgmqtt
-          - paperless
-        roles:
-          - authentik
-          - linkding
-          - mealie
-          - vaultwarden
-          - windmill
-          - pgmqtt
-          - paperless
-          - windmill_admin
-          - windmill_user
-        source:
-          externalCluster: pgo-default
-  externalClusters:
-    - name: pgo-default
-      connectionParameters:
-        host: default-cluster-primary.default.svc.cluster.local
-        user: postgres
-        dbname: postgres
-        sslmode: require
-      password:
-        name: pgo-default-migration
-        key: password
   plugins:
     - name: barman-cloud.cloudnative-pg.io
       isWALArchiver: true

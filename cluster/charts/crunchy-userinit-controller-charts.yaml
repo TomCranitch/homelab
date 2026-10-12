@@ -1,9 +1,0 @@
----
-apiVersion: source.toolkit.fluxcd.io/v1
-kind: HelmRepository
-metadata:
-  name: crunchy-userinit-controller-charts
-  namespace: flux-system
-spec:
-  interval: 10m
-  url: https://ramblurr.github.io/crunchy-userinit-controller
