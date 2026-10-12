@@ -55,6 +55,34 @@ snapshot/restore, and expansion before moving an application. The
 snapshot class is also `miroir-local`; snapshots stay on the same local
 disk and are not off-node backups.
 
+## Postgres sizing before migration
+
+Both Crunchy clusters currently run three Postgres instances, one per
+node. Their Ceph PVC requests are 35 GiB for `default-cluster` and 30 GiB
+for `immich-cluster`: 65 GiB per node, 195 GiB total. The separate
+100 GiB default-cluster backup repository uses NFS and is not part of
+the local database capacity requirement.
+
+Read-only `df` measurements on 2026-10-12 showed much lower actual usage:
+
+| Node | Default cluster | Immich cluster | Combined |
+| --- | ---: | ---: | ---: |
+| cw01 | 12.31 GiB | 2.18 GiB | 14.50 GiB |
+| cw02 | 1.72 GiB | 2.12 GiB | 3.84 GiB |
+| cw03 | 1.91 GiB | 2.17 GiB | 4.09 GiB |
+
+All six instances used about 22.42 GiB in total. The large cw01 instance
+contained 11.59 GiB of WAL; its main database directory was only about
+0.64 GiB. Capacity planning must include WAL retention, growth, snapshots,
+and any temporary migration volumes, rather than just SQL database sizes.
+
+The 32 GiB disks fit today's physical usage, but not the current PVC
+requests under the conservative provisioning limits. A migration would
+need smaller replacement PVCs (existing PVCs cannot be shrunk), or larger
+disks. Retaining the current 35+30 GiB claims needs more than 65 GiB per
+node after pool overhead; 96 GiB per node leaves useful headroom.
+This PR does not change Postgres instance sets, PVCs, or storage classes.
+
 Upstream: [requirements](https://miroir.home-operations.com/requirements/),
 [quickstart](https://miroir.home-operations.com/quickstart/), and
 [configuration](https://miroir.home-operations.com/configuration/).
