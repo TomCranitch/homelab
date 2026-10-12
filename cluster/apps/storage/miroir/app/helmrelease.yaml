@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: miroir
+  namespace: miroir-system
+spec:
+  interval: 15m
+  chartRef:
+    kind: OCIRepository
+    name: miroir
+  dependsOn:
+    - name: snapshot-controller
+      namespace: kube-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    drbd:
+      # Avoid the Ceph dashboard and its 6800-7568 daemon port range.
+      portBase: 11000
+    # Keep provisioning conservative on the dedicated 32 GiB disks.
+    overcommitRatio: 1
+    freeSpaceRatio: 1
+    storageCapacity:
+      enabled: true
