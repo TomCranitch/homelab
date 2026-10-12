@@ -9,7 +9,7 @@ data:
   TZ: Australia/Sydney
 
   # Stage CNPG without switching application credentials.
-  CNPG_CLUSTER_SUSPENDED: "true"
+  CNPG_CLUSTER_SUSPENDED: "false"
   # Ignore database/role resources until both imports have been validated.
   CNPG_DATABASE_APPLY_POLICY: Ignore
   POSTGRES_DEFAULT_SECRET_PREFIX: default-cluster-pguser
