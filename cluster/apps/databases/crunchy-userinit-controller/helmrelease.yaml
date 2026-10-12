@@ -1,4 +1,3 @@
-# TODO: this doesnt work atm as its restricted by ns
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
@@ -6,6 +5,7 @@ metadata:
   name: crunchy-userinit-controller
   namespace: database
 spec:
+  suspend: true
   interval: 15m
   chart:
     spec:
