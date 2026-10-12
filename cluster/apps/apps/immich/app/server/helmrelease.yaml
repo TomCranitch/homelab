@@ -57,11 +57,13 @@ spec:
                 containerPort: 2283
                 protocol: TCP
             env:
-              - name: DB_URL
+              - name: CNPG_DATABASE_URL
                 valueFrom:
                   secretKeyRef:
                     name: ${POSTGRES_IMMICH_SECRET_PREFIX}-immich
                     key: uri
+              - name: DB_URL
+                value: "$(CNPG_DATABASE_URL)&uselibpqcompat=true"
             envFrom:
               - secretRef:
                   name: immich

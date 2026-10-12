@@ -5,6 +5,7 @@ metadata:
   name: crunchy-postgres-operator
   namespace: database
 spec:
+  suspend: true
   interval: 15m
   chart:
     spec:

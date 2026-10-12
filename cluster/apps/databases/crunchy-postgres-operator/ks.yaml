@@ -4,6 +4,7 @@ metadata:
   name: &app crunchy-postgres-operator
   namespace: flux-system
 spec:
+  suspend: true
   targetNamespace: database
   commonMetadata:
     labels:
@@ -24,6 +25,7 @@ metadata:
   name: &app crunchy-postgres-operator-databases
   namespace: flux-system
 spec:
+  suspend: true
   targetNamespace: default
   commonMetadata:
     labels:
