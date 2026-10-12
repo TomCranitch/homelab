@@ -1,0 +1,36 @@
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: homeprod-cw01
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  pools:
+    - name: default
+      lvmthin:
+        device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: homeprod-cw02
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  pools:
+    - name: default
+      lvmthin:
+        device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2
+---
+apiVersion: miroir.home-operations.com/v1alpha1
+kind: MiroirNode
+metadata:
+  name: homeprod-cw03
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  pools:
+    - name: default
+      lvmthin:
+        device: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2

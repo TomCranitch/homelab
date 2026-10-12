@@ -12,8 +12,7 @@ cniConfig:
 nodes:
   - hostname: homeprod-cw01
     controlPlane: true
-    installDiskSelector:
-      size: '<= 100GB'
+    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
     ipAddress: 192.168.29.170
     patches:
       - |-
@@ -33,8 +32,7 @@ nodes:
         dhcp: false
   - hostname: homeprod-cw02
     controlPlane: true
-    installDiskSelector:
-      size: '<= 100GB'
+    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
     ipAddress: 192.168.29.171
     patches:
       - |-
@@ -54,8 +52,7 @@ nodes:
         dhcp: false
   - hostname: homeprod-cw03
     controlPlane: true
-    installDiskSelector:
-      size: '<= 100GB'
+    installDisk: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0
     ipAddress: 192.168.29.172
     patches:
       - |-
