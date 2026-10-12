@@ -23,6 +23,9 @@ spec:
   driftDetection:
     mode: enabled
   values:
+    drbd:
+      # Avoid the Ceph dashboard and its 6800-7568 daemon port range.
+      portBase: 11000
     # Keep provisioning conservative on the dedicated 32 GiB disks.
     overcommitRatio: 1
     freeSpaceRatio: 1
