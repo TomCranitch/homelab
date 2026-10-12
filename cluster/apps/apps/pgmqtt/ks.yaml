@@ -28,7 +28,6 @@ metadata:
   name: pgmqtt-users
   namespace: flux-system
 spec:
-  suspend: true
   commonMetadata:
     labels:
       app.kubernetes.io/name: pgmqtt
