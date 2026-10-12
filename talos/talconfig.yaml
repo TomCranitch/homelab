@@ -113,6 +113,9 @@ controlPlane:
               - level: Metadata
     - |-
       machine:
+        kernel:
+          modules:
+            - name: dm_thin_pool
         install:
           wipe: true
         features:
