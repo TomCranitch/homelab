@@ -64,6 +64,7 @@ spec:
     - name: cloudnative-pg
     - name: barman-cloud
     - name: postgres-credentials
+    - name: miroir-storage
   path: ./cluster/apps/databases/cloudnative-pg/cluster
   prune: false
   sourceRef:

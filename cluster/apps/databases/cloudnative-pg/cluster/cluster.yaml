@@ -18,8 +18,8 @@ spec:
     podAntiAffinityType: required
     topologyKey: kubernetes.io/hostname
   storage:
-    storageClass: ceph-block
-    size: 35Gi
+    storageClass: miroir-local
+    size: 16Gi
   resources:
     requests:
       cpu: 250m
@@ -32,6 +32,7 @@ spec:
       max_slot_wal_keep_size: 4GB
       wal_keep_size: 1GB
       archive_timeout: 5min
+      pgaudit.log: none
     synchronous:
       method: any
       number: 1
@@ -40,12 +41,6 @@ spec:
       - vchord.so
       - pgaudit
     extensions:
-      - name: pgaudit
-        image:
-          reference: ghcr.io/cloudnative-pg/pgaudit:18.0-18-trixie@sha256:5d026ee79a35baecf5d00a760f20599dfc06a4b8a1cce71a4f4972deb202cd08
-      - name: pgvector
-        image:
-          reference: ghcr.io/cloudnative-pg/pgvector:0.8.2-18-trixie@sha256:79fc129f885e2143bf6eb656a6b181ea449d1ef1a58c40fe5860986ed99bafcb
       - name: vchord
         image:
           reference: ghcr.io/tensorchord/vchord-scratch:pg18-v1.1.1@sha256:bdea43bed2a414e21bbf71767bf6f0739747ac480b267b51772dc214ac28dcb3

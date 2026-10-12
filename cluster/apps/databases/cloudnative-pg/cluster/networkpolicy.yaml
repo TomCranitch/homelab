@@ -10,6 +10,18 @@ spec:
   ingress:
     - fromEndpoints:
         - matchLabels:
+            cnpg.io/cluster: postgres
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
+    - fromEntities: [host, remote-node]
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
+    - fromEndpoints:
+        - matchLabels:
             networking.home.arpa/postgres-default-client: "true"
         - matchLabels:
             app.kubernetes.io/instance: immich-server
@@ -46,6 +58,13 @@ spec:
             - port: "9187"
               protocol: TCP
   egress:
+    - toEndpoints:
+        - matchLabels:
+            cnpg.io/cluster: postgres
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
     - toEntities: [kube-apiserver]
       toPorts:
         - ports:

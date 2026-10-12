@@ -1,10 +1,12 @@
 # Shared CloudNativePG
 
-PostgreSQL 18.6 runs on three Ceph-backed instances, with one synchronous standby
-and separate app databases/roles. The standard image preserves the source
-`en_US.utf-8` locale; pgvector, VectorChord and pgAudit overlays are pinned.
+PostgreSQL 18.6 is staged for three node-local instances, each with a 16 GiB
+`miroir-local` PVC and one synchronous standby. The standard image preserves
+the source `en_US.utf-8` locale and supplies pgvector 0.8.6 and pgAudit 18.0.
+VectorChord 1.1.1 is loaded from a pinned image-volume overlay.
+`pgaudit.log: none` preserves the managed extension without enabling audit logging.
 
-This PR installs the operators and nine permanent SOPS-encrypted Secrets.
+The operators and nine permanent SOPS-encrypted Secrets are already staged.
 Apps retain their PGO Secret prefixes. `paperless` retains its imported password
 hash; `pgmqtt` retains its current `postgres` owner. The empty `hass` database
 is excluded from the migration.
@@ -29,6 +31,26 @@ Migration tools, the inventory, import/recovery examples and temporary PGO
 credentials are kept locally. Provision `pgo-default-migration` locally before
 enabling bootstrap; the local Immich import also needs `pgo-immich-migration`.
 These source credentials are deliberately outside the permanent Flux resources.
+
+## Local storage rollout
+
+Requires [storage PR #1919](https://github.com/TomCranitch/homelab/pull/1919).
+`postgres-cluster` waits for the `miroir-storage` Flux Kustomization. Miroir provides
+one storage copy; PostgreSQL supplies replication across the three physical hosts.
+Required hostname anti-affinity keeps one database instance on each node.
+
+Each 32 GiB disk reserves 16 GiB for PostgreSQL, leaving less than 16 GiB for
+other claims, pool metadata and snapshots. WAL is part of the database PVC;
+failed archiving can exhaust it despite the replication-slot retention limit.
+Verify free space and volume-space alerts before cutover. This creates new PVCs;
+it does not shrink, move or adopt existing PGO or rehearsal Ceph volumes.
+
+Before enabling bootstrap, smoke-test local provisioning, writes, expansion and
+node restart behavior. Repeat import, backup/restore and application checks on
+local storage. Use smaller disposable local claims or Ceph for the restore test:
+a second 16 GiB local claim cannot fit beside production on a 32 GiB pool.
+Keep migration scratch storage on Ceph and remove disposable local claims before
+the final bootstrap. Local snapshots are not off-node backups; B2 remains required.
 
 ## Backups and cutover
 
