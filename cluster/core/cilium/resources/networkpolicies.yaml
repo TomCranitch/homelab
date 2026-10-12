@@ -60,9 +60,6 @@ spec:
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: default
-            k8s:postgres-operator.crunchydata.com/cluster: default-cluster
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: default
             k8s:cnpg.io/cluster: postgres
       toPorts:
         - ports:

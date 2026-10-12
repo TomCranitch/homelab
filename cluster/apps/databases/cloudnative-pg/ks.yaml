@@ -59,7 +59,6 @@ metadata:
   namespace: flux-system
 spec:
   targetNamespace: default
-  suspend: ${CNPG_CLUSTER_SUSPENDED}
   dependsOn:
     - name: cloudnative-pg
     - name: barman-cloud

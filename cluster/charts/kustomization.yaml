@@ -18,7 +18,5 @@ resources:
   - authentik-charts.yaml
   - authentik-operator-charts.yaml
   - fluent-charts.yaml
-  - crunchy-charts.yaml
-  - crunchy-userinit-controller-charts.yaml
   - node-feature-discovery-charts.yaml
   - home-operations.yaml
