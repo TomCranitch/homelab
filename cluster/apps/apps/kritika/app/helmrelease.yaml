@@ -89,6 +89,7 @@ spec:
           memory: 2Gi
     podLabels:
       networking.home.arpa/egress-sso: "true"
+      networking.home.arpa/postgres-default-client: "true"
     httpRoute:
       enabled: true
       parentRefs:
@@ -102,6 +103,7 @@ spec:
     networkPolicy:
       enabled: true
       type: cilium
+      egressPorts: [80, 443]
     monitoring:
       serviceMonitor:
         enabled: true

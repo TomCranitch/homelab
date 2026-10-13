@@ -6,7 +6,10 @@ metadata:
   namespace: kritika
 spec:
   interval: 15m
+  layerSelector:
+    mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
+    operation: copy
   url: oci://ghcr.io/home-operations/charts/kritika
   ref:
     # renovate: datasource=docker depName=ghcr.io/home-operations/charts/kritika
-    tag: 0.0.58
+    tag: 0.0.66

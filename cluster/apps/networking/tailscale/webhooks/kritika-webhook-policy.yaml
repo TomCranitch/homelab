@@ -1,0 +1,33 @@
+# The chart's policy admits any peer on 8080, so lock the webhook on the proxy side.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: kritika-webhook
+  namespace: networking
+spec:
+  description: Allow the Kritika Funnel proxy to POST GitHub webhooks only
+  endpointSelector:
+    matchLabels:
+      tailscale.com/managed: "true"
+      tailscale.com/parent-resource-type: ingress
+      tailscale.com/parent-resource-ns: kritika
+      tailscale.com/parent-resource: kritika-webhook
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kritika
+            app.kubernetes.io/name: kritika
+            app.kubernetes.io/instance: kritika
+      toPorts:
+        - ports:
+            - port: "8080"
+              protocol: TCP
+          rules:
+            http:
+              - method: POST
+                path: "^/hooks/github$"
+  enableDefaultDeny:
+    ingress: false
+    egress: false
+  log:
+    value: kritika-webhook

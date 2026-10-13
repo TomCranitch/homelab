@@ -25,10 +25,6 @@ spec:
             networking.home.arpa/postgres-default-client: "true"
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kritika
-            app.kubernetes.io/name: kritika
-            app.kubernetes.io/instance: kritika
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kritika
             kritika.home-operations.com/role: runner
         - matchLabels:
             app.kubernetes.io/instance: immich-server
