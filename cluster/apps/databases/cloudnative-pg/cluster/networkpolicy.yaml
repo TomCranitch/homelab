@@ -23,6 +23,9 @@ spec:
     - fromEndpoints:
         - matchLabels:
             networking.home.arpa/postgres-default-client: "true"
+          matchExpressions:
+            - key: k8s:io.kubernetes.pod.namespace
+              operator: Exists
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kritika
             kritika.home-operations.com/role: runner
