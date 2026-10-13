@@ -1,0 +1,41 @@
+---
+apiVersion: authentik.starry.blue/v1alpha1
+kind: AuthentikApplication
+metadata:
+  name: kritika
+  namespace: kritika
+spec:
+  slug: kritika
+  name: Kritika
+  adopt: IfMatch
+  deletionPolicy: Delete
+  provider:
+    name: Kritika
+    flows:
+      authorization:
+        slug: default-provider-authorization-explicit-consent
+      invalidation:
+        slug: default-provider-invalidation-flow
+      authentication:
+        slug: authentication-flow
+    oauth2:
+      clientType: Confidential
+      redirectURIs:
+        - url: https://kritika.${S_HOMEPROD_DOMAIN}/auth/callback/oidc
+      scopes:
+        - scopeName: openid
+        - scopeName: email
+        - scopeName: profile
+      credentials:
+        secretRef:
+          name: kritika-oidc
+          clientIDKey: client-id
+          clientSecretKey: client-secret
+      grantTypes:
+        - AuthorizationCode
+      accessTokenValidity: minutes=5
+      signingKey:
+        name: authentik Self-signed Certificate
+  access:
+    public: true
+    prune: true

@@ -1,0 +1,15 @@
+# Read from the merge-base: a PR cannot change its own review instructions.
+review:
+  fixes: true
+skills:
+  scope:
+    renovate-review:
+      when:
+        - expr: pr.headRef.startsWith("renovate/")
+context:
+  - path: renovate.json5
+    description: Dependency grouping, automerge rules and version policies.
+  - path: talos/talconfig.yaml
+    description: Target Kubernetes and Talos versions; gVisor node configuration.
+  - path: cluster/apps/flux/fluxinstance.yaml
+    description: Target Flux version, sync source and inherited resource patches.

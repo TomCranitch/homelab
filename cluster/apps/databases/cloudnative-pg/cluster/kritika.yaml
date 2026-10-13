@@ -1,0 +1,81 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-kritika-owner
+  namespace: default
+spec:
+  name: kritika
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  inRoles: []
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-kritika-owner
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-kritika-app
+  namespace: default
+spec:
+  name: kritika_app
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  inRoles: []
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-kritika-app
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-kritika-runner
+  namespace: default
+spec:
+  name: kritika_runner
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  inRoles: []
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-kritika-runner
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-kritika
+  namespace: default
+spec:
+  name: kritika
+  owner: kritika
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres
+  extensions:
+    - name: vector
+      version: "0.8.7"
+      ensure: present
+    - name: vchord
+      version: "1.1.1"
+      ensure: present
