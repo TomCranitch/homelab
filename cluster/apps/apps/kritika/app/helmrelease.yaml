@@ -89,7 +89,6 @@ spec:
           memory: 2Gi
     podLabels:
       networking.home.arpa/egress-sso: "true"
-      networking.home.arpa/postgres-default-client: "true"
     httpRoute:
       enabled: true
       parentRefs:
