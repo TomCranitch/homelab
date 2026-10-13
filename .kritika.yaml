@@ -1,10 +1,6 @@
 # Read from the merge-base: a PR cannot change its own review instructions.
 review:
   fixes: true
-  approve: false
-confidence:
-  gate: true
-  threshold: 5
 skills:
   scope:
     renovate-review:

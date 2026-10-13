@@ -80,10 +80,8 @@ spec:
           secretKeyRef:
             name: kritika-oidc
             key: client-secret
-      authOidcScopes: openid,email,profile
       authOidcRolesClaim: groups
       authOidcRoleMappingExpr: '"service-admins" in roles ? "admin" : "member"'
-      authOidcDefaultRole: none
     configFile:
       apps:
         github:
@@ -97,32 +95,18 @@ spec:
           apiKey: {env: OPENROUTER_API_KEY}
           retries: 2
       review:
-        model: openrouter/openai/gpt-6.1-sol
-        effort: high
-        fixes: true
-        approve: false
+        model: openrouter/~openai/gpt-sol-latest
       confidence:
-        # A separate scoring call using the same pinned OpenRouter model.
-        model: openrouter/openai/gpt-6.1-sol
-        effort: high
-        threshold: 5
-        gate: true
+        model: openrouter/~openai/gpt-sol-latest
       embedding:
         model: openrouter/voyageai/voyage-code-4
         dims: 1024
       trigger:
-        settle: 30s
-      skills:
-        scope:
-          renovate-review:
-            when:
-              - expr: pr.headRef.startsWith("renovate/")
+        exclude:
+          - name: forks
+            expr: pr.fork
       agent:
         commands: [gh, curl, fd, jq, rg, yq, flate]
-      accounts:
-        TomCranitch:
-          limits:
-            concurrency: 2
       egress:
         allow: ["*"]
         deny: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, "*.internal"]
@@ -167,9 +151,3 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
-    resources:
-      requests:
-        cpu: 50m
-        memory: 128Mi
-      limits:
-        memory: 512Mi

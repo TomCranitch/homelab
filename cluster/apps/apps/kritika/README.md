@@ -14,12 +14,13 @@ GitHub PR reviews, inline findings, suggested fixes and follow-up replies for
   and Konflate ingress pattern. It routes `/hooks/github` to `kritika:8080`.
   The Funnel Ingress is deployed with the app.
 - Reviews, follow-ups and confidence scoring use
-  `openrouter/openai/gpt-6.1-sol` with high reasoning effort. This is paid
+  the floating `openrouter/~openai/gpt-sol-latest` alias. This is paid
   OpenRouter API usage; no ChatGPT subscription login is required.
 - Embeddings use OpenRouter `voyageai/voyage-code-4`, 1024 dimensions, with
   the same API key. Set an OpenRouter spending limit for all model usage.
-- All PRs are eligible, including drafts, forks and bots. Push bursts settle
-  for 30 seconds. Automatic approvals are off; confidence gating requires 5/5.
+- Fork PRs are excluded; other PRs, including drafts and bots, are eligible.
+  Automatic approvals are off by default. Confidence scores are informational;
+  no confidence gate or required merge check is configured.
 - `.kritika.yaml` scopes `.agents/skills/renovate-review/SKILL.md` to
   `renovate/` branches. A digest-pinned `flate` image supplies chart rendering.
   Skills and repository settings come from the merge-base, so the skill takes
@@ -31,8 +32,7 @@ GitHub PR reviews, inline findings, suggested fixes and follow-up replies for
 
 GitHub App and OpenRouter credentials are included as a SOPS-encrypted Secret.
 The app is enabled in Git and waits for shared Postgres, Authentik, Envoy,
-Tailscale and monitoring readiness. No live deployment or GitHub merge-gate
-activation has been performed.
+Tailscale and monitoring readiness. No live deployment has been performed.
 
 ## Shared Postgres
 
@@ -84,8 +84,8 @@ Give the App these repository permissions:
 
 Subscribe to Pull request, Pull request review comment, Pull request review
 thread, Issue comment, Push and Repository events. Generate an App private
-key and note both its client ID (`Iv...`) and numeric App ID. GitHub OAuth
-login is not used; the Authentik operator supplies dashboard SSO.
+key and note its client ID (`Iv...`). GitHub OAuth login is not used; the
+Authentik operator supplies dashboard SSO.
 
 The SOPS-encrypted `secrets/integrations.sops.yaml` already contains the GitHub
 App client ID, private key, webhook secret and OpenRouter API key. Manage
@@ -108,19 +108,6 @@ permissions. The chart's Cilium policy already permits the proxy to reach
 the server on port 8080. Native OIDC protects the dashboard on its existing
 Envoy hostname. Verify the role mapping with an admin and an ordinary SSO user.
 
-## Activate the merge gate
-
-The scorer fails `Kritika / Review` below 5/5 and reports an error for an
-unscored or failed review. Kritika's normal skipped-review statuses still
-apply. GitHub blocks merges only after this status is required.
-
-First verify a real PR gets a summary, inline findings where relevant,
-follow-up replies and a scored status from your Kritika App. In GitHub's
-repository **Settings → Rules → Rulesets**, create an active branch ruleset
-for `main` requiring `Kritika / Review`, with the Kritika App selected as its
-expected source. Keep existing rules intact. Repository overrides must keep
-confidence scoring and gating enabled.
-
 ## Validation
 
 Run `kustomize build cluster`, `kustomize build cluster/apps` and
@@ -130,7 +117,7 @@ Validate AuthentikApplication and CNPG Database/DatabaseRole manifests against
 the installed operator schemas. Check that all Secret values are encrypted and included in Kustomize.
 
 Live database migrations, network access, backup/restore, SSO role mapping,
-OpenRouter calls and GitHub merge-gate behaviour need post-rollout checks.
+OpenRouter calls and review/follow-up behaviour need post-rollout checks.
 Database and role reclaim policies retain data on resource removal. Removing
 the AuthentikApplication deletes its managed provider and application; release
 its ownership deliberately before removal.
