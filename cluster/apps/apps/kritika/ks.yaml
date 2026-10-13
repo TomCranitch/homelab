@@ -93,6 +93,5 @@ spec:
   - name: postgres-cluster
   - name: kritika-authentik
   - name: envoy-gateway
-  - name: tailscale-resources
   - name: victoria-metrics-k8s-stack
   suspend: false

@@ -1,3 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kritika-webhook
+  namespace: kritika
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - http:
+        paths:
+          - path: /hooks/github
+            pathType: Exact
+            backend:
+              service:
+                name: kritika
+                port:
+                  number: 8080
+---
 # The chart's policy admits any peer on 8080, so lock the webhook on the proxy side.
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

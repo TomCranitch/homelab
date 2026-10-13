@@ -5,4 +5,3 @@ namespace: kritika
 resources:
   - ocirepository.yaml
   - helmrelease.yaml
-  - webhook-ingress.yaml
