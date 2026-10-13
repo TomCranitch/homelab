@@ -1,0 +1,12 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: kritika
+  namespace: kritika
+spec:
+  interval: 15m
+  url: oci://ghcr.io/home-operations/charts/kritika
+  ref:
+    # renovate: datasource=docker depName=ghcr.io/home-operations/charts/kritika
+    tag: 0.0.58

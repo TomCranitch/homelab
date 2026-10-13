@@ -1,0 +1,98 @@
+# Integration credentials are supplied; dependencies gate the app rollout.
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kritika-secrets
+  namespace: flux-system
+spec:
+  targetNamespace: kritika
+  path: ./cluster/apps/apps/kritika/secrets
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-settings
+    - kind: Secret
+      name: cluster-secrets
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kritika-authentik
+  namespace: flux-system
+spec:
+  targetNamespace: kritika
+  path: ./cluster/apps/apps/kritika/authentik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-settings
+    - kind: Secret
+      name: cluster-secrets
+  dependsOn:
+  - name: authentik-operator
+  - name: kritika-secrets
+  healthCheckExprs:
+  - apiVersion: authentik.starry.blue/v1alpha1
+    kind: AuthentikApplication
+    current: has(status.observedGeneration) && status.observedGeneration == metadata.generation
+      && has(status.conditions) && status.conditions.exists(c, c.type == 'Ready' &&
+      c.status == 'True' && c.observedGeneration == metadata.generation)
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: kritika
+  namespace: flux-system
+spec:
+  targetNamespace: kritika
+  path: ./cluster/apps/apps/kritika/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 10m
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  postBuild:
+    substituteFrom:
+    - kind: ConfigMap
+      name: cluster-settings
+    - kind: Secret
+      name: cluster-secrets
+  dependsOn:
+  - name: postgres-cluster
+  - name: kritika-authentik
+  - name: envoy-gateway
+  - name: tailscale-resources
+  - name: victoria-metrics-k8s-stack
+  suspend: false

@@ -8,3 +8,4 @@ resources:
   - monitoring.yaml
   - databases.yaml
   - roles.yaml
+  - kritika.yaml
