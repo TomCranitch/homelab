@@ -17,50 +17,6 @@ spec:
       retries: 3
   driftDetection:
     mode: enabled
-  postRenderers:
-    - kustomize:
-        patches:
-          - target:
-              group: cilium.io
-              version: v2
-              kind: CiliumNetworkPolicy
-              name: kritika-runner
-            # Fail rendering if the chart changes the database rule layout.
-            patch: |-
-              - op: test
-                path: /spec/egress/1/toEntities
-                value: [cluster, world]
-              - op: remove
-                path: /spec/egress/1/toEntities
-              - op: add
-                path: /spec/egress/1/toEndpoints
-                value:
-                  - matchLabels:
-                      k8s:io.kubernetes.pod.namespace: default
-                      cnpg.io/cluster: postgres
-          - target:
-              group: cilium.io
-              version: v2
-              kind: CiliumNetworkPolicy
-              name: kritika
-            # Keep HTTPS egress, separating database access from that allowance.
-            patch: |-
-              - op: test
-                path: /spec/egress/1/toPorts/0/ports/1
-                value: {port: "5432", protocol: TCP}
-              - op: remove
-                path: /spec/egress/1/toPorts/0/ports/1
-              - op: add
-                path: /spec/egress/-
-                value:
-                  toEndpoints:
-                    - matchLabels:
-                        k8s:io.kubernetes.pod.namespace: default
-                        cnpg.io/cluster: postgres
-                  toPorts:
-                    - ports:
-                        - port: "5432"
-                          protocol: TCP
   values:
     replicas: 2
     config:
