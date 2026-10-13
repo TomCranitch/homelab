@@ -89,6 +89,7 @@ spec:
           memory: 2Gi
     podLabels:
       networking.home.arpa/egress-sso: "true"
+      networking.home.arpa/postgres-default-client: "true"
     httpRoute:
       enabled: true
       parentRefs:
@@ -98,10 +99,14 @@ spec:
       hostnames:
         - kritika.${S_HOMEPROD_DOMAIN}
     # Dashboard uses native OIDC. GitHub webhooks use the separate
-    # Tailscale Funnel Ingress at /hooks/github.
+    # Tailscale Funnel Ingress at /hooks/github, locked down by
+    # tailscale/webhooks/kritika-webhook-policy.yaml.
+    # Runners reach the internet through the gateway on the serve pods,
+    # so their egress ports cover whatever runners fetch.
     networkPolicy:
       enabled: true
       type: cilium
+      egressPorts: [80, 443]
     monitoring:
       serviceMonitor:
         enabled: true

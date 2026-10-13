@@ -23,10 +23,7 @@ spec:
     - fromEndpoints:
         - matchLabels:
             networking.home.arpa/postgres-default-client: "true"
-        - matchLabels:
-            k8s:io.kubernetes.pod.namespace: kritika
-            app.kubernetes.io/name: kritika
-            app.kubernetes.io/instance: kritika
+        # Kritika creates runner pods itself, so they cannot carry the client label.
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kritika
             kritika.home-operations.com/role: runner

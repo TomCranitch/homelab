@@ -1,4 +1,6 @@
-# Same Funnel pattern as the Flux and Konflate webhook ingresses.
+# Same Funnel pattern as the Flux and Konflate webhook ingresses. The proxy's
+# egress is limited to POST /hooks/github by
+# cluster/apps/networking/tailscale/webhooks/kritika-webhook-policy.yaml.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
