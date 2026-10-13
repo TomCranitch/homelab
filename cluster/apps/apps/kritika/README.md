@@ -68,8 +68,7 @@ credential-bearing data and verify a restore after rollout.
 ## Connect GitHub and OpenRouter
 
 Register a GitHub App under TomCranitch's Developer settings and install it on
-**only `homelab`**. Generate a random webhook secret for the setup helper and
-GitHub. Leave the webhook inactive until the Funnel address is available.
+**only `homelab`**. Use the webhook secret stored in the integration Secret. Leave the webhook inactive until the Funnel address is available.
 The dashboard's OIDC callback is
 `https://kritika.<your-domain>/auth/callback/oidc`.
 
@@ -88,25 +87,10 @@ thread, Issue comment, Push and Repository events. Generate an App private
 key and note both its client ID (`Iv...`) and numeric App ID. GitHub OAuth
 login is not used; the Authentik operator supplies dashboard SSO.
 
-Create an OpenRouter key with access to GPT-6.1 Sol and Voyage Code 4.
-The encrypted integration Secret is already included. For a fresh installation
-without that file, run this from the repo's development shell:
-
-```sh
-python3 cluster/apps/apps/kritika/setup-integrations.py \
-  --client-id Iv1.YOUR_APP_CLIENT_ID \
-  --private-key /path/to/downloaded-app.pem
-```
-
-The helper prompts without echoing for the webhook secret and OpenRouter key,
-encrypts them directly into `secrets/integrations.sops.yaml` and adds its
-Kustomize reference. It refuses to overwrite an existing file. Encryption uses
-the public age recipient; no private SOPS identity is needed. Never paste
-credentials into chat.
-
-The helper refuses to replace the supplied integration Secret; use SOPS for
-credential rotation. On a fresh installation, `--enable` also unsuspends the
-app. This deployment is already enabled, with readiness dependencies intact.
+The SOPS-encrypted `secrets/integrations.sops.yaml` already contains the GitHub
+App client ID, private key, webhook secret and OpenRouter API key. Manage
+credential rotation through SOPS. The deployment is enabled, with readiness
+dependencies intact.
 
 After rollout, verify `postgres-cluster`, `kritika-secrets`,
 `kritika-authentik` and `kritika` are ready. Get the generated Funnel hostname:
@@ -117,7 +101,7 @@ kubectl -n kritika get ingress kritika-webhook \
 ```
 
 Set the GitHub App's webhook URL to `https://<that-hostname>/hooks/github`,
-enter the same webhook secret used by the helper and enable **Active**.
+enter the webhook secret from the integration Secret and enable **Active**.
 Verify GitHub webhook deliveries succeed. No extra Tailscale auth key or
 operator is required: this uses the existing operator, ProxyClass and Funnel
 permissions. The chart's Cilium policy already permits the proxy to reach
@@ -131,18 +115,10 @@ unscored or failed review. Kritika's normal skipped-review statuses still
 apply. GitHub blocks merges only after this status is required.
 
 First verify a real PR gets a summary, inline findings where relevant,
-follow-up replies and a scored status from your Kritika App. Then, with `gh`
-authenticated with repository administration access, use its **numeric App ID**:
-
-```sh
-python3 cluster/apps/apps/kritika/enable-merge-gate.py --app-id YOUR_NUMERIC_APP_ID
-# Inspect .github/rulesets/kritika.json, then activate:
-python3 cluster/apps/apps/kritika/enable-merge-gate.py --app-id YOUR_NUMERIC_APP_ID --apply
-```
-
-The separate ruleset pins `Kritika / Review` to that App on `main`, preserving
-existing rules. The helper refuses to overwrite a ruleset of the same name.
-Saving the JSON alone does not activate it. Repository overrides must keep
+follow-up replies and a scored status from your Kritika App. In GitHub's
+repository **Settings → Rules → Rulesets**, create an active branch ruleset
+for `main` requiring `Kritika / Review`, with the Kritika App selected as its
+expected source. Keep existing rules intact. Repository overrides must keep
 confidence scoring and gating enabled.
 
 ## Validation
