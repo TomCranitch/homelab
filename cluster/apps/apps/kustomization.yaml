@@ -14,5 +14,6 @@ resources:
   - zigbee2mqtt
   - ntfy
   - linkding
+  - money-manager
   - karakeep
   - kritika
