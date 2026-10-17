@@ -51,9 +51,9 @@ spec:
           apiKey: {env: OPENROUTER_API_KEY}
           retries: 2
       review:
-        model: openrouter/~openai/gpt-sol-latest
+        model: openrouter/~deepseek/deepseek-pro-latest
       confidence:
-        model: openrouter/~openai/gpt-sol-latest
+        model: openrouter/~deepseek/deepseek-pro-latest
       embedding:
         model: openrouter/voyageai/voyage-code-4
         dims: 1024
