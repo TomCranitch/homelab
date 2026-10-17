@@ -104,3 +104,15 @@ spec:
   databaseReclaimPolicy: retain
   cluster:
     name: postgres
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: postgres-money-manager
+  namespace: default
+spec:
+  name: money_manager
+  owner: money_manager
+  databaseReclaimPolicy: retain
+  cluster:
+    name: postgres

@@ -213,3 +213,25 @@ spec:
   inherit: true
   connectionLimit: -1
   inRoles: []
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: DatabaseRole
+metadata:
+  name: postgres-money-manager
+  namespace: default
+spec:
+  name: money_manager
+  cluster:
+    name: postgres
+  login: true
+  superuser: false
+  databaseRoleReclaimPolicy: retain
+  passwordSecret:
+    name: postgres-money-manager
+  createdb: false
+  createrole: false
+  replication: false
+  bypassrls: false
+  inherit: true
+  connectionLimit: -1
+  inRoles: []
