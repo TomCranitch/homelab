@@ -21,24 +21,15 @@ spec:
     replicas: 2
     config:
       webUrl: https://kritika.${S_HOMEPROD_DOMAIN}
-      runnerRuntimeClass: gvisor
-      runnerDeadline: 30m
       reviewWorkers: 1
-      authOidcName: cranitchsso
-      authOidcIssuer: https://sso.${S_HOMEPROD_DOMAIN}/application/o/kritika/
-      authOidcClientId:
-        valueFrom:
-          secretKeyRef:
-            name: kritika-oidc
-            key: client-id
-      authOidcClientSecret:
-        valueFrom:
-          secretKeyRef:
-            name: kritika-oidc
-            key: client-secret
-      authOidcRolesClaim: groups
-      authOidcRoleMappingExpr: '"service-admins" in roles ? "admin" : "member"'
-    configFile:
+      auth:
+        oidc:
+          name: cranitchsso
+          issuer: https://sso.${S_HOMEPROD_DOMAIN}/application/o/kritika/
+          clientId: {env: OIDC_CLIENT_ID}
+          clientSecret: {env: OIDC_CLIENT_SECRET}
+          rolesClaim: groups
+          roleMappingExpr: '"service-admins" in roles ? "admin" : "member"'
       apps:
         github:
           accounts: [TomCranitch]
@@ -51,9 +42,9 @@ spec:
           apiKey: {env: OPENROUTER_API_KEY}
           retries: 2
       review:
-        model: openrouter/~openai/gpt-sol-latest
+        model: openrouter/~deepseek/deepseek-flash-latest
       confidence:
-        model: openrouter/~openai/gpt-sol-latest
+        model: openrouter/~deepseek/deepseek-flash-latest
       embedding:
         model: openrouter/voyageai/voyage-code-4
         dims: 1024
@@ -61,11 +52,20 @@ spec:
         exclude:
           - name: forks
             expr: pr.fork
-      agent:
-        commands: [gh, curl, fd, jq, rg, yq, flate]
       egress:
         allow: ["*"]
         deny: [10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, "*.internal"]
+    env:
+      OIDC_CLIENT_ID:
+        valueFrom:
+          secretKeyRef:
+            name: kritika-oidc
+            key: client-id
+      OIDC_CLIENT_SECRET:
+        valueFrom:
+          secretKeyRef:
+            name: kritika-oidc
+            key: client-secret
     envFrom:
       - secretRef:
           name: kritika-integrations
@@ -78,9 +78,8 @@ spec:
       runner:
         existingSecret: kritika-postgres-runner
     runner:
-      tools:
-        - name: flate
-          image: ghcr.io/home-operations/flate:0.6.5@sha256:e0e2d2de97539b3141977e8bb3bbb50ea5c5afe89477950e5fa972c9862478da
+      runtimeClass: gvisor
+      deadline: 30m
       resources:
         requests:
           cpu: 50m
