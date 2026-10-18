@@ -1,0 +1,164 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: money-manager
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 5.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s-charts
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  driftDetection:
+    mode: enabled
+  values:
+    defaultPodOptions:
+      runtimeClassName: gvisor
+      labels:
+        networking.home.arpa/ingress-envoy: "true"
+        networking.home.arpa/postgres-default-client: "true"
+        networking.home.arpa/egress-sso: "true"
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: ${CONTAINER_UID}
+        runAsGroup: ${CONTAINER_GID}
+        fsGroup: ${CONTAINER_FSGROUP}
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    controllers:
+      money-manager:
+        # PostgreSQL makes the API safe to run as several instances: syncs,
+        # sessions and sign-in rate limits are shared through the database.
+        replicas: 2
+        strategy: RollingUpdate
+        defaultContainerOptions:
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+        containers:
+          app:
+            image:
+              repository: ghcr.io/tomcranitch/money-manager
+              tag: sha-28759c4@sha256:5a844cf34e1d29a29b1e85b68ed9388193d754ad50d6141d838f22cb1a9f1450
+            ports:
+              - name: http
+                containerPort: 3000
+                protocol: TCP
+            env:
+              APP_PUBLIC_URL: https://money.${S_HOMEPROD_DOMAIN}
+              REPORTING_CURRENCY: AUD
+              LOG_LEVEL: info
+              # Sign-in through Authentik (authentik/application.yaml). The
+              # client ID and secret, AUTH_SECRET and APP_ENCRYPTION_KEY come
+              # from the money-manager Secret, shared by every replica.
+              AUTH_METHOD: oidc
+              OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/application/o/money-manager/
+              OIDC_NAME: Authentik
+              # Syncs every source every six hours, in local time.
+              SYNC_SCHEDULE: "0 */6 * * *"
+              SYNC_TIMEZONE: ${TZ}
+              # Openfeed turns on once OPENFEED_CLIENT_ID and OPENFEED_APP_ID
+              # are set too. The keys are mounted from money-manager-openfeed.
+              OPENFEED_APP_PRIVATE_KEY_PATH: /secrets/openfeed/app-private.pem
+              OPENFEED_DPOP_PRIVATE_KEY_PATH: /secrets/openfeed/dpop-private.pem
+              OPENFEED_SCOPES: openfeed-au:data:banking:read
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-money-manager
+                    key: uri
+            envFrom:
+              - secretRef:
+                  name: money-manager
+            probes:
+              # /health never touches the database, so a database outage
+              # takes pods out of the Service instead of restarting them.
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: http
+                  # The app answers 503 after two seconds without the database.
+                  timeoutSeconds: 3
+              startup:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /health
+                    port: http
+                  failureThreshold: 30
+                  periodSeconds: 5
+            resources:
+              requests:
+                cpu: 10m
+                memory: 128Mi
+              limits:
+                memory: 512Mi
+    persistence:
+      openfeed-keys:
+        type: secret
+        name: money-manager-openfeed
+        defaultMode: 0440
+        globalMounts:
+          - path: /secrets/openfeed
+            readOnly: true
+    service:
+      app:
+        controller: money-manager
+        ports:
+          http:
+            port: 3000
+    route:
+      main:
+        enabled: true
+        kind: HTTPRoute
+        hostnames:
+          - "money.${S_HOMEPROD_DOMAIN}"
+        parentRefs:
+          - name: envoy-gateway
+            namespace: ingress
+    networkpolicies:
+      app:
+        type: cilium
+        controller: money-manager
+        description: Default-deny money-manager with Openfeed and exchange-rate egress
+        egress:
+          - toFQDNs:
+              - matchName: auth.openfeed.au
+              - matchName: api.openfeed.au
+              - matchName: api.frankfurter.dev
+            toPorts:
+              - ports:
+                  - port: "443"
+                    protocol: TCP
+        enableDefaultDeny:
+          ingress: true
+          egress: true
+        log: money-manager
