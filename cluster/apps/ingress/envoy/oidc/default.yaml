@@ -15,9 +15,6 @@ spec:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute
       name: linkding
-    - group: gateway.networking.k8s.io
-      kind: HTTPRoute
-      name: money-manager
   oidc:
     provider:
       issuer: "https://sso.${S_HOMEPROD_DOMAIN}/application/o/gateway/"

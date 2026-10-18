@@ -31,6 +31,7 @@ spec:
       labels:
         networking.home.arpa/ingress-envoy: "true"
         networking.home.arpa/postgres-default-client: "true"
+        networking.home.arpa/egress-sso: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: ${CONTAINER_UID}
@@ -41,6 +42,10 @@ spec:
           type: RuntimeDefault
     controllers:
       money-manager:
+        # PostgreSQL makes the API safe to run as several instances: syncs,
+        # sessions and sign-in rate limits are shared through the database.
+        replicas: 2
+        strategy: RollingUpdate
         defaultContainerOptions:
           securityContext:
             allowPrivilegeEscalation: false
@@ -57,25 +62,45 @@ spec:
                 containerPort: 3000
                 protocol: TCP
             env:
-              # The app has no login of its own; the envoy-oidc SecurityPolicy
-              # in the default namespace protects this route.
               APP_PUBLIC_URL: https://money.${S_HOMEPROD_DOMAIN}
               REPORTING_CURRENCY: AUD
               LOG_LEVEL: info
+              # Sign-in through Authentik (authentik/application.yaml). The
+              # client ID and secret, AUTH_SECRET and APP_ENCRYPTION_KEY come
+              # from the money-manager Secret, shared by every replica.
+              AUTH_METHOD: oidc
+              OIDC_ISSUER: https://sso.${S_HOMEPROD_DOMAIN}/application/o/money-manager/
+              OIDC_NAME: Authentik
+              # Syncs every source every six hours, in local time.
+              SYNC_SCHEDULE: "0 */6 * * *"
+              SYNC_TIMEZONE: ${TZ}
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
                     name: ${POSTGRES_DEFAULT_SECRET_PREFIX}-money-manager
                     key: uri
+            envFrom:
+              - secretRef:
+                  name: money-manager
             probes:
-              liveness: &probe
+              # /health never touches the database, so a database outage
+              # takes pods out of the Service instead of restarting them.
+              liveness:
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
                     path: /health
                     port: http
-              readiness: *probe
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ready
+                    port: http
+                  # The app answers 503 after two seconds without the database.
+                  timeoutSeconds: 3
               startup:
                 enabled: true
                 custom: true
