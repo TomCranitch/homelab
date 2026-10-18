@@ -74,8 +74,10 @@ spec:
               # Syncs every source every six hours, in local time.
               SYNC_SCHEDULE: "0 */6 * * *"
               SYNC_TIMEZONE: ${TZ}
-              # Openfeed turns on once OPENFEED_CLIENT_ID and OPENFEED_APP_ID
-              # are set too. The keys are mounted from money-manager-openfeed.
+              # The production Openfeed app; its keys are mounted from
+              # money-manager-openfeed.
+              OPENFEED_CLIENT_ID: app-a706e61e-bc10-44a6-8bd7-e05d4f87b48b
+              OPENFEED_APP_ID: a706e61e-bc10-44a6-8bd7-e05d4f87b48b
               OPENFEED_APP_PRIVATE_KEY_PATH: /secrets/openfeed/app-private.pem
               OPENFEED_DPOP_PRIVATE_KEY_PATH: /secrets/openfeed/dpop-private.pem
               OPENFEED_SCOPES: openfeed-au:data:banking:read
