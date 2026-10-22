@@ -54,6 +54,13 @@
   },
   packageRules: [
     {
+      description: 'Do not apply minimum release age to patch updates',
+      matchUpdateTypes: [
+        'patch',
+      ],
+      minimumReleaseAge: null,
+    },
+    {
       matchDatasources: [
         'helm',
       ],
