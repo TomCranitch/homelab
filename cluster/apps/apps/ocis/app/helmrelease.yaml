@@ -50,7 +50,7 @@ spec:
           app:
             image:
               repository: docker.io/owncloud/ocis
-              tag: 8.2.0
+              tag: 8.2.2
             ports:
               - name: http
                 containerPort: 9200
