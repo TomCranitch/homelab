@@ -58,6 +58,10 @@ spec:
                 value: /cache/.cache
               - name: XDG_CONFIG_HOME
                 value: /cache/.config
+              # Optimised re-exports of the same models (Immich v3.3.0+).
+              # Same outputs, so no jobs need re-running. Remove once it becomes the default.
+              - name: MACHINE_LEARNING_MODEL_REVISION
+                value: v2
             envFrom:
               - secretRef:
                   name: immich
