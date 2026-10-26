@@ -59,7 +59,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tomcranitch/money-manager
-              tag: sha-c980704@sha256:2059d230f260adec56dfa64e0ae31b5bc7af1106e8316d1d87e5844e5db7d18a
+              tag: sha-8fdf2e3@sha256:7a700af9683f0b24f1ce03655a00a7877c81be21c38a5b96dbd888336653f6a9
             ports:
               - name: http
                 containerPort: 3000
@@ -84,6 +84,10 @@ spec:
               OPENFEED_APP_PRIVATE_KEY_PATH: /secrets/openfeed/app-private.pem
               OPENFEED_DPOP_PRIVATE_KEY_PATH: /secrets/openfeed/dpop-private.pem
               OPENFEED_SCOPES: openfeed-au:data:banking:read
+              # US banks through Plaid. PLAID_CLIENT_ID and PLAID_SECRET come
+              # from money-manager-plaid. Each household connects its own banks
+              # (and Wise, with a pasted token) in Settings.
+              PLAID_ENV: production
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
@@ -92,6 +96,8 @@ spec:
             envFrom:
               - secretRef:
                   name: money-manager
+              - secretRef:
+                  name: money-manager-plaid
             probes:
               # /health never touches the database, so a database outage
               # takes pods out of the Service instead of restarting them.
@@ -153,12 +159,14 @@ spec:
       app:
         type: cilium
         controller: money-manager
-        description: Default-deny money-manager with Openfeed and exchange-rate egress
+        description: Default-deny money-manager with Openfeed, Plaid, Wise and exchange-rate egress
         egress:
           - toFQDNs:
               - matchName: auth.openfeed.au
               - matchName: api.openfeed.au
               - matchName: api.frankfurter.dev
+              - matchName: production.plaid.com
+              - matchName: api.wise.com
             toPorts:
               - ports:
                   - port: "443"

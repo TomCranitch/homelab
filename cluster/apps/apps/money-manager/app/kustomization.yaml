@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - secret.sops.yaml
   - openfeed-keys.sops.yaml
+  - plaid.sops.yaml
   - ghcr-pull.sops.yaml
   - helmrelease.yaml

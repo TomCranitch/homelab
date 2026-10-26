@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: money-manager-plaid
+    namespace: default
+type: Opaque
+stringData:
+    PLAID_CLIENT_ID: ENC[AES256_GCM,data:WRaLDlJ3OJicuk2na6azGqPCc6MhPeyN,iv:UREHcl8yTBpFyzYcz91aaNGyGovjhMvaaH3m4omny+A=,tag:BWj/DG6A+DMzWaAoNYDxBA==,type:str]
+    PLAID_SECRET: ENC[AES256_GCM,data:BPe89/bh+bdQ+F/LyGg8DN9eEzzA/4PBclwOyGe7,iv:U07AvRoyxa4oCFlHKZAZmF08LjK8Xn8Vi/Bo7rDnugA=,tag:/wTiqHX54YLT29IL3tAReA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1fe4mnzz5uv0c0445m2f9w56r9ydx2lfp5vfx4qchlevfhsaky35sh2zgey
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBUcG1mTDVCSmZnOXlqNEtW
+            bkl6QXNNaWNjbUMxRXYwMFg0TG53NXFDQUU4CmVHQXpzTjNkM2lNcm5zT1RnMmdv
+            RlpzSFpFQ0xRaSsyS2ZLUGtPYnlzSWcKLS0tICsvNHJjREJLVmNqNTFhNFFoNElX
+            L3N6dzJmS2VJVHh5QmFqMERnSVM4dVUKBf/0d2VmEvRfiglduyL4cuGWB27ACSnl
+            LCE9+Y8aPCA8Ekth2b8bGOoRqLInkI0KlNzEB28wO0FS5ti+OCqbuA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-10-26T00:15:30Z"
+    mac: ENC[AES256_GCM,data:YF74WLqV3ibRyNe81JuRugMbPu6LPJmVYvlz+KVk4LGdXEegIBidfflU2Q8oWI++JpWSTBoXQZgwP94O4gHxxSHG18DTvPm5GdRRR6hTPTIcZlw7s0zbXdjXOsOasb7kuRAS0KvWaInrjA/HPVjMSEkrZelo9HYL+99/khcg+uc=,iv:OUNBvDV2urz8gxFkFtRW1zJgUh3fuoUKE6vukmi6vR8=,tag:fxhSPzXrj9XOsvUu454L1w==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.4
