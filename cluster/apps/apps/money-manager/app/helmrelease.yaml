@@ -48,7 +48,10 @@ spec:
         # PostgreSQL makes the API safe to run as several instances: syncs,
         # sessions and sign-in rate limits are shared through the database.
         replicas: 2
-        strategy: RollingUpdate
+        # Recreate stops every old pod before new ones run migrations, so no
+        # old pod reads a column a contract migration has dropped. Brief
+        # downtime on each release.
+        strategy: Recreate
         defaultContainerOptions:
           securityContext:
             allowPrivilegeEscalation: false
@@ -59,7 +62,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tomcranitch/money-manager
-              tag: sha-14985a8@sha256:a4d838828eee60c663babd2d58ea5e2f8162914b21d4d69b2b172f338f154cdf
+              tag: sha-c99a8cf@sha256:d28e839474059a77206c83b664c9f538212f0fb5a666b72ec5b077d3d777ce7c
             ports:
               - name: http
                 containerPort: 3000
