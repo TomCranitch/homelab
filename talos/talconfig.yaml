@@ -2,7 +2,7 @@ clusterName: homeprod
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
 talosVersion: v1.13.11
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: 1.35.9
+kubernetesVersion: 1.36.5
 endpoint: https://cranitch.k8s:6443
 # Allow direct API checks against the VIP before changing cranitch.k8s DNS.
 additionalApiServerCertSans:
