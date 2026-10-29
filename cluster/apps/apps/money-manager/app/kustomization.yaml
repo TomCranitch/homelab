@@ -7,3 +7,14 @@ resources:
   - plaid.sops.yaml
   - ghcr-pull.sops.yaml
   - helmrelease.yaml
+configMapGenerator:
+  - name: money-manager-workflows
+    namespace: default
+    files:
+      - household.yaml=./household.yaml
+    options:
+      # Flux would substitute $ldgrp in the rules; leave the file as written.
+      annotations:
+        kustomize.toolkit.fluxcd.io/substitute: disabled
+generatorOptions:
+  disableNameSuffixHash: true

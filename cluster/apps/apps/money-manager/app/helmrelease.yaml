@@ -62,7 +62,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tomcranitch/money-manager
-              tag: sha-c54cb20@sha256:2a38c1f7ce99554393bdf51f5708f6752f1f91f6f2083521c28043d8672cba07
+              tag: sha-0b26d5c@sha256:b64e5de0085f60dae707a6ec663dfdcc3a0b3e2fbb46b87492bdff9c02a1ad2d
             ports:
               - name: http
                 containerPort: 3000
@@ -91,6 +91,9 @@ spec:
               # from money-manager-plaid. Each household connects its own banks
               # (and Wise, with a pasted token) in Settings.
               PLAID_ENV: production
+              # Household rules (household.yaml, from the money-manager-workflows
+              # ConfigMap). They run after the built-in rule files.
+              WORKFLOWS_PATH: /app/workflows
               DATABASE_URL:
                 valueFrom:
                   secretKeyRef:
@@ -136,6 +139,14 @@ spec:
               limits:
                 memory: 512Mi
     persistence:
+      # Mounted as a directory (no subPath) so ConfigMap updates reach the
+      # file; the app re-reads it and reapplies the rules to history.
+      workflows:
+        type: configMap
+        name: money-manager-workflows
+        globalMounts:
+          - path: /app/workflows
+            readOnly: true
       openfeed-keys:
         type: secret
         name: money-manager-openfeed

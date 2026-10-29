@@ -1,0 +1,49 @@
+# Tom's household rules for the homelab money-manager (mounted in the
+# WORKFLOWS_PATH folder). They run after the built-in files, so they add to
+# them. From the 28 Oct 2026 export review.
+version: 1
+rules:
+  # Own accounts the bank describes by first name only (needs name placeholders).
+  - name: My HSBC, Revolut and other own accounts
+    when:
+      description:
+        - /\bto {first_name} hsbc\b/ # Transfer To Tom Hsbc - Funds transfer
+        - "{first_name} (*)" # Tom (HSBC Spending), Tom (Revolut)
+        - ING Transactional
+    set: { category: between_accounts }
+
+  # Money from me via Wise into the US accounts.
+  - name: Wise to my US accounts
+    when: { description: WISE US INC, direction: in }
+    set: { category: between_accounts }
+
+  # Citi PayAll (Oct 2024 to Feb 2025): paying myself with the Citi card, then clearing the card.
+  - name: Citi PayAll deposits
+    when: { description: Citi Payall, direction: in }
+    set: { category: between_accounts }
+  - name: Citi card payments
+    when: { description: "/citibank credit ?c/", direction: out }
+    set: { category: card_repayments }
+
+  # Saving, not spending.
+  - name: Brokers
+    when:
+      account_kind: bank
+      description: /\b(webull|stake|stakeshop)\b/
+    set: { category: investments }
+  - name: Voluntary super
+    when: { account_kind: bank, direction: out, description: /\bunisuper\b/ }
+    set: { category: retirement_contributions }
+  - name: Morgan Stanley share sale cash
+    when: { account_kind: bank, direction: in, description: /\bmorgan stanley\b/ }
+    set: { category: investment_transfers }
+
+  # Housemate's share of the rent offsets the rent (a reimbursement later).
+  - name: Housemate rent share
+    when: { description: $ldgrp, direction: in, amount: { min: 1000, max: 1100 } }
+    set: { category: rent }
+
+  # Two fortnights paid at once (4 times so far: 2,100 to 2,120). Only double the single range.
+  - name: Housemate rent share, two fortnights
+    when: { description: $ldgrp, direction: in, amount: { min: 2000, max: 2200 } }
+    set: { category: rent }
