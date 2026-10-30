@@ -62,7 +62,7 @@ spec:
           app:
             image:
               repository: ghcr.io/tomcranitch/money-manager
-              tag: sha-0b26d5c@sha256:b64e5de0085f60dae707a6ec663dfdcc3a0b3e2fbb46b87492bdff9c02a1ad2d
+              tag: sha-5adc550@sha256:2547b62865d0d1b5c772c27d3ef12fb62fdda3bebc186a9359b8bddfd804932a
             ports:
               - name: http
                 containerPort: 3000
