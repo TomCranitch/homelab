@@ -47,3 +47,62 @@ rules:
   - name: Housemate rent share, two fortnights
     when: { description: $ldgrp, direction: in, amount: { min: 2000, max: 2200 } }
     set: { category: rent }
+
+  # Repayments to cards the app can't see (29 Oct 2026 review). Counted as transfers, so those
+  # cards' purchases don't show anywhere (Tom's call, 30 Oct 2026).
+  - name: Unconnected card repayments
+    when:
+      account_kind: bank
+      direction: out
+      description:
+        - /\b(anz|commonwealth|westpac|nab|mycard credit) cards\b/ # BPAY "Anz Cards", "Payment to nab cards - CRN ..."
+        - Suncorp Bank Cov
+        - Virgin Money
+        - HSBC AUTOPAYMENT* # HSBC US, from SoFi
+        - AMEX EPAYMENT* # Amex US, from SoFi
+    set: { category: card_repayments }
+
+  # Rent through Deft (BPAY and Macquarie's "Payment to DEFT REAL ESTATE") and Rental Rewards.
+  - name: Rent
+    when: { direction: out, description: [/\bdeft (rent|real estate)\b/, Rental Rewards] }
+    set: { category: rent }
+
+  - name: Tax
+    when: { direction: out, description: [/\btax office payments\b/] }
+    set: { category: tax }
+
+  # Macquarie sends its own codes, not real MCCs: 0022 for ATM withdrawals, 0230 for ATM fees.
+  - name: Cash (Macquarie and Up)
+    when:
+      direction: out
+      description: ["Withdrawal at *", "*ATM Cash Out", Bank@Post Withdrawal]
+    set: { category: cash }
+  - name: Macquarie cash code
+    when: { mcc: "0022", direction: out }
+    set: { category: cash }
+  - name: Macquarie ATM fee code
+    when: { mcc: "0230" }
+    set: { category: bank_fees }
+
+  # More of my own accounts and wallets. YouTrip is a travel card topped up from the Qantas card.
+  - name: Other own accounts and wallets
+    when:
+      description:
+        - "Me (*)" # Up payee, e.g. Me (Westpac)
+        - Ubank Saver
+        - "YOUTRIP *"
+        - "To Wise Australia*"
+    set: { category: between_accounts }
+
+  - name: AGL
+    when: { merchant: AGL }
+    set: { category: electricity_and_gas }
+  - name: Bupa
+    when: { merchant: "Bupa*" }
+    set: { category: health_insurance }
+  - name: Buy now pay later
+    when: { merchant: [Afterpay, Zip Pay] }
+    set: { category: buy_now_pay_later }
+  - name: Transport for NSW
+    when: { merchant: Transport for NSW }
+    set: { category: public_transport }
