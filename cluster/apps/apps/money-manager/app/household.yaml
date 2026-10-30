@@ -38,16 +38,6 @@ rules:
     when: { account_kind: bank, direction: in, description: /\bmorgan stanley\b/ }
     set: { category: investment_transfers }
 
-  # Housemate's share of the rent offsets the rent (a reimbursement later).
-  - name: Housemate rent share
-    when: { description: $ldgrp, direction: in, amount: { min: 1000, max: 1100 } }
-    set: { category: rent }
-
-  # Two fortnights paid at once (4 times so far: 2,100 to 2,120). Only double the single range.
-  - name: Housemate rent share, two fortnights
-    when: { description: $ldgrp, direction: in, amount: { min: 2000, max: 2200 } }
-    set: { category: rent }
-
   # Repayments to cards the app can't see (29 Oct 2026 review). Counted as transfers, so those
   # cards' purchases don't show anywhere (Tom's call, 30 Oct 2026).
   - name: Unconnected card repayments
@@ -106,3 +96,14 @@ rules:
   - name: Transport for NSW
     when: { merchant: Transport for NSW }
     set: { category: public_transport }
+
+reimbursements:
+  # Leo's share of the rent pays back half of the rent through Deft. Rent is twice the share, so
+  # each rent payment is at most half covered; a double share (two fortnights at once) covers half
+  # of the latest two. Anything a share can't place shows as a warning on the Workflows page.
+  - name: Housemate rent share
+    repayment: { description: $ldgrp, direction: in, amount: { min: 1000, max: 2200 } }
+    expense: { direction: out, description: [/\bdeft (rent|real estate)\b/, Rental Rewards] }
+    portion: 50%
+    spread: true
+    within: 21d
